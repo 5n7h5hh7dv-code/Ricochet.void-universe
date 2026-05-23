@@ -1,0 +1,41 @@
+body {
+  margin: 0;
+  background: #050505;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 40px;
+}
+
+.hero {
+  max-width: 900px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 56px;
+  letter-spacing: 2px;
+}
+
+p {
+  font-size: 20px;
+  color: #cfcfcf;
+}
+
+.tiers {
+  margin-top: 40px;
+  display: grid;
+  gap: 14px;
+}
+
+.tiers div {
+  border: 1px solid #444;
+  padding: 18px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.05);
+}
