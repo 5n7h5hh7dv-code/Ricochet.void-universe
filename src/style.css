@@ -39,3 +39,60 @@ p {
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.05);
 }
+.page {
+  position: relative;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(120, 0, 255, 0.35), transparent 35%),
+    radial-gradient(circle at 80% 30%, rgba(0, 200, 255, 0.25), transparent 35%),
+    radial-gradient(circle at 50% 90%, rgba(255, 0, 120, 0.18), transparent 40%),
+    #020208;
+}
+
+.page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: gridMove 18s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page::after {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  background:
+    conic-gradient(from 180deg, transparent, rgba(0,255,255,0.12), transparent, rgba(160,0,255,0.18), transparent);
+  animation: voidSpin 24s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero,
+section {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes gridMove {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(60px);
+  }
+}
+
+@keyframes voidSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
