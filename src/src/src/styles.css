@@ -7,16 +7,14 @@ body {
 
 .page {
   min-height: 100vh;
-  display: grid;
-  place-items: center;
+  position: relative;
   padding: 40px;
-}
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 
-.hero {
-  max-width: 900px;
-  text-align: center;
-}
-
-h1 {
-  font-size: 56px;
+  background: linear-gradient(135deg, purple, black, cyan, black, magenta);
+  background-size: 400% 400%;
+  animation: moveBackground 10s ease infinite;
 }
