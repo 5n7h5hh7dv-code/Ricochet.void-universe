@@ -1,7 +1,20 @@
 export default function App() {
   return (
-    <main className="page">
-      <section className="hero">
+    <main
+      style={{
+        minHeight: "100vh",
+        margin: 0,
+        padding: "40px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        textAlign: "center",
+        color: "white",
+        background: "linear-gradient(135deg, purple, black, cyan, black, magenta)",
+        backgroundSize: "400% 400%",
+      }}
+    >
+      <section>
         <h1>Ricochet Void Universe</h1>
 
         <p>
