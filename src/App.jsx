@@ -36,6 +36,20 @@ export default function App() {
             opacity: 0.55;
           }
 
+          .signalParticles {
+            position: fixed;
+            inset: 0;
+            background-image:
+              radial-gradient(rgba(255,255,255,0.85) 1px, transparent 1px),
+              radial-gradient(rgba(0,212,255,0.95) 2px, transparent 2px),
+              radial-gradient(rgba(255,0,136,0.75) 1.5px, transparent 1.5px);
+            background-size: 180px 180px, 260px 260px, 340px 340px;
+            animation: signalFloat 18s linear infinite;
+            opacity: 0.5;
+            z-index: 4;
+            pointer-events: none;
+          }
+
           .blackHole {
             position: fixed;
             width: 220px;
@@ -162,6 +176,11 @@ export default function App() {
             to { background-position: 300px 500px, -250px 400px, 200px -300px; }
           }
 
+          @keyframes signalFloat {
+            from { background-position: 0 0, 0 0, 0 0; }
+            to { background-position: 220px -300px, -260px 240px, 340px -180px; }
+          }
+
           @keyframes blackHoleSpin {
             from { rotate: 0deg; }
             to { rotate: 360deg; }
@@ -181,6 +200,7 @@ export default function App() {
       </style>
 
       <div className="stars"></div>
+      <div className="signalParticles"></div>
       <div className="blackHole blackHoleOne"></div>
       <div className="blackHole blackHoleTwo"></div>
       <div className="portal portalOne"></div>
