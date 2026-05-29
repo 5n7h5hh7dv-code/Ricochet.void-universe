@@ -42,7 +42,7 @@ export default function App() {
           .heroPanel {
             position: relative;
             z-index: 10;
-            max-width: 1220px;
+            max-width: 1240px;
             animation: heroReveal 1.8s ease forwards;
           }
 
@@ -91,8 +91,8 @@ export default function App() {
 
           .voidSymbol {
             position: fixed;
-            width: 640px;
-            height: 640px;
+            width: 660px;
+            height: 660px;
             border-radius: 50%;
             border: 2px solid rgba(255,255,255,0.08);
             box-shadow:
@@ -124,8 +124,8 @@ export default function App() {
 
           .voidCore {
             position: fixed;
-            width: 140px;
-            height: 140px;
+            width: 145px;
+            height: 145px;
             border-radius: 50%;
             background:
               radial-gradient(circle, rgba(255,255,255,0.95), rgba(0,212,255,0.45), rgba(125,0,255,0.15), transparent 70%);
@@ -141,8 +141,8 @@ export default function App() {
 
           .orbitRing {
             position: fixed;
-            width: 790px;
-            height: 790px;
+            width: 820px;
+            height: 820px;
             border-radius: 50%;
             border: 1px dashed rgba(255,255,255,0.12);
             z-index: 5;
@@ -205,6 +205,21 @@ export default function App() {
             animation: streamRight 36s linear infinite;
           }
 
+          .signalShard {
+            position: fixed;
+            width: 120px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(0,212,255,0.85), transparent);
+            z-index: 7;
+            opacity: 0.45;
+            pointer-events: none;
+            animation: shardFlash 5s ease-in-out infinite;
+          }
+
+          .shardOne { top: 24%; left: 16%; transform: rotate(-18deg); }
+          .shardTwo { top: 70%; right: 18%; transform: rotate(21deg); animation-delay: 1.4s; }
+          .shardThree { top: 42%; right: 8%; transform: rotate(-8deg); animation-delay: 2.6s; }
+
           .signalTag {
             display: inline-block;
             margin-bottom: 14px;
@@ -241,7 +256,8 @@ export default function App() {
           .gateResult,
           .archiveGrid,
           .platformStrip,
-          .futureGearPreview {
+          .futureGearPreview,
+          .unlockedChamber {
             margin: 24px auto 0;
             max-width: 900px;
             border: 1px solid rgba(0,212,255,0.28);
@@ -363,6 +379,53 @@ export default function App() {
             background: rgba(0,255,190,0.08);
             border: 1px solid rgba(0,255,190,0.35);
             box-shadow: 0 0 35px rgba(0,255,190,0.2);
+          }
+
+          .unlockedChamber {
+            padding: 16px;
+            display: none;
+            border-color: rgba(0,255,190,0.35);
+            box-shadow:
+              0 0 30px rgba(0,255,190,0.2),
+              inset 0 0 25px rgba(0,255,190,0.08);
+          }
+
+          .unlockedChamber.active {
+            display: block;
+            animation: unlockReveal 1s ease forwards;
+          }
+
+          .unlockedTitle {
+            font-size: 13px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(0,255,190,0.95);
+            margin-bottom: 12px;
+          }
+
+          .unlockedGrid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+          }
+
+          .unlockedCard {
+            padding: 14px;
+            border-radius: 16px;
+            border: 1px solid rgba(0,255,190,0.22);
+            background: rgba(0,255,190,0.055);
+            text-align: left;
+          }
+
+          .unlockedCard strong {
+            display: block;
+            margin-bottom: 6px;
+          }
+
+          .unlockedCard span {
+            color: rgba(255,255,255,0.62);
+            font-size: 12px;
+            letter-spacing: 1px;
           }
 
           .archiveGrid {
@@ -567,6 +630,26 @@ export default function App() {
             to { transform: translateX(-160vw); }
           }
 
+          @keyframes shardFlash {
+            0% { opacity: 0; transform: translateX(-20px) scaleX(0.4); }
+            50% { opacity: 0.8; transform: translateX(20px) scaleX(1); }
+            100% { opacity: 0; transform: translateX(45px) scaleX(0.4); }
+          }
+
+          @keyframes unlockReveal {
+            from {
+              opacity: 0;
+              transform: translateY(20px) scale(0.96);
+              filter: blur(6px);
+            }
+
+            to {
+              opacity: 1;
+              transform: translateY(0) scale(1);
+              filter: blur(0);
+            }
+          }
+
           @keyframes heroReveal {
             from {
               opacity: 0;
@@ -585,7 +668,8 @@ export default function App() {
             .menu,
             .archiveGrid,
             .platformStrip,
-            .gearGrid {
+            .gearGrid,
+            .unlockedGrid {
               grid-template-columns: 1fr;
             }
 
@@ -618,6 +702,10 @@ export default function App() {
       <div className="dataStream streamThree">
         future gear chamber loading • creator market pending • architect circle sealed •
       </div>
+
+      <div className="signalShard shardOne"></div>
+      <div className="signalShard shardTwo"></div>
+      <div className="signalShard shardThree"></div>
 
       <section className="heroPanel">
         <div className="signalTag">Foundation Gateway Active</div>
@@ -677,6 +765,27 @@ export default function App() {
             Awaiting archive completion signal.
           </div>
         )}
+
+        <div className={`unlockedChamber ${accessStatus === "granted" ? "active" : ""}`}>
+          <div className="unlockedTitle">Entry Chamber Unlocked</div>
+
+          <div className="unlockedGrid">
+            <div className="unlockedCard">
+              <strong>Entry Chamber</strong>
+              <span>First unlocked universe area</span>
+            </div>
+
+            <div className="unlockedCard">
+              <strong>Signal Dashboard</strong>
+              <span>Progress tracking chamber pending</span>
+            </div>
+
+            <div className="unlockedCard">
+              <strong>Creator Path</strong>
+              <span>Sub-Creator access structure forming</span>
+            </div>
+          </div>
+        </div>
 
         <div className="archiveGrid">
           <div className="archiveCard">
