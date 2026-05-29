@@ -1,80 +1,62 @@
+* {
+  box-sizing: border-box;
+}
+
 html,
 body,
 #root {
   margin: 0;
-  min-height: 100%;
-  background: #020208;
-  color: white;
+  width: 100%;
+  min-height: 100vh;
+}
+
+body {
   font-family: Arial, sans-serif;
+  background: #020208;
 }
 
 .page {
   min-height: 100vh;
-  position: relative;
+  width: 100%;
   padding: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  text-align: center;
+  color: white;
 
-  background:
-    radial-gradient(circle at 15% 20%, rgba(125,0,255,0.95), transparent 28%),
-    radial-gradient(circle at 85% 25%, rgba(0,212,255,0.85), transparent 28%),
-    radial-gradient(circle at 50% 85%, rgba(255,0,136,0.75), transparent 32%),
-    linear-gradient(180deg, #020208 0%, #070018 45%, #020208 100%);
-
-  background-size: 120% 120%;
-  animation: voidMove 12s ease-in-out infinite alternate;
-}
-
-
+  background-color: #7d00ff !important;
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(0, 212, 255, 0.85), transparent 28%),
+    radial-gradient(circle at 85% 25%, rgba(255, 0, 136, 0.75), transparent 28%),
+    linear-gradient(180deg, #7d00ff 0%, #020208 100%) !important;
 }
 
 .hero {
-  position: relative;
-  z-index: 2;
   max-width: 900px;
-  text-align: center;
 }
 
 h1 {
   font-size: 56px;
-  letter-spacing: 2px;
 }
 
 p {
   font-size: 20px;
-  color: #cfcfcf;
+  color: white;
 }
 
 .menu {
   display: flex;
-  flex-wrap: wrap;
   gap: 12px;
   justify-content: center;
-  margin-top: 30px;
+  flex-wrap: wrap;
 }
 
 .button {
-  text-decoration: none;
   color: white;
-  border: 1px solid #555;
+  text-decoration: none;
+  border: 1px solid white;
   padding: 12px 20px;
   border-radius: 10px;
-  background: rgba(255,255,255,0.08);
-}
-
-.button:hover {
-  background: rgba(255,255,255,0.18);
-}
-
-@keyframes voidMove {
-  from {
-    background-position: 0% 0%;
-  }
-
-  to {
-    background-position: 100% 100%;
-  }
-}
+  background: rgba(255,255,255,0.12);
 }
