@@ -1,9 +1,6 @@
 export default function App() {
   return (
     <main className="page">
-      <div className="liveBackground"></div>
-      <div className="gridBackground"></div>
-
       <section className="hero">
         <h1>Ricochet Void Universe</h1>
 
