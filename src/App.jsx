@@ -73,8 +73,8 @@ export default function App() {
 
           .voidSymbol {
             position: fixed;
-            width: 520px;
-            height: 520px;
+            width: 540px;
+            height: 540px;
             border-radius: 50%;
             border: 2px solid rgba(255,255,255,0.08);
             box-shadow:
@@ -132,6 +132,34 @@ export default function App() {
             left: -30%;
             animation: ribbonMoveRight 34s linear infinite;
             opacity: 0.45;
+          }
+
+          .transmissionLine {
+            position: fixed;
+            height: 1px;
+            width: 40vw;
+            background: linear-gradient(90deg, transparent, rgba(0,212,255,0.75), transparent);
+            z-index: 7;
+            opacity: 0.45;
+            pointer-events: none;
+            animation: transmissionPulse 5s ease-in-out infinite;
+          }
+
+          .lineOne {
+            top: 28%;
+            left: 5%;
+          }
+
+          .lineTwo {
+            bottom: 30%;
+            right: 5%;
+            animation-delay: 1.6s;
+          }
+
+          .lineThree {
+            top: 62%;
+            left: 20%;
+            animation-delay: 2.8s;
           }
 
           .blackHole {
@@ -218,7 +246,7 @@ export default function App() {
           .heroPanel {
             position: relative;
             z-index: 10;
-            max-width: 1000px;
+            max-width: 1060px;
             animation: heroReveal 1.8s ease forwards;
           }
 
@@ -357,6 +385,50 @@ export default function App() {
             text-transform: uppercase;
           }
 
+          .progressGrid {
+            margin: 22px auto 0;
+            max-width: 760px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+          }
+
+          .progressCard {
+            padding: 14px;
+            border-radius: 16px;
+            background: rgba(0,0,0,0.22);
+            border: 1px solid rgba(255,255,255,0.15);
+            backdrop-filter: blur(8px);
+            text-align: left;
+          }
+
+          .progressCard span {
+            display: block;
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.62);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+          }
+
+          .progressBar {
+            height: 6px;
+            border-radius: 999px;
+            overflow: hidden;
+            background: rgba(255,255,255,0.12);
+          }
+
+          .progressFill {
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, #7d00ff, #00d4ff, #ff0088);
+            animation: progressGlow 3s ease-in-out infinite alternate;
+          }
+
+          .fillOne { width: 42%; }
+          .fillTwo { width: 67%; }
+          .fillThree { width: 18%; }
+
           .menu {
             display: grid;
             grid-template-columns: repeat(4, minmax(130px, 1fr));
@@ -460,6 +532,17 @@ export default function App() {
             to { transform: translateX(-160vw); }
           }
 
+          @keyframes transmissionPulse {
+            0% { opacity: 0; transform: scaleX(0.2); }
+            50% { opacity: 0.75; transform: scaleX(1); }
+            100% { opacity: 0; transform: scaleX(0.2); }
+          }
+
+          @keyframes progressGlow {
+            from { filter: brightness(0.8); }
+            to { filter: brightness(1.5); }
+          }
+
           @keyframes blackHoleSpin {
             from { rotate: 0deg; }
             to { rotate: 360deg; }
@@ -491,7 +574,8 @@ export default function App() {
           }
 
           @media (max-width: 800px) {
-            .menu {
+            .menu,
+            .progressGrid {
               grid-template-columns: 1fr;
             }
 
@@ -515,9 +599,15 @@ export default function App() {
       <div className="scanLines"></div>
       <div className="voidSymbol"></div>
       <div className="voidCore"></div>
+
       <div className="dataRibbon ribbonOne">signal grows where noise falls • signal grows where noise falls •</div>
       <div className="dataRibbon ribbonTwo">decode the archive • submit the signal • unlock the gate •</div>
       <div className="dataRibbon ribbonThree">foundation path active • silence architecture online •</div>
+
+      <div className="transmissionLine lineOne"></div>
+      <div className="transmissionLine lineTwo"></div>
+      <div className="transmissionLine lineThree"></div>
+
       <div className="blackHole blackHoleOne"></div>
       <div className="blackHole blackHoleTwo"></div>
       <div className="portal portalOne"></div>
@@ -566,6 +656,23 @@ export default function App() {
 
         <div className="accessMessage">
           {code ? "Signal received. Verification chamber pending." : "Awaiting archive signal."}
+        </div>
+
+        <div className="progressGrid">
+          <div className="progressCard">
+            <span>Foundation Sync</span>
+            <div className="progressBar"><div className="progressFill fillOne"></div></div>
+          </div>
+
+          <div className="progressCard">
+            <span>Archive Signal</span>
+            <div className="progressBar"><div className="progressFill fillTwo"></div></div>
+          </div>
+
+          <div className="progressCard">
+            <span>Access Gate</span>
+            <div className="progressBar"><div className="progressFill fillThree"></div></div>
+          </div>
         </div>
 
         <div className="menu">
