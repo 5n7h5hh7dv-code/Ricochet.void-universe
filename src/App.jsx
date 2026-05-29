@@ -11,11 +11,13 @@ export default function App() {
         textAlign: "center",
         color: "white",
         background:
-          "radial-gradient(circle at 20% 20%, #7d00ff 0%, transparent 30%)," +
-          "radial-gradient(circle at 80% 30%, #00d4ff 0%, transparent 30%)," +
-          "radial-gradient(circle at 50% 80%, #ff0088 0%, transparent 35%)," +
-          "#020208",
-        backgroundAttachment: "fixed",
+  "radial-gradient(circle at 15% 20%, rgba(125,0,255,0.9) 0%, transparent 25%)," +
+  "radial-gradient(circle at 85% 25%, rgba(0,212,255,0.8) 0%, transparent 25%)," +
+  "radial-gradient(circle at 50% 85%, rgba(255,0,136,0.7) 0%, transparent 30%)," +
+  "radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 60%)," +
+  "linear-gradient(180deg, #020208 0%, #070018 40%, #020208 100%)",
+backgroundSize: "100% 100%",
+backgroundAttachment: "fixed",
       }}
     >
       <section>
