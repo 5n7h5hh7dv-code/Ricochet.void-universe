@@ -160,50 +160,89 @@ export default function App() {
             animation-delay: 2.4s;
           }
 
-          section {
+          .heroPanel {
             position: relative;
             z-index: 10;
+            max-width: 980px;
             animation: heroReveal 1.8s ease forwards;
           }
 
+          .signalTag {
+            display: inline-block;
+            margin-bottom: 14px;
+            padding: 6px 14px;
+            border: 1px solid rgba(0,212,255,0.35);
+            border-radius: 999px;
+            background: rgba(255,255,255,0.07);
+            color: rgba(255,255,255,0.85);
+            font-size: 12px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            box-shadow: 0 0 18px rgba(0,212,255,0.2);
+          }
+
           h1 {
-            font-size: 56px;
-            letter-spacing: 2px;
+            margin: 0;
+            font-size: clamp(48px, 8vw, 92px);
+            letter-spacing: 3px;
+            line-height: 0.95;
             text-shadow:
               0 0 12px rgba(125,0,255,0.9),
               0 0 28px rgba(0,212,255,0.7),
               0 0 50px rgba(255,0,136,0.5);
           }
 
-          p {
+          .subtitle {
+            max-width: 760px;
+            margin: 22px auto 0;
             font-size: 20px;
+            color: rgba(255,255,255,0.86);
           }
 
           .menu {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            justify-content: center;
-            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(4, minmax(130px, 1fr));
+            gap: 14px;
+            margin-top: 36px;
           }
 
           .button {
             color: white;
             text-decoration: none;
             border: 1px solid rgba(255,255,255,0.35);
-            padding: 12px 20px;
-            border-radius: 10px;
-            background: rgba(255,255,255,0.1);
-            box-shadow: 0 0 18px rgba(0,212,255,0.25);
+            padding: 16px 18px;
+            border-radius: 18px;
+            background:
+              linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.06));
+            box-shadow:
+              0 0 18px rgba(0,212,255,0.25),
+              inset 0 0 18px rgba(255,255,255,0.05);
             transition: 0.3s ease;
+            backdrop-filter: blur(8px);
+          }
+
+          .button span {
+            display: block;
+            margin-top: 6px;
+            font-size: 11px;
+            color: rgba(255,255,255,0.6);
+            letter-spacing: 1.5px;
           }
 
           .button:hover {
-            transform: translateY(-4px) scale(1.04);
+            transform: translateY(-6px) scale(1.04);
             background: rgba(255,255,255,0.18);
             box-shadow:
               0 0 20px rgba(0,212,255,0.6),
               0 0 40px rgba(125,0,255,0.45);
+          }
+
+          .hiddenSignal {
+            margin-top: 28px;
+            font-size: 11px;
+            letter-spacing: 4px;
+            color: rgba(255,255,255,0.22);
+            text-transform: uppercase;
           }
 
           @keyframes voidShift {
@@ -255,6 +294,16 @@ export default function App() {
               filter: blur(0);
             }
           }
+
+          @media (max-width: 800px) {
+            .menu {
+              grid-template-columns: 1fr;
+            }
+
+            h1 {
+              font-size: 48px;
+            }
+          }
         `}
       </style>
 
@@ -269,20 +318,39 @@ export default function App() {
       <div className="voidDrip dripTwo"></div>
       <div className="voidDrip dripThree"></div>
 
-      <section style={{ maxWidth: "900px" }}>
+      <section className="heroPanel">
+        <div className="signalTag">Archive Signal Detected</div>
+
         <h1>Ricochet Void Universe</h1>
 
-        <p>
+        <p className="subtitle">
           Signal grows where noise falls. Enter the foundation, follow the
           archives, and unlock access through progression.
         </p>
 
         <div className="menu">
-          <a href="#foundation" className="button">Begin the Foundation</a>
-          <a href="#archives" className="button">Foundation Archives</a>
-          <a href="#portal" className="button">Access Portal</a>
-          <a href="#futuregear" className="button">Future Gear</a>
+          <a href="#foundation" className="button">
+            Begin Foundation
+            <span>Start Path</span>
+          </a>
+
+          <a href="#archives" className="button">
+            Foundation Archives
+            <span>Decode</span>
+          </a>
+
+          <a href="#portal" className="button">
+            Access Portal
+            <span>Submit Signal</span>
+          </a>
+
+          <a href="#futuregear" className="button">
+            Future Gear
+            <span>Coming Soon</span>
+          </a>
         </div>
+
+        <div className="hiddenSignal">silence is not empty</div>
       </section>
     </main>
   );
