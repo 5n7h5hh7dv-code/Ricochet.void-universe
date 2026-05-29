@@ -42,7 +42,7 @@ export default function App() {
           .heroPanel {
             position: relative;
             z-index: 10;
-            max-width: 1180px;
+            max-width: 1220px;
             animation: heroReveal 1.8s ease forwards;
           }
 
@@ -91,13 +91,13 @@ export default function App() {
 
           .voidSymbol {
             position: fixed;
-            width: 620px;
-            height: 620px;
+            width: 640px;
+            height: 640px;
             border-radius: 50%;
             border: 2px solid rgba(255,255,255,0.08);
             box-shadow:
-              0 0 85px rgba(125,0,255,0.34),
-              inset 0 0 110px rgba(0,212,255,0.18);
+              0 0 90px rgba(125,0,255,0.34),
+              inset 0 0 120px rgba(0,212,255,0.18);
             z-index: 5;
             opacity: 0.56;
             animation: symbolRotate 30s linear infinite;
@@ -113,11 +113,11 @@ export default function App() {
           }
 
           .voidSymbol::before {
-            inset: 86px;
+            inset: 90px;
           }
 
           .voidSymbol::after {
-            inset: 178px;
+            inset: 185px;
             border-color: rgba(255,0,136,0.22);
             box-shadow: 0 0 38px rgba(255,0,136,0.28);
           }
@@ -141,8 +141,8 @@ export default function App() {
 
           .orbitRing {
             position: fixed;
-            width: 760px;
-            height: 760px;
+            width: 790px;
+            height: 790px;
             border-radius: 50%;
             border: 1px dashed rgba(255,255,255,0.12);
             z-index: 5;
@@ -174,6 +174,37 @@ export default function App() {
             box-shadow: 0 0 20px rgba(255,0,136,0.9);
           }
 
+          .dataStream {
+            position: fixed;
+            font-size: 11px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.22);
+            white-space: nowrap;
+            z-index: 7;
+            pointer-events: none;
+            text-shadow: 0 0 12px rgba(0,212,255,0.55);
+          }
+
+          .streamOne {
+            top: 11%;
+            left: -30%;
+            animation: streamRight 24s linear infinite;
+          }
+
+          .streamTwo {
+            bottom: 12%;
+            right: -35%;
+            animation: streamLeft 28s linear infinite;
+          }
+
+          .streamThree {
+            top: 58%;
+            left: -40%;
+            opacity: 0.35;
+            animation: streamRight 36s linear infinite;
+          }
+
           .signalTag {
             display: inline-block;
             margin-bottom: 14px;
@@ -199,7 +230,7 @@ export default function App() {
           }
 
           .subtitle {
-            max-width: 800px;
+            max-width: 820px;
             margin: 22px auto 0;
             font-size: 20px;
             color: rgba(255,255,255,0.86);
@@ -209,9 +240,10 @@ export default function App() {
           .accessChamber,
           .gateResult,
           .archiveGrid,
-          .platformStrip {
+          .platformStrip,
+          .futureGearPreview {
             margin: 24px auto 0;
-            max-width: 860px;
+            max-width: 900px;
             border: 1px solid rgba(0,212,255,0.28);
             border-radius: 18px;
             background: linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.25));
@@ -404,6 +436,49 @@ export default function App() {
             text-transform: uppercase;
           }
 
+          .futureGearPreview {
+            padding: 16px;
+          }
+
+          .futureGearTitle {
+            margin-bottom: 12px;
+            font-size: 13px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(0,212,255,0.9);
+          }
+
+          .gearGrid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+          }
+
+          .gearItem {
+            min-height: 78px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.14);
+            background:
+              radial-gradient(circle at 50% 20%, rgba(0,212,255,0.22), transparent 40%),
+              rgba(255,255,255,0.055);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            font-size: 11px;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.75);
+            transition: 0.3s ease;
+          }
+
+          .gearItem:hover {
+            transform: translateY(-5px);
+            box-shadow:
+              0 0 20px rgba(0,212,255,0.35),
+              0 0 35px rgba(255,0,136,0.18);
+          }
+
           .menu {
             display: grid;
             grid-template-columns: repeat(4, minmax(130px, 1fr));
@@ -482,6 +557,16 @@ export default function App() {
             to { rotate: -360deg; }
           }
 
+          @keyframes streamRight {
+            from { transform: translateX(0); }
+            to { transform: translateX(160vw); }
+          }
+
+          @keyframes streamLeft {
+            from { transform: translateX(0); }
+            to { transform: translateX(-160vw); }
+          }
+
           @keyframes heroReveal {
             from {
               opacity: 0;
@@ -499,7 +584,8 @@ export default function App() {
           @media (max-width: 900px) {
             .menu,
             .archiveGrid,
-            .platformStrip {
+            .platformStrip,
+            .gearGrid {
               grid-template-columns: 1fr;
             }
 
@@ -520,6 +606,18 @@ export default function App() {
       <div className="orbitRing"></div>
       <div className="voidSymbol"></div>
       <div className="voidCore"></div>
+
+      <div className="dataStream streamOne">
+        signal grows where noise falls • archive path active • signal grows where noise falls •
+      </div>
+
+      <div className="dataStream streamTwo">
+        entry access locked • decode the foundation • submit the signal •
+      </div>
+
+      <div className="dataStream streamThree">
+        future gear chamber loading • creator market pending • architect circle sealed •
+      </div>
 
       <section className="heroPanel">
         <div className="signalTag">Foundation Gateway Active</div>
@@ -603,6 +701,19 @@ export default function App() {
           <div className="platformCell">Sub-Creator</div>
           <div className="platformCell">Architect Circle</div>
           <div className="platformCell">Future Gear</div>
+        </div>
+
+        <div className="futureGearPreview">
+          <div className="futureGearTitle">Future Gear Chamber Preview</div>
+
+          <div className="gearGrid">
+            <div className="gearItem">Void Runner Shoes</div>
+            <div className="gearItem">Signal Coins</div>
+            <div className="gearItem">Void Watches</div>
+            <div className="gearItem">Archive Rings</div>
+            <div className="gearItem">Architect Hoodies</div>
+            <div className="gearItem">Void Chronometers</div>
+          </div>
         </div>
 
         <div className="menu">
