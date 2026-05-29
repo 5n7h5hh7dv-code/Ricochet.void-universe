@@ -44,10 +44,14 @@ body {
   z-index: 2;
   max-width: 900px;
 }
-
 h1 {
   font-size: 56px;
   letter-spacing: 2px;
+  text-shadow:
+    0 0 10px rgba(125,0,255,0.8),
+    0 0 20px rgba(125,0,255,0.6),
+    0 0 40px rgba(0,212,255,0.4);
+}
 }
 
 p {
