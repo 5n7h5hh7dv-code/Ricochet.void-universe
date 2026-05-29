@@ -42,14 +42,107 @@ export default function App() {
           .heroPanel {
             position: relative;
             z-index: 10;
-            max-width: 1060px;
+            max-width: 1120px;
             animation: heroReveal 1.8s ease forwards;
+          }
+
+          .stars {
+            position: fixed;
+            inset: 0;
+            background-image:
+              radial-gradient(white 1px, transparent 1px),
+              radial-gradient(rgba(0,212,255,0.9) 1px, transparent 1px),
+              radial-gradient(rgba(255,0,136,0.8) 1px, transparent 1px);
+            background-size: 90px 90px, 140px 140px, 220px 220px;
+            animation: starDrift 30s linear infinite;
+            opacity: 0.55;
+          }
+
+          .signalParticles {
+            position: fixed;
+            inset: 0;
+            background-image:
+              radial-gradient(rgba(255,255,255,0.85) 1px, transparent 1px),
+              radial-gradient(rgba(0,212,255,0.95) 2px, transparent 2px),
+              radial-gradient(rgba(255,0,136,0.75) 1.5px, transparent 1.5px);
+            background-size: 180px 180px, 260px 260px, 340px 340px;
+            animation: signalFloat 18s linear infinite;
+            opacity: 0.5;
+            z-index: 4;
+            pointer-events: none;
+          }
+
+          .scanLines {
+            position: fixed;
+            inset: 0;
+            background:
+              repeating-linear-gradient(
+                to bottom,
+                rgba(255,255,255,0.035) 0px,
+                rgba(255,255,255,0.035) 1px,
+                transparent 1px,
+                transparent 6px
+              );
+            opacity: 0.35;
+            z-index: 6;
+            pointer-events: none;
+            animation: scanMove 8s linear infinite;
+          }
+
+          .voidSymbol {
+            position: fixed;
+            width: 580px;
+            height: 580px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.08);
+            box-shadow:
+              0 0 80px rgba(125,0,255,0.3),
+              inset 0 0 100px rgba(0,212,255,0.16);
+            z-index: 5;
+            opacity: 0.58;
+            animation: symbolRotate 28s linear infinite;
+            pointer-events: none;
+          }
+
+          .voidSymbol::before,
+          .voidSymbol::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(0,212,255,0.16);
+          }
+
+          .voidSymbol::before {
+            inset: 80px;
+          }
+
+          .voidSymbol::after {
+            inset: 160px;
+            border-color: rgba(255,0,136,0.2);
+            box-shadow: 0 0 35px rgba(255,0,136,0.25);
+          }
+
+          .voidCore {
+            position: fixed;
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background:
+              radial-gradient(circle, rgba(255,255,255,0.95), rgba(0,212,255,0.45), rgba(125,0,255,0.15), transparent 70%);
+            box-shadow:
+              0 0 35px rgba(255,255,255,0.35),
+              0 0 80px rgba(0,212,255,0.45),
+              0 0 130px rgba(255,0,136,0.25);
+            z-index: 5;
+            opacity: 0.65;
+            animation: corePulse 4s ease-in-out infinite alternate;
+            pointer-events: none;
           }
 
           .signalTag {
             display: inline-block;
             margin-bottom: 14px;
-            padding: 6px 14px;
+            padding: 7px 16px;
             border: 1px solid rgba(0,212,255,0.35);
             border-radius: 999px;
             background: rgba(255,255,255,0.07);
@@ -61,7 +154,7 @@ export default function App() {
 
           h1 {
             margin: 0;
-            font-size: clamp(48px, 8vw, 92px);
+            font-size: clamp(48px, 8vw, 96px);
             letter-spacing: 3px;
             line-height: 0.95;
             text-shadow:
@@ -71,7 +164,7 @@ export default function App() {
           }
 
           .subtitle {
-            max-width: 760px;
+            max-width: 780px;
             margin: 22px auto 0;
             font-size: 20px;
             color: rgba(255,255,255,0.86);
@@ -79,9 +172,10 @@ export default function App() {
 
           .terminal,
           .accessChamber,
-          .gateResult {
+          .gateResult,
+          .archiveGrid {
             margin: 24px auto 0;
-            max-width: 760px;
+            max-width: 820px;
             border: 1px solid rgba(0,212,255,0.28);
             border-radius: 18px;
             background: linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.25));
@@ -187,12 +281,46 @@ export default function App() {
           }
 
           .entryUnlocked {
-            margin-top: 24px;
-            padding: 20px;
-            border-radius: 20px;
+            margin-top: 16px;
+            padding: 18px;
+            border-radius: 18px;
             background: rgba(0,255,190,0.08);
             border: 1px solid rgba(0,255,190,0.35);
             box-shadow: 0 0 35px rgba(0,255,190,0.2);
+          }
+
+          .archiveGrid {
+            padding: 16px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+          }
+
+          .archiveCard {
+            padding: 14px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.16);
+            background: rgba(255,255,255,0.06);
+            text-align: left;
+            transition: 0.3s ease;
+          }
+
+          .archiveCard:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 0 24px rgba(0,212,255,0.25);
+          }
+
+          .archiveCard strong {
+            display: block;
+            color: white;
+            margin-bottom: 6px;
+          }
+
+          .archiveCard span {
+            display: block;
+            color: rgba(255,255,255,0.58);
+            font-size: 12px;
+            letter-spacing: 1px;
           }
 
           .menu {
@@ -228,81 +356,6 @@ export default function App() {
             box-shadow:
               0 0 20px rgba(0,212,255,0.6),
               0 0 40px rgba(125,0,255,0.45);
-          }
-
-          .stars {
-            position: fixed;
-            inset: 0;
-            background-image:
-              radial-gradient(white 1px, transparent 1px),
-              radial-gradient(rgba(0,212,255,0.9) 1px, transparent 1px),
-              radial-gradient(rgba(255,0,136,0.8) 1px, transparent 1px);
-            background-size: 90px 90px, 140px 140px, 220px 220px;
-            animation: starDrift 30s linear infinite;
-            opacity: 0.55;
-          }
-
-          .signalParticles {
-            position: fixed;
-            inset: 0;
-            background-image:
-              radial-gradient(rgba(255,255,255,0.85) 1px, transparent 1px),
-              radial-gradient(rgba(0,212,255,0.95) 2px, transparent 2px),
-              radial-gradient(rgba(255,0,136,0.75) 1.5px, transparent 1.5px);
-            background-size: 180px 180px, 260px 260px, 340px 340px;
-            animation: signalFloat 18s linear infinite;
-            opacity: 0.5;
-            z-index: 4;
-            pointer-events: none;
-          }
-
-          .scanLines {
-            position: fixed;
-            inset: 0;
-            background:
-              repeating-linear-gradient(
-                to bottom,
-                rgba(255,255,255,0.035) 0px,
-                rgba(255,255,255,0.035) 1px,
-                transparent 1px,
-                transparent 6px
-              );
-            opacity: 0.35;
-            z-index: 6;
-            pointer-events: none;
-            animation: scanMove 8s linear infinite;
-          }
-
-          .voidSymbol {
-            position: fixed;
-            width: 540px;
-            height: 540px;
-            border-radius: 50%;
-            border: 2px solid rgba(255,255,255,0.08);
-            box-shadow:
-              0 0 70px rgba(125,0,255,0.28),
-              inset 0 0 90px rgba(0,212,255,0.14);
-            z-index: 5;
-            opacity: 0.58;
-            animation: symbolRotate 28s linear infinite;
-            pointer-events: none;
-          }
-
-          .voidCore {
-            position: fixed;
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background:
-              radial-gradient(circle, rgba(255,255,255,0.95), rgba(0,212,255,0.45), rgba(125,0,255,0.15), transparent 70%);
-            box-shadow:
-              0 0 30px rgba(255,255,255,0.35),
-              0 0 70px rgba(0,212,255,0.45),
-              0 0 120px rgba(255,0,136,0.25);
-            z-index: 5;
-            opacity: 0.65;
-            animation: corePulse 4s ease-in-out infinite alternate;
-            pointer-events: none;
           }
 
           .hiddenSignal {
@@ -358,7 +411,8 @@ export default function App() {
           }
 
           @media (max-width: 800px) {
-            .menu {
+            .menu,
+            .archiveGrid {
               grid-template-columns: 1fr;
             }
 
@@ -437,6 +491,23 @@ export default function App() {
             Awaiting archive completion signal.
           </div>
         )}
+
+        <div className="archiveGrid">
+          <div className="archiveCard">
+            <strong>Mirror Code</strong>
+            <span>Foundation archive awaiting completion</span>
+          </div>
+
+          <div className="archiveCard">
+            <strong>Silence Architecture</strong>
+            <span>Signal hidden beneath noise</span>
+          </div>
+
+          <div className="archiveCard">
+            <strong>Void Progression</strong>
+            <span>Access path locked</span>
+          </div>
+        </div>
 
         <div className="menu">
           <a href="#foundation" className="button">
