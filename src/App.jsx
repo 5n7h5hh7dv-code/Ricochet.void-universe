@@ -50,6 +50,24 @@ export default function App() {
             pointer-events: none;
           }
 
+          .scanLines {
+            position: fixed;
+            inset: 0;
+            background:
+              repeating-linear-gradient(
+                to bottom,
+                rgba(255,255,255,0.035) 0px,
+                rgba(255,255,255,0.035) 1px,
+                transparent 1px,
+                transparent 6px
+              );
+            mix-blend-mode: screen;
+            opacity: 0.35;
+            z-index: 6;
+            pointer-events: none;
+            animation: scanMove 8s linear infinite;
+          }
+
           .voidSymbol {
             position: fixed;
             width: 460px;
@@ -163,7 +181,7 @@ export default function App() {
           .heroPanel {
             position: relative;
             z-index: 10;
-            max-width: 980px;
+            max-width: 1000px;
             animation: heroReveal 1.8s ease forwards;
           }
 
@@ -199,11 +217,69 @@ export default function App() {
             color: rgba(255,255,255,0.86);
           }
 
+          .terminal {
+            margin: 28px auto 0;
+            max-width: 760px;
+            text-align: left;
+            border: 1px solid rgba(0,212,255,0.28);
+            border-radius: 18px;
+            background:
+              linear-gradient(180deg, rgba(0,0,0,0.5), rgba(0,0,0,0.25));
+            box-shadow:
+              0 0 25px rgba(0,212,255,0.18),
+              inset 0 0 25px rgba(125,0,255,0.12);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+          }
+
+          .terminalTop {
+            display: flex;
+            gap: 7px;
+            padding: 12px 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+          }
+
+          .dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: rgba(0,212,255,0.8);
+            box-shadow: 0 0 10px rgba(0,212,255,0.8);
+          }
+
+          .dot:nth-child(2) {
+            background: rgba(255,0,136,0.8);
+            box-shadow: 0 0 10px rgba(255,0,136,0.8);
+          }
+
+          .dot:nth-child(3) {
+            background: rgba(125,0,255,0.8);
+            box-shadow: 0 0 10px rgba(125,0,255,0.8);
+          }
+
+          .terminalBody {
+            padding: 16px;
+            font-size: 13px;
+            line-height: 1.7;
+            letter-spacing: 1px;
+            color: rgba(255,255,255,0.76);
+          }
+
+          .terminalBody strong {
+            color: rgba(0,212,255,0.95);
+            font-weight: 500;
+          }
+
+          .terminalBody em {
+            color: rgba(255,0,136,0.9);
+            font-style: normal;
+          }
+
           .menu {
             display: grid;
             grid-template-columns: repeat(4, minmax(130px, 1fr));
             gap: 14px;
-            margin-top: 36px;
+            margin-top: 30px;
           }
 
           .button {
@@ -237,8 +313,25 @@ export default function App() {
               0 0 40px rgba(125,0,255,0.45);
           }
 
+          .tierStrip {
+            margin-top: 22px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+          }
+
+          .tier {
+            padding: 8px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.18);
+            background: rgba(255,255,255,0.06);
+            font-size: 12px;
+            color: rgba(255,255,255,0.72);
+          }
+
           .hiddenSignal {
-            margin-top: 28px;
+            margin-top: 24px;
             font-size: 11px;
             letter-spacing: 4px;
             color: rgba(255,255,255,0.22);
@@ -258,6 +351,11 @@ export default function App() {
           @keyframes signalFloat {
             from { background-position: 0 0, 0 0, 0 0; }
             to { background-position: 220px -300px, -260px 240px, 340px -180px; }
+          }
+
+          @keyframes scanMove {
+            from { background-position: 0 0; }
+            to { background-position: 0 120px; }
           }
 
           @keyframes symbolRotate {
@@ -303,12 +401,17 @@ export default function App() {
             h1 {
               font-size: 48px;
             }
+
+            .terminalBody {
+              font-size: 12px;
+            }
           }
         `}
       </style>
 
       <div className="stars"></div>
       <div className="signalParticles"></div>
+      <div className="scanLines"></div>
       <div className="voidSymbol"></div>
       <div className="blackHole blackHoleOne"></div>
       <div className="blackHole blackHoleTwo"></div>
@@ -327,6 +430,21 @@ export default function App() {
           Signal grows where noise falls. Enter the foundation, follow the
           archives, and unlock access through progression.
         </p>
+
+        <div className="terminal">
+          <div className="terminalTop">
+            <div className="dot"></div>
+            <div className="dot"></div>
+            <div className="dot"></div>
+          </div>
+
+          <div className="terminalBody">
+            <div><strong>STATUS:</strong> Foundation Gate Online</div>
+            <div><strong>ENTRY ACCESS:</strong> $0 after archive completion</div>
+            <div><strong>SIGNAL LAW:</strong> <em>Signal grows where noise falls.</em></div>
+            <div><strong>PATH:</strong> Decode → Submit → Unlock → Ascend</div>
+          </div>
+        </div>
 
         <div className="menu">
           <a href="#foundation" className="button">
@@ -348,6 +466,13 @@ export default function App() {
             Future Gear
             <span>Coming Soon</span>
           </a>
+        </div>
+
+        <div className="tierStrip">
+          <div className="tier">Signal Access — $9.99</div>
+          <div className="tier">Sub-Creator — $24.99</div>
+          <div className="tier">Architect Circle — $49.99</div>
+          <div className="tier">Universe Architect — $99.99</div>
         </div>
 
         <div className="hiddenSignal">silence is not empty</div>
