@@ -42,7 +42,7 @@ export default function App() {
           .heroPanel {
             position: relative;
             z-index: 10;
-            max-width: 1120px;
+            max-width: 1180px;
             animation: heroReveal 1.8s ease forwards;
           }
 
@@ -91,16 +91,16 @@ export default function App() {
 
           .voidSymbol {
             position: fixed;
-            width: 580px;
-            height: 580px;
+            width: 620px;
+            height: 620px;
             border-radius: 50%;
             border: 2px solid rgba(255,255,255,0.08);
             box-shadow:
-              0 0 80px rgba(125,0,255,0.3),
-              inset 0 0 100px rgba(0,212,255,0.16);
+              0 0 85px rgba(125,0,255,0.34),
+              inset 0 0 110px rgba(0,212,255,0.18);
             z-index: 5;
-            opacity: 0.58;
-            animation: symbolRotate 28s linear infinite;
+            opacity: 0.56;
+            animation: symbolRotate 30s linear infinite;
             pointer-events: none;
           }
 
@@ -109,34 +109,69 @@ export default function App() {
             content: "";
             position: absolute;
             border-radius: 50%;
-            border: 1px solid rgba(0,212,255,0.16);
+            border: 1px solid rgba(0,212,255,0.18);
           }
 
           .voidSymbol::before {
-            inset: 80px;
+            inset: 86px;
           }
 
           .voidSymbol::after {
-            inset: 160px;
-            border-color: rgba(255,0,136,0.2);
-            box-shadow: 0 0 35px rgba(255,0,136,0.25);
+            inset: 178px;
+            border-color: rgba(255,0,136,0.22);
+            box-shadow: 0 0 38px rgba(255,0,136,0.28);
           }
 
           .voidCore {
             position: fixed;
-            width: 130px;
-            height: 130px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
             background:
               radial-gradient(circle, rgba(255,255,255,0.95), rgba(0,212,255,0.45), rgba(125,0,255,0.15), transparent 70%);
             box-shadow:
               0 0 35px rgba(255,255,255,0.35),
-              0 0 80px rgba(0,212,255,0.45),
-              0 0 130px rgba(255,0,136,0.25);
+              0 0 85px rgba(0,212,255,0.48),
+              0 0 140px rgba(255,0,136,0.28);
             z-index: 5;
-            opacity: 0.65;
+            opacity: 0.66;
             animation: corePulse 4s ease-in-out infinite alternate;
             pointer-events: none;
+          }
+
+          .orbitRing {
+            position: fixed;
+            width: 760px;
+            height: 760px;
+            border-radius: 50%;
+            border: 1px dashed rgba(255,255,255,0.12);
+            z-index: 5;
+            opacity: 0.5;
+            pointer-events: none;
+            animation: orbitRotate 50s linear infinite;
+          }
+
+          .orbitRing::before,
+          .orbitRing::after {
+            content: "";
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(0,212,255,0.9);
+            box-shadow: 0 0 20px rgba(0,212,255,0.9);
+          }
+
+          .orbitRing::before {
+            top: 50%;
+            left: -5px;
+          }
+
+          .orbitRing::after {
+            right: -5px;
+            top: 50%;
+            background: rgba(255,0,136,0.9);
+            box-shadow: 0 0 20px rgba(255,0,136,0.9);
           }
 
           .signalTag {
@@ -164,7 +199,7 @@ export default function App() {
           }
 
           .subtitle {
-            max-width: 780px;
+            max-width: 800px;
             margin: 22px auto 0;
             font-size: 20px;
             color: rgba(255,255,255,0.86);
@@ -173,9 +208,10 @@ export default function App() {
           .terminal,
           .accessChamber,
           .gateResult,
-          .archiveGrid {
+          .archiveGrid,
+          .platformStrip {
             margin: 24px auto 0;
-            max-width: 820px;
+            max-width: 860px;
             border: 1px solid rgba(0,212,255,0.28);
             border-radius: 18px;
             background: linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.25));
@@ -259,6 +295,14 @@ export default function App() {
             background: linear-gradient(90deg, rgba(125,0,255,0.8), rgba(0,212,255,0.75));
             box-shadow: 0 0 20px rgba(0,212,255,0.35);
             cursor: pointer;
+            transition: 0.3s ease;
+          }
+
+          .accessButton:hover {
+            transform: translateY(-2px);
+            box-shadow:
+              0 0 24px rgba(0,212,255,0.55),
+              0 0 38px rgba(125,0,255,0.35);
           }
 
           .gateResult {
@@ -303,6 +347,21 @@ export default function App() {
             background: rgba(255,255,255,0.06);
             text-align: left;
             transition: 0.3s ease;
+            position: relative;
+            overflow: hidden;
+          }
+
+          .archiveCard::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.08), transparent);
+            transform: translateX(-120%);
+            transition: 0.5s ease;
+          }
+
+          .archiveCard:hover::after {
+            transform: translateX(120%);
           }
 
           .archiveCard:hover {
@@ -314,6 +373,8 @@ export default function App() {
             display: block;
             color: white;
             margin-bottom: 6px;
+            position: relative;
+            z-index: 1;
           }
 
           .archiveCard span {
@@ -321,6 +382,26 @@ export default function App() {
             color: rgba(255,255,255,0.58);
             font-size: 12px;
             letter-spacing: 1px;
+            position: relative;
+            z-index: 1;
+          }
+
+          .platformStrip {
+            padding: 14px;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+          }
+
+          .platformCell {
+            padding: 10px;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.14);
+            background: rgba(255,255,255,0.055);
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            color: rgba(255,255,255,0.7);
+            text-transform: uppercase;
           }
 
           .menu {
@@ -396,6 +477,11 @@ export default function App() {
             to { transform: scale(1.25); opacity: 0.75; }
           }
 
+          @keyframes orbitRotate {
+            from { rotate: 0deg; }
+            to { rotate: -360deg; }
+          }
+
           @keyframes heroReveal {
             from {
               opacity: 0;
@@ -410,9 +496,10 @@ export default function App() {
             }
           }
 
-          @media (max-width: 800px) {
+          @media (max-width: 900px) {
             .menu,
-            .archiveGrid {
+            .archiveGrid,
+            .platformStrip {
               grid-template-columns: 1fr;
             }
 
@@ -430,6 +517,7 @@ export default function App() {
       <div className="stars"></div>
       <div className="signalParticles"></div>
       <div className="scanLines"></div>
+      <div className="orbitRing"></div>
       <div className="voidSymbol"></div>
       <div className="voidCore"></div>
 
@@ -507,6 +595,14 @@ export default function App() {
             <strong>Void Progression</strong>
             <span>Access path locked</span>
           </div>
+        </div>
+
+        <div className="platformStrip">
+          <div className="platformCell">Entry Access</div>
+          <div className="platformCell">Signal Access</div>
+          <div className="platformCell">Sub-Creator</div>
+          <div className="platformCell">Architect Circle</div>
+          <div className="platformCell">Future Gear</div>
         </div>
 
         <div className="menu">
