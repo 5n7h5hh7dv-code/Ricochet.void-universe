@@ -1,4 +1,8 @@
+import { useState } from "react";
+
 export default function App() {
+  const [code, setCode] = useState("");
+
   return (
     <main
       style={{
@@ -61,7 +65,6 @@ export default function App() {
                 transparent 1px,
                 transparent 6px
               );
-            mix-blend-mode: screen;
             opacity: 0.35;
             z-index: 6;
             pointer-events: none;
@@ -70,32 +73,65 @@ export default function App() {
 
           .voidSymbol {
             position: fixed;
-            width: 460px;
-            height: 460px;
+            width: 520px;
+            height: 520px;
             border-radius: 50%;
             border: 2px solid rgba(255,255,255,0.08);
             box-shadow:
-              0 0 60px rgba(125,0,255,0.25),
-              inset 0 0 80px rgba(0,212,255,0.12);
+              0 0 70px rgba(125,0,255,0.28),
+              inset 0 0 90px rgba(0,212,255,0.14);
             z-index: 5;
-            opacity: 0.55;
+            opacity: 0.58;
             animation: symbolRotate 28s linear infinite;
             pointer-events: none;
           }
 
-          .voidSymbol::before,
-          .voidSymbol::after {
-            content: "";
-            position: absolute;
-            inset: 70px;
+          .voidCore {
+            position: fixed;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
-            border: 1px solid rgba(0,212,255,0.16);
+            background:
+              radial-gradient(circle, rgba(255,255,255,0.95), rgba(0,212,255,0.45), rgba(125,0,255,0.15), transparent 70%);
+            box-shadow:
+              0 0 30px rgba(255,255,255,0.35),
+              0 0 70px rgba(0,212,255,0.45),
+              0 0 120px rgba(255,0,136,0.25);
+            z-index: 5;
+            opacity: 0.65;
+            animation: corePulse 4s ease-in-out infinite alternate;
+            pointer-events: none;
           }
 
-          .voidSymbol::after {
-            inset: 135px;
-            border-color: rgba(255,0,136,0.18);
-            box-shadow: 0 0 35px rgba(255,0,136,0.2);
+          .dataRibbon {
+            position: fixed;
+            color: rgba(255,255,255,0.22);
+            font-size: 11px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            white-space: nowrap;
+            z-index: 7;
+            pointer-events: none;
+            text-shadow: 0 0 12px rgba(0,212,255,0.45);
+          }
+
+          .ribbonOne {
+            top: 13%;
+            left: -20%;
+            animation: ribbonMoveRight 22s linear infinite;
+          }
+
+          .ribbonTwo {
+            bottom: 15%;
+            right: -25%;
+            animation: ribbonMoveLeft 26s linear infinite;
+          }
+
+          .ribbonThree {
+            top: 50%;
+            left: -30%;
+            animation: ribbonMoveRight 34s linear infinite;
+            opacity: 0.45;
           }
 
           .blackHole {
@@ -126,18 +162,19 @@ export default function App() {
 
           .portal {
             position: fixed;
-            width: 170px;
-            height: 170px;
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
-            border: 2px solid rgba(0,212,255,0.6);
+            border: 2px solid rgba(0,212,255,0.7);
             background:
-              radial-gradient(circle, transparent 35%, rgba(0,212,255,0.25), transparent 70%),
-              conic-gradient(from 180deg, transparent, rgba(255,0,136,0.6), transparent, rgba(125,0,255,0.7), transparent);
+              radial-gradient(circle, transparent 35%, rgba(0,212,255,0.28), transparent 70%),
+              conic-gradient(from 180deg, transparent, rgba(255,0,136,0.7), transparent, rgba(125,0,255,0.8), transparent);
             box-shadow:
-              0 0 25px rgba(0,212,255,0.55),
-              inset 0 0 30px rgba(255,0,136,0.4);
+              0 0 35px rgba(0,212,255,0.65),
+              0 0 70px rgba(255,0,136,0.25),
+              inset 0 0 35px rgba(255,0,136,0.45);
             animation: portalPulse 6s ease-in-out infinite alternate;
-            opacity: 0.8;
+            opacity: 0.85;
           }
 
           .portalOne {
@@ -223,8 +260,7 @@ export default function App() {
             text-align: left;
             border: 1px solid rgba(0,212,255,0.28);
             border-radius: 18px;
-            background:
-              linear-gradient(180deg, rgba(0,0,0,0.5), rgba(0,0,0,0.25));
+            background: linear-gradient(180deg, rgba(0,0,0,0.5), rgba(0,0,0,0.25));
             box-shadow:
               0 0 25px rgba(0,212,255,0.18),
               inset 0 0 25px rgba(125,0,255,0.12);
@@ -273,6 +309,52 @@ export default function App() {
           .terminalBody em {
             color: rgba(255,0,136,0.9);
             font-style: normal;
+          }
+
+          .accessChamber {
+            margin: 20px auto 0;
+            max-width: 760px;
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 16px;
+            background: rgba(0,0,0,0.25);
+            border: 1px solid rgba(255,255,255,0.16);
+            backdrop-filter: blur(10px);
+          }
+
+          .accessInput {
+            flex: 1;
+            border: none;
+            outline: none;
+            border-radius: 12px;
+            padding: 14px;
+            color: white;
+            background: rgba(255,255,255,0.08);
+            letter-spacing: 2px;
+          }
+
+          .accessInput::placeholder {
+            color: rgba(255,255,255,0.45);
+          }
+
+          .accessButton {
+            border: none;
+            border-radius: 12px;
+            padding: 14px 18px;
+            color: white;
+            background: linear-gradient(90deg, rgba(125,0,255,0.8), rgba(0,212,255,0.75));
+            box-shadow: 0 0 20px rgba(0,212,255,0.35);
+            cursor: pointer;
+          }
+
+          .accessMessage {
+            margin-top: 8px;
+            min-height: 18px;
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: rgba(0,212,255,0.9);
+            text-transform: uppercase;
           }
 
           .menu {
@@ -363,6 +445,21 @@ export default function App() {
             to { rotate: 360deg; transform: scale(1.04); }
           }
 
+          @keyframes corePulse {
+            from { transform: scale(0.9); opacity: 0.35; }
+            to { transform: scale(1.25); opacity: 0.75; }
+          }
+
+          @keyframes ribbonMoveRight {
+            from { transform: translateX(0); }
+            to { transform: translateX(160vw); }
+          }
+
+          @keyframes ribbonMoveLeft {
+            from { transform: translateX(0); }
+            to { transform: translateX(-160vw); }
+          }
+
           @keyframes blackHoleSpin {
             from { rotate: 0deg; }
             to { rotate: 360deg; }
@@ -398,6 +495,10 @@ export default function App() {
               grid-template-columns: 1fr;
             }
 
+            .accessChamber {
+              flex-direction: column;
+            }
+
             h1 {
               font-size: 48px;
             }
@@ -413,6 +514,10 @@ export default function App() {
       <div className="signalParticles"></div>
       <div className="scanLines"></div>
       <div className="voidSymbol"></div>
+      <div className="voidCore"></div>
+      <div className="dataRibbon ribbonOne">signal grows where noise falls • signal grows where noise falls •</div>
+      <div className="dataRibbon ribbonTwo">decode the archive • submit the signal • unlock the gate •</div>
+      <div className="dataRibbon ribbonThree">foundation path active • silence architecture online •</div>
       <div className="blackHole blackHoleOne"></div>
       <div className="blackHole blackHoleTwo"></div>
       <div className="portal portalOne"></div>
@@ -444,6 +549,23 @@ export default function App() {
             <div><strong>SIGNAL LAW:</strong> <em>Signal grows where noise falls.</em></div>
             <div><strong>PATH:</strong> Decode → Submit → Unlock → Ascend</div>
           </div>
+        </div>
+
+        <div className="accessChamber">
+          <input
+            className="accessInput"
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            placeholder="ENTER ARCHIVE SIGNAL"
+          />
+
+          <button className="accessButton">
+            Verify
+          </button>
+        </div>
+
+        <div className="accessMessage">
+          {code ? "Signal received. Verification chamber pending." : "Awaiting archive signal."}
         </div>
 
         <div className="menu">
