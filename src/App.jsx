@@ -50,6 +50,36 @@ export default function App() {
             pointer-events: none;
           }
 
+          .voidSymbol {
+            position: fixed;
+            width: 460px;
+            height: 460px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.08);
+            box-shadow:
+              0 0 60px rgba(125,0,255,0.25),
+              inset 0 0 80px rgba(0,212,255,0.12);
+            z-index: 5;
+            opacity: 0.55;
+            animation: symbolRotate 28s linear infinite;
+            pointer-events: none;
+          }
+
+          .voidSymbol::before,
+          .voidSymbol::after {
+            content: "";
+            position: absolute;
+            inset: 70px;
+            border-radius: 50%;
+            border: 1px solid rgba(0,212,255,0.16);
+          }
+
+          .voidSymbol::after {
+            inset: 135px;
+            border-color: rgba(255,0,136,0.18);
+            box-shadow: 0 0 35px rgba(255,0,136,0.2);
+          }
+
           .blackHole {
             position: fixed;
             width: 220px;
@@ -133,6 +163,7 @@ export default function App() {
           section {
             position: relative;
             z-index: 10;
+            animation: heroReveal 1.8s ease forwards;
           }
 
           h1 {
@@ -164,6 +195,15 @@ export default function App() {
             border-radius: 10px;
             background: rgba(255,255,255,0.1);
             box-shadow: 0 0 18px rgba(0,212,255,0.25);
+            transition: 0.3s ease;
+          }
+
+          .button:hover {
+            transform: translateY(-4px) scale(1.04);
+            background: rgba(255,255,255,0.18);
+            box-shadow:
+              0 0 20px rgba(0,212,255,0.6),
+              0 0 40px rgba(125,0,255,0.45);
           }
 
           @keyframes voidShift {
@@ -181,6 +221,11 @@ export default function App() {
             to { background-position: 220px -300px, -260px 240px, 340px -180px; }
           }
 
+          @keyframes symbolRotate {
+            from { rotate: 0deg; transform: scale(1); }
+            to { rotate: 360deg; transform: scale(1.04); }
+          }
+
           @keyframes blackHoleSpin {
             from { rotate: 0deg; }
             to { rotate: 360deg; }
@@ -196,11 +241,26 @@ export default function App() {
             50% { opacity: 0.9; }
             100% { transform: translateY(170px); opacity: 0; }
           }
+
+          @keyframes heroReveal {
+            from {
+              opacity: 0;
+              transform: translateY(30px) scale(0.96);
+              filter: blur(8px);
+            }
+
+            to {
+              opacity: 1;
+              transform: translateY(0) scale(1);
+              filter: blur(0);
+            }
+          }
         `}
       </style>
 
       <div className="stars"></div>
       <div className="signalParticles"></div>
+      <div className="voidSymbol"></div>
       <div className="blackHole blackHoleOne"></div>
       <div className="blackHole blackHoleTwo"></div>
       <div className="portal portalOne"></div>
