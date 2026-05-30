@@ -2,10 +2,13 @@ import { useState } from "react";
 
 export default function App() {
   const [code, setCode] = useState("");
+  const [chain, setChain] = useState("");
   const [accessStatus, setAccessStatus] = useState("idle");
+  const [chainStatus, setChainStatus] = useState("idle");
   const [view, setView] = useState("home");
 
   const correctSignal = "SIGNAL GROWS WHERE NOISE FALLS";
+  const correctChain = "MIRROR-SILENCE-VOID-ASCENSION";
 
   function verifySignal() {
     if (code.trim().toUpperCase() === correctSignal) {
@@ -13,6 +16,16 @@ export default function App() {
       setTimeout(() => setView("entry"), 1200);
     } else {
       setAccessStatus("denied");
+    }
+  }
+
+  function verifyChain() {
+    if (chain.trim().toUpperCase() === correctChain) {
+      setChainStatus("granted");
+      setAccessStatus("granted");
+      setTimeout(() => setView("entry"), 1400);
+    } else {
+      setChainStatus("denied");
     }
   }
 
@@ -175,11 +188,15 @@ export default function App() {
           .shardTwo { top: 70%; right: 18%; transform: rotate(21deg); animation-delay: 1.4s; }
           .shardThree { top: 42%; right: 8%; transform: rotate(-8deg); animation-delay: 2.6s; }
 
-          .panel {
+          .panel, .archiveScreen, .entryScreen {
             position: relative;
             z-index: 10;
             max-width: 1260px;
             animation: heroReveal 1.4s ease forwards;
+          }
+
+          .entryScreen, .archiveScreen {
+            padding: 28px;
           }
 
           .signalTag {
@@ -206,17 +223,31 @@ export default function App() {
               0 0 50px rgba(255,0,136,0.5);
           }
 
-          .subtitle {
-            max-width: 840px;
+          .entryTitle {
+            margin: 0;
+            font-size: clamp(42px, 7vw, 82px);
+            letter-spacing: 3px;
+            text-shadow:
+              0 0 18px rgba(0,255,190,0.75),
+              0 0 35px rgba(0,212,255,0.5),
+              0 0 65px rgba(125,0,255,0.45);
+          }
+
+          .subtitle, .entrySubtitle {
+            max-width: 860px;
             margin: 22px auto 0;
             font-size: 20px;
             color: rgba(255,255,255,0.86);
             line-height: 1.5;
           }
 
+          .entrySubtitle {
+            font-size: 18px;
+          }
+
           .card {
             margin: 24px auto 0;
-            max-width: 920px;
+            max-width: 960px;
             border: 1px solid rgba(0,212,255,0.28);
             border-radius: 18px;
             background: linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.25));
@@ -226,7 +257,7 @@ export default function App() {
             backdrop-filter: blur(10px);
           }
 
-          .truthStandard, .creatorOath, .archiveReading {
+          .truthStandard, .creatorOath, .archiveReading, .pathNotice {
             padding: 18px;
             text-align: left;
           }
@@ -247,7 +278,8 @@ export default function App() {
           }
 
           .truthStandard p,
-          .archiveReading p {
+          .archiveReading p,
+          .pathNotice p {
             margin: 0 0 14px;
             color: rgba(255,255,255,0.78);
             line-height: 1.65;
@@ -384,23 +416,34 @@ export default function App() {
             gap: 10px;
           }
 
+          .archiveGridFull {
+            padding: 16px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+          }
+
           .miniCard,
           .platformCell,
           .gearItem,
-          .entryCard {
+          .entryCard,
+          .archiveCardFull {
             border-radius: 16px;
             border: 1px solid rgba(255,255,255,0.16);
             background: rgba(255,255,255,0.06);
             transition: 0.3s ease;
           }
 
-          .miniCard {
+          .miniCard, .archiveCardFull {
             padding: 14px;
             text-align: left;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
           }
 
           .miniCard:hover,
+          .archiveCardFull:hover,
           .gearItem:hover {
             transform: translateY(-5px);
             box-shadow:
@@ -408,20 +451,53 @@ export default function App() {
               0 0 35px rgba(255,0,136,0.18);
           }
 
+          .archiveCardFull::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.08), transparent);
+            transform: translateX(-130%);
+            transition: 0.5s ease;
+          }
+
+          .archiveCardFull:hover::after {
+            transform: translateX(130%);
+          }
+
           .miniCard strong,
+          .archiveCardFull strong,
           .entryCard strong {
             display: block;
             color: white;
             margin-bottom: 6px;
+            position: relative;
+            z-index: 1;
           }
 
           .miniCard span,
+          .archiveCardFull span,
           .entryCard span {
             display: block;
             color: rgba(255,255,255,0.62);
             font-size: 12px;
             letter-spacing: 1px;
             line-height: 1.5;
+            position: relative;
+            z-index: 1;
+          }
+
+          .archiveStatus {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 4px 8px;
+            border-radius: 999px;
+            background: rgba(0,212,255,0.12);
+            color: rgba(0,212,255,0.86);
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
           }
 
           .platformCell {
@@ -473,6 +549,7 @@ export default function App() {
             box-shadow: 0 0 18px rgba(0,212,255,0.25);
             transition: 0.3s ease;
             backdrop-filter: blur(8px);
+            cursor: pointer;
           }
 
           .button span {
@@ -497,33 +574,6 @@ export default function App() {
             letter-spacing: 4px;
             color: rgba(255,255,255,0.22);
             text-transform: uppercase;
-          }
-
-          .entryScreen,
-          .archiveScreen {
-            position: relative;
-            z-index: 10;
-            max-width: 1120px;
-            padding: 28px;
-            animation: gateOpen 1.4s ease forwards;
-          }
-
-          .entryTitle {
-            margin: 0;
-            font-size: clamp(42px, 7vw, 82px);
-            letter-spacing: 3px;
-            text-shadow:
-              0 0 18px rgba(0,255,190,0.75),
-              0 0 35px rgba(0,212,255,0.5),
-              0 0 65px rgba(125,0,255,0.45);
-          }
-
-          .entrySubtitle {
-            max-width: 760px;
-            margin: 18px auto 0;
-            color: rgba(255,255,255,0.82);
-            font-size: 18px;
-            line-height: 1.5;
           }
 
           .reflectionPrompt {
@@ -551,7 +601,7 @@ export default function App() {
           @keyframes gateOpen { from { opacity: 0; transform: scale(0.92); filter: blur(12px); } to { opacity: 1; transform: scale(1); filter: blur(0); } }
 
           @media (max-width: 900px) {
-            .menu, .grid3, .grid4, .grid5, .grid6 {
+            .menu, .grid3, .grid4, .grid5, .grid6, .archiveGridFull {
               grid-template-columns: 1fr;
             }
 
@@ -573,9 +623,9 @@ export default function App() {
       <div className="voidSymbol"></div>
       <div className="voidCore"></div>
 
-      <div className="dataStream streamOne">signal grows where noise falls • truth begins where excuses end •</div>
-      <div className="dataStream streamTwo">access may be purchased • trust must be earned •</div>
-      <div className="dataStream streamThree">first signal active • mirror standard online •</div>
+      <div className="dataStream streamOne">archives are not numbered • order is discovered •</div>
+      <div className="dataStream streamTwo">follow the hints • assemble the chain • unlock the gate •</div>
+      <div className="dataStream streamThree">truth begins where excuses end • mirror standard online •</div>
 
       <div className="signalShard shardOne"></div>
       <div className="signalShard shardTwo"></div>
@@ -588,8 +638,8 @@ export default function App() {
           <h1>Ricochet Void Universe</h1>
 
           <p className="subtitle">
-            Signal grows where noise falls. Complete the archives, submit the
-            correct signal, and unlock Entry Access.
+            The Foundation Archives are the real path. The website is the chamber
+            that verifies the signal, the order, and the completion of the journey.
           </p>
 
           <div className="card truthStandard">
@@ -600,12 +650,13 @@ export default function App() {
             </p>
           </div>
 
-          <div className="card creatorOath">
-            <div className="cardTitle">Creator's Oath</div>
-            <div className="oathLine">I will not claim certainty where I have doubt.</div>
-            <div className="oathLine">I will not teach what I have not lived.</div>
-            <div className="oathLine">I will not promise what I cannot deliver.</div>
-            <div className="oathLine">I will speak truthfully about my experiences and allow others to discover their own.</div>
+          <div className="card pathNotice">
+            <div className="cardTitle">Foundation Path Rule</div>
+            <p>
+              The archives are not publicly numbered. Each archive contains hints
+              that point toward the next. Those who pay attention discover the path.
+              Those who rush meet the locked gate.
+            </p>
           </div>
 
           <div className="card terminal">
@@ -616,60 +667,106 @@ export default function App() {
             </div>
 
             <div className="terminalBody">
-              <div><strong>STATUS:</strong> Foundation Gate Online</div>
-              <div><strong>ENTRY ACCESS:</strong> $0 after archive completion</div>
-              <div><strong>FIRST ARCHIVE:</strong> First Signal: Truth</div>
-              <div><strong>PATH:</strong> Read → Reflect → Decode → Verify</div>
+              <div><strong>STATUS:</strong> Foundation Archive Chamber Online</div>
+              <div><strong>ENTRY ACCESS:</strong> $0 after foundation completion</div>
+              <div><strong>ARCHIVE ORDER:</strong> Hidden through hints</div>
+              <div><strong>PATH:</strong> Read PDFs → Find Hints → Assemble Chain → Verify</div>
             </div>
           </div>
 
-          <div className="card grid3">
-            <div className="miniCard" onClick={() => setView("truthArchive")}>
+          <div className="card archiveGridFull">
+            <div className="archiveCardFull" onClick={() => setView("truthArchive")}>
               <strong>First Signal: Truth</strong>
-              <span>Open the first real Foundation Archive</span>
+              <span>Prototype archive chamber connected to the truth standard</span>
+              <div className="archiveStatus">Open</div>
             </div>
 
-            <div className="miniCard">
+            <div className="archiveCardFull">
+              <strong>The Mirror Code</strong>
+              <span>PDF archive link placeholder</span>
+              <div className="archiveStatus">PDF Pending</div>
+            </div>
+
+            <div className="archiveCardFull">
               <strong>Silence Architecture</strong>
-              <span>Signal hidden beneath noise</span>
+              <span>PDF archive link placeholder</span>
+              <div className="archiveStatus">PDF Pending</div>
             </div>
 
-            <div className="miniCard">
-              <strong>Void Progression</strong>
-              <span>Access path locked until signal is earned</span>
+            <div className="archiveCardFull">
+              <strong>Void Protocol 7</strong>
+              <span>PDF archive link placeholder</span>
+              <div className="archiveStatus">PDF Pending</div>
+            </div>
+
+            <div className="archiveCardFull">
+              <strong>Neural Wealth Mapping</strong>
+              <span>PDF archive link placeholder</span>
+              <div className="archiveStatus">PDF Pending</div>
+            </div>
+
+            <div className="archiveCardFull">
+              <strong>The Dopamine Collapse Manual</strong>
+              <span>PDF archive link placeholder</span>
+              <div className="archiveStatus">PDF Pending</div>
+            </div>
+
+            <div className="archiveCardFull">
+              <strong>Project Ascension</strong>
+              <span>PDF archive link placeholder</span>
+              <div className="archiveStatus">PDF Pending</div>
+            </div>
+
+            <div className="archiveCardFull">
+              <strong>The Human Glitch</strong>
+              <span>PDF archive link placeholder</span>
+              <div className="archiveStatus">PDF Pending</div>
             </div>
           </div>
 
           <div className="card accessChamber">
             <input
               className="accessInput"
+              value={chain}
+              onChange={(e) => setChain(e.target.value)}
+              placeholder="ENTER FOUNDATION SIGNAL CHAIN"
+            />
+
+            <button className="actionButton" onClick={verifyChain}>
+              Verify Chain
+            </button>
+          </div>
+
+          {chainStatus === "granted" && (
+            <div className="card gateResult granted">
+              Foundation chain verified. Opening Entry Chamber...
+            </div>
+          )}
+
+          {chainStatus === "denied" && (
+            <div className="card gateResult denied">
+              Chain rejected. The archive order is incomplete.
+            </div>
+          )}
+
+          {chainStatus === "idle" && (
+            <div className="card gateResult">
+              Awaiting completed foundation signal chain.
+            </div>
+          )}
+
+          <div className="card accessChamber">
+            <input
+              className="accessInput"
               value={code}
               onChange={(e) => setCode(e.target.value)}
-              placeholder="ENTER ARCHIVE COMPLETION SIGNAL"
+              placeholder="ENTER SINGLE ARCHIVE COMPLETION SIGNAL"
             />
 
             <button className="actionButton" onClick={verifySignal}>
               Verify Signal
             </button>
           </div>
-
-          {accessStatus === "granted" && (
-            <div className="card gateResult granted">
-              Signal verified. Opening Entry Chamber...
-            </div>
-          )}
-
-          {accessStatus === "denied" && (
-            <div className="card gateResult denied">
-              Signal rejected. Archive path incomplete.
-            </div>
-          )}
-
-          {accessStatus === "idle" && (
-            <div className="card gateResult">
-              Awaiting archive completion signal.
-            </div>
-          )}
 
           <div className="card grid5">
             <div className="platformCell">Entry Access</div>
@@ -697,14 +794,14 @@ export default function App() {
               <span>Start Path</span>
             </button>
 
-            <button className="button" onClick={() => setView("truthArchive")}>
+            <button className="button">
               Foundation Archives
-              <span>Decode</span>
+              <span>PDF Path</span>
             </button>
 
             <button className="button">
               Access Portal
-              <span>Verify</span>
+              <span>Verify Chain</span>
             </button>
 
             <button className="button">
@@ -713,7 +810,7 @@ export default function App() {
             </button>
           </div>
 
-          <div className="hiddenSignal">the mirror never lies</div>
+          <div className="hiddenSignal">the order is hidden because attention is the first proof</div>
         </section>
       )}
 
@@ -724,8 +821,8 @@ export default function App() {
           <h1 className="entryTitle">First Signal: Truth</h1>
 
           <p className="entrySubtitle">
-            The first archive does not ask what you can prove to others.
-            It asks what you are willing to admit to yourself.
+            The first archive does not replace the larger PDFs. It sets the
+            standard they all must follow.
           </p>
 
           <div className="archiveReading">
@@ -738,14 +835,14 @@ export default function App() {
             </p>
 
             <p>
-              In the Ricochet Void Universe, progress is not measured by how
-              perfect someone appears. Progress is measured by how clearly they
-              can see themselves without running from what they find.
+              The Foundation Archives are not meant to be consumed out of order.
+              The correct path is discovered through hints, reflections, and
+              hidden signals inside the archives themselves.
             </p>
 
             <p>
-              The mirror does not punish. It reveals. What you do after the
-              revelation becomes the path.
+              The website does not reveal the order. The website verifies the
+              signal chain once the user has earned it.
             </p>
 
             <div className="reflectionPrompt">
@@ -754,7 +851,8 @@ export default function App() {
             </div>
 
             <div className="reflectionPrompt">
-              Reflection II: What excuse has sounded reasonable for too long?
+              Reflection II: What clue would only become obvious after you slowed
+              down enough to pay attention?
             </div>
 
             <div className="reflectionPrompt">
@@ -769,8 +867,8 @@ export default function App() {
             </div>
 
             <div className="miniCard">
-              <strong>Hidden Direction</strong>
-              <span>Return to the gate when the signal is clear.</span>
+              <strong>Path Rule</strong>
+              <span>The order is discovered, not displayed.</span>
             </div>
 
             <div className="miniCard">
