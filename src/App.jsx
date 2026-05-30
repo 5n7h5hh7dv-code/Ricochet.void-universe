@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const signals = [
   {
@@ -112,6 +112,31 @@ const artifacts = [
   },
 ];
 
+function getCountdown(targetDate) {
+  const distance = new Date(targetDate).getTime() - new Date().getTime();
+
+  if (distance <= 0) {
+    return {
+      days: "00",
+      hours: "00",
+      minutes: "00",
+      seconds: "00",
+    };
+  }
+
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((distance / (1000 * 60)) % 60);
+  const seconds = Math.floor((distance / 1000) % 60);
+
+  return {
+    days: String(days).padStart(2, "0"),
+    hours: String(hours).padStart(2, "0"),
+    minutes: String(minutes).padStart(2, "0"),
+    seconds: String(seconds).padStart(2, "0"),
+  };
+}
+
 export default function App() {
   const [view, setView] = useState("home");
   const [currentSignal, setCurrentSignal] = useState(0);
@@ -124,9 +149,22 @@ export default function App() {
   const [voidName, setVoidName] = useState("");
   const [reflection, setReflection] = useState("");
   const [reflectionSubmitted, setReflectionSubmitted] = useState(false);
+  const [collectorName, setCollectorName] = useState("");
+  const [collectorEmail, setCollectorEmail] = useState("");
+  const [selectedArtifact, setSelectedArtifact] = useState("Founder’s Coin");
+  const [interestSubmitted, setInterestSubmitted] = useState(false);
+  const [countdown, setCountdown] = useState(getCountdown("2026-12-31T23:59:59"));
 
   const completed = currentSignal;
   const foundationComplete = completed >= signals.length;
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCountdown(getCountdown("2026-12-31T23:59:59"));
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
 
   function verifyCurrentSignal() {
     if (foundationComplete) return;
@@ -167,6 +205,10 @@ export default function App() {
 
   function submitReflection() {
     setReflectionSubmitted(true);
+  }
+
+  function submitInterest() {
+    setInterestSubmitted(true);
   }
 
   return (
@@ -355,7 +397,9 @@ export default function App() {
           .restrictedNotice,
           .vaultPanel,
           .artifactNotice,
-          .commerceNotice {
+          .commerceNotice,
+          .countdownPanel,
+          .interestPanel {
             padding: 18px;
             text-align: left;
           }
@@ -364,7 +408,9 @@ export default function App() {
           .hintChamber,
           .reflectionBox,
           .ipNotice,
-          .artifactNotice {
+          .artifactNotice,
+          .countdownPanel,
+          .interestPanel {
             border-color: rgba(0,255,190,0.28);
             box-shadow:
               0 0 28px rgba(0,255,190,0.14),
@@ -399,7 +445,9 @@ export default function App() {
           .restrictedNotice p,
           .vaultPanel p,
           .artifactNotice p,
-          .commerceNotice p {
+          .commerceNotice p,
+          .countdownPanel p,
+          .interestPanel p {
             margin: 0 0 14px;
             color: rgba(255,255,255,0.78);
             line-height: 1.65;
@@ -452,7 +500,8 @@ export default function App() {
 
           .accessInput,
           .reflectionInput,
-          .reflectionText {
+          .reflectionText,
+          .selectInput {
             border: none;
             outline: none;
             border-radius: 12px;
@@ -465,7 +514,8 @@ export default function App() {
           .accessInput { flex: 1; }
 
           .reflectionInput,
-          .reflectionText {
+          .reflectionText,
+          .selectInput {
             width: 100%;
             box-sizing: border-box;
             margin-top: 10px;
@@ -525,7 +575,8 @@ export default function App() {
           .reflectionGrid,
           .restrictedGrid,
           .artifactGrid,
-          .commerceGrid {
+          .commerceGrid,
+          .countdownGrid {
             padding: 16px;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -534,7 +585,8 @@ export default function App() {
 
           .reflectionGrid,
           .restrictedGrid,
-          .commerceGrid {
+          .commerceGrid,
+          .countdownGrid {
             grid-template-columns: repeat(3, 1fr);
           }
 
@@ -547,7 +599,8 @@ export default function App() {
           .reflectionCard,
           .restrictedCard,
           .artifactCard,
-          .commerceCard {
+          .commerceCard,
+          .countdownCard {
             border-radius: 16px;
             border: 1px solid rgba(255,255,255,0.16);
             background: rgba(255,255,255,0.06);
@@ -581,7 +634,8 @@ export default function App() {
               rgba(255,255,255,0.055);
           }
 
-          .artifactCard {
+          .artifactCard,
+          .countdownCard {
             border-color: rgba(0,255,190,0.22);
             background:
               radial-gradient(circle at 50% 0%, rgba(0,255,190,0.12), transparent 45%),
@@ -593,7 +647,8 @@ export default function App() {
           .reflectionCard:hover,
           .restrictedCard:hover,
           .artifactCard:hover,
-          .commerceCard:hover {
+          .commerceCard:hover,
+          .countdownCard:hover {
             transform: translateY(-5px);
             box-shadow:
               0 0 20px rgba(0,212,255,0.35),
@@ -605,7 +660,8 @@ export default function App() {
           .reflectionCard strong,
           .restrictedCard strong,
           .artifactCard strong,
-          .commerceCard strong {
+          .commerceCard strong,
+          .countdownCard strong {
             display: block;
             color: white;
             margin-bottom: 6px;
@@ -616,7 +672,8 @@ export default function App() {
           .reflectionCard span,
           .restrictedCard span,
           .artifactCard span,
-          .commerceCard span {
+          .commerceCard span,
+          .countdownCard span {
             display: block;
             color: rgba(255,255,255,0.62);
             font-size: 12px;
@@ -664,6 +721,13 @@ export default function App() {
             box-shadow: 0 0 16px rgba(0,255,190,0.35);
           }
 
+          .countNumber {
+            font-size: 34px;
+            color: rgba(0,255,190,0.95);
+            text-shadow: 0 0 18px rgba(0,255,190,0.28);
+            margin-bottom: 4px;
+          }
+
           .footerNotice {
             position: relative;
             z-index: 10;
@@ -704,7 +768,8 @@ export default function App() {
             .reflectionGrid,
             .restrictedGrid,
             .artifactGrid,
-            .commerceGrid {
+            .commerceGrid,
+            .countdownGrid {
               grid-template-columns: 1fr;
             }
 
@@ -726,20 +791,20 @@ export default function App() {
       <div className="voidSymbol"></div>
       <div className="voidCore"></div>
 
-      <div className="dataStream streamOne">artifact registry active • serialized futures protected •</div>
-      <div className="dataStream streamTwo">pre-order chamber pending • no payments collected yet •</div>
-      <div className="dataStream streamThree">access may be purchased • trust must be earned •</div>
+      <div className="dataStream streamOne">pre-order interest active • no payments collected •</div>
+      <div className="dataStream streamTwo">limited editions recorded • mint countdown protected •</div>
+      <div className="dataStream streamThree">designs restricted • nda review required •</div>
 
       {view === "home" && (
         <section className="panel">
-          <div className="signalTag">Artifact Registry System Active</div>
+          <div className="signalTag">Protected Commerce Layer Active</div>
 
           <h1>Ricochet Void Universe</h1>
 
           <p className="subtitle">
-            The universe now records future artifacts before they are publicly
-            revealed. Designs remain protected. Counts, limits, and release status
-            can be shown without exposing private creator work.
+            The universe now has protected artifact registration, pre-order interest,
+            crowdfunding preparation, mint-limit displays, and countdown systems —
+            without collecting funds or revealing private designs.
           </p>
 
           <div className="card ipNotice">
@@ -762,6 +827,36 @@ export default function App() {
               blueprints, mechanisms, manufacturing details, and unreleased
               specifications remain restricted until official release.
             </p>
+          </div>
+
+          <div className="card countdownPanel">
+            <div className="cardTitle">Limited Release Countdown</div>
+            <p>
+              Public countdown display for future limited-edition artifact release.
+              This does not reveal private designs or open payment collection.
+            </p>
+
+            <div className="countdownGrid">
+              <div className="countdownCard">
+                <div className="countNumber">{countdown.days}</div>
+                <strong>Days</strong>
+                <span>Until protected release window</span>
+              </div>
+
+              <div className="countdownCard">
+                <div className="countNumber">{countdown.hours}</div>
+                <strong>Hours</strong>
+                <span>Countdown display active</span>
+              </div>
+
+              <div className="countdownCard">
+                <div className="countNumber">
+                  {countdown.minutes}:{countdown.seconds}
+                </div>
+                <strong>Minutes : Seconds</strong>
+                <span>Release timing placeholder</span>
+              </div>
+            </div>
           </div>
 
           <div className="card artifactNotice">
@@ -822,6 +917,51 @@ export default function App() {
               <div className="restrictedStatus">Research</div>
             </div>
           </div>
+
+          <div className="card interestPanel">
+            <div className="cardTitle">Collector Interest Chamber</div>
+            <p>
+              This form records interest only inside this temporary interface. It is
+              not connected to payment processing, email storage, or live ordering yet.
+            </p>
+
+            <input
+              className="reflectionInput"
+              value={collectorName}
+              onChange={(e) => setCollectorName(e.target.value)}
+              placeholder="COLLECTOR NAME OR VOID NAME"
+            />
+
+            <input
+              className="reflectionInput"
+              value={collectorEmail}
+              onChange={(e) => setCollectorEmail(e.target.value)}
+              placeholder="EMAIL FOR FUTURE NOTIFICATION"
+            />
+
+            <select
+              className="selectInput"
+              value={selectedArtifact}
+              onChange={(e) => setSelectedArtifact(e.target.value)}
+            >
+              {artifacts.map((artifact) => (
+                <option key={artifact.code} value={artifact.name}>
+                  {artifact.name}
+                </option>
+              ))}
+            </select>
+
+            <button className="actionButton" onClick={submitInterest}>
+              Register Interest
+            </button>
+          </div>
+
+          {interestSubmitted && (
+            <div className="card gateResult granted">
+              Interest recorded for {collectorName.trim() || "Unknown Collector"} —
+              {selectedArtifact}. No payment has been collected.
+            </div>
+          )}
 
           <div className="card truthStandard">
             <div className="cardTitle">The Truth Standard</div>
@@ -1015,10 +1155,13 @@ export default function App() {
             use, imitation, reverse engineering, or derivative use is prohibited.
             This public website does not disclose unreleased prototype designs,
             technical specifications, manufacturing information, or private creator
-            vault materials.
+            vault materials. Pre-order and crowdfunding systems shown here are not
+            active payment systems.
           </div>
 
-          <div className="hiddenSignal">before an artifact is forged, its place in the universe must be recorded</div>
+          <div className="hiddenSignal">
+            before the factory order, the signal of demand must be measured
+          </div>
         </section>
       )}
 
