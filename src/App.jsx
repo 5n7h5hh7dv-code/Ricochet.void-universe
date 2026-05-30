@@ -67,6 +67,51 @@ const signals = [
   },
 ];
 
+const artifacts = [
+  {
+    name: "Founder’s Coin",
+    limit: 1000,
+    minted: 0,
+    status: "Unreleased",
+    code: "RVU-FC",
+  },
+  {
+    name: "Void Artifact Alpha",
+    limit: 500,
+    minted: 0,
+    status: "Restricted",
+    code: "RVU-VA",
+  },
+  {
+    name: "Architect Relic",
+    limit: 100,
+    minted: 0,
+    status: "Creator Vault",
+    code: "RVU-AR",
+  },
+  {
+    name: "Signal Coin",
+    limit: 2500,
+    minted: 0,
+    status: "Research Phase",
+    code: "RVU-SC",
+  },
+  {
+    name: "Archive Ring",
+    limit: 777,
+    minted: 0,
+    status: "Design Protected",
+    code: "RVU-RG",
+  },
+  {
+    name: "Family Collection Token",
+    limit: 1500,
+    minted: 0,
+    status: "Future Phase",
+    code: "RVU-FAM",
+  },
+];
+
 export default function App() {
   const [view, setView] = useState("home");
   const [currentSignal, setCurrentSignal] = useState(0);
@@ -284,7 +329,7 @@ export default function App() {
           }
 
           .subtitle {
-            max-width: 880px;
+            max-width: 900px;
             margin: 22px auto 0;
             font-size: 20px;
             color: rgba(255,255,255,0.86);
@@ -293,7 +338,7 @@ export default function App() {
 
           .card {
             margin: 24px auto 0;
-            max-width: 980px;
+            max-width: 1000px;
             border: 1px solid rgba(0,212,255,0.28);
             border-radius: 18px;
             background: linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.25));
@@ -308,7 +353,9 @@ export default function App() {
           .reflectionBox,
           .ipNotice,
           .restrictedNotice,
-          .vaultPanel {
+          .vaultPanel,
+          .artifactNotice,
+          .commerceNotice {
             padding: 18px;
             text-align: left;
           }
@@ -316,7 +363,8 @@ export default function App() {
           .truthStandard,
           .hintChamber,
           .reflectionBox,
-          .ipNotice {
+          .ipNotice,
+          .artifactNotice {
             border-color: rgba(0,255,190,0.28);
             box-shadow:
               0 0 28px rgba(0,255,190,0.14),
@@ -324,7 +372,8 @@ export default function App() {
           }
 
           .restrictedNotice,
-          .vaultPanel {
+          .vaultPanel,
+          .commerceNotice {
             border-color: rgba(255,0,136,0.32);
             box-shadow:
               0 0 28px rgba(255,0,136,0.14),
@@ -348,7 +397,9 @@ export default function App() {
           .reflectionBox p,
           .ipNotice p,
           .restrictedNotice p,
-          .vaultPanel p {
+          .vaultPanel p,
+          .artifactNotice p,
+          .commerceNotice p {
             margin: 0 0 14px;
             color: rgba(255,255,255,0.78);
             line-height: 1.65;
@@ -472,7 +523,9 @@ export default function App() {
           .archiveGridFull,
           .signalGrid,
           .reflectionGrid,
-          .restrictedGrid {
+          .restrictedGrid,
+          .artifactGrid,
+          .commerceGrid {
             padding: 16px;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -480,14 +533,21 @@ export default function App() {
           }
 
           .reflectionGrid,
-          .restrictedGrid {
+          .restrictedGrid,
+          .commerceGrid {
+            grid-template-columns: repeat(3, 1fr);
+          }
+
+          .artifactGrid {
             grid-template-columns: repeat(3, 1fr);
           }
 
           .archiveCardFull,
           .signalCard,
           .reflectionCard,
-          .restrictedCard {
+          .restrictedCard,
+          .artifactCard,
+          .commerceCard {
             border-radius: 16px;
             border: 1px solid rgba(255,255,255,0.16);
             background: rgba(255,255,255,0.06);
@@ -513,17 +573,27 @@ export default function App() {
             opacity: 0.48;
           }
 
-          .restrictedCard {
+          .restrictedCard,
+          .commerceCard {
             border-color: rgba(255,0,136,0.22);
             background:
               radial-gradient(circle at 50% 0%, rgba(255,0,136,0.12), transparent 45%),
               rgba(255,255,255,0.055);
           }
 
+          .artifactCard {
+            border-color: rgba(0,255,190,0.22);
+            background:
+              radial-gradient(circle at 50% 0%, rgba(0,255,190,0.12), transparent 45%),
+              rgba(255,255,255,0.055);
+          }
+
           .archiveCardFull:hover,
           .signalCard:hover,
           .reflectionCard:hover,
-          .restrictedCard:hover {
+          .restrictedCard:hover,
+          .artifactCard:hover,
+          .commerceCard:hover {
             transform: translateY(-5px);
             box-shadow:
               0 0 20px rgba(0,212,255,0.35),
@@ -533,7 +603,9 @@ export default function App() {
           .archiveCardFull strong,
           .signalCard strong,
           .reflectionCard strong,
-          .restrictedCard strong {
+          .restrictedCard strong,
+          .artifactCard strong,
+          .commerceCard strong {
             display: block;
             color: white;
             margin-bottom: 6px;
@@ -542,7 +614,9 @@ export default function App() {
           .archiveCardFull span,
           .signalCard span,
           .reflectionCard span,
-          .restrictedCard span {
+          .restrictedCard span,
+          .artifactCard span,
+          .commerceCard span {
             display: block;
             color: rgba(255,255,255,0.62);
             font-size: 12px;
@@ -551,7 +625,8 @@ export default function App() {
           }
 
           .archiveStatus,
-          .restrictedStatus {
+          .restrictedStatus,
+          .artifactStatus {
             display: inline-block;
             margin-top: 10px;
             padding: 4px 8px;
@@ -566,6 +641,27 @@ export default function App() {
           .restrictedStatus {
             background: rgba(255,0,136,0.12);
             color: rgba(255,120,180,0.95);
+          }
+
+          .artifactStatus {
+            background: rgba(0,255,190,0.12);
+            color: rgba(0,255,190,0.92);
+          }
+
+          .counterBar {
+            height: 8px;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: 10px;
+            background: rgba(255,255,255,0.12);
+          }
+
+          .counterFill {
+            height: 100%;
+            width: 0%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, #00ffbe, #00d4ff);
+            box-shadow: 0 0 16px rgba(0,255,190,0.35);
           }
 
           .footerNotice {
@@ -606,7 +702,9 @@ export default function App() {
             .archiveGridFull,
             .signalGrid,
             .reflectionGrid,
-            .restrictedGrid {
+            .restrictedGrid,
+            .artifactGrid,
+            .commerceGrid {
               grid-template-columns: 1fr;
             }
 
@@ -628,20 +726,20 @@ export default function App() {
       <div className="voidSymbol"></div>
       <div className="voidCore"></div>
 
-      <div className="dataStream streamOne">protected creator materials • public disclosure restricted •</div>
-      <div className="dataStream streamTwo">designs withheld until release • nda access required •</div>
+      <div className="dataStream streamOne">artifact registry active • serialized futures protected •</div>
+      <div className="dataStream streamTwo">pre-order chamber pending • no payments collected yet •</div>
       <div className="dataStream streamThree">access may be purchased • trust must be earned •</div>
 
       {view === "home" && (
         <section className="panel">
-          <div className="signalTag">Creator Protection Layer Active</div>
+          <div className="signalTag">Artifact Registry System Active</div>
 
           <h1>Ricochet Void Universe</h1>
 
           <p className="subtitle">
-            The Foundation path is verified one signal at a time. Creator designs,
-            prototypes, electronics, accessories, and future product concepts remain
-            restricted until official release.
+            The universe now records future artifacts before they are publicly
+            revealed. Designs remain protected. Counts, limits, and release status
+            can be shown without exposing private creator work.
           </p>
 
           <div className="card ipNotice">
@@ -654,24 +752,75 @@ export default function App() {
               public disclosure, reverse engineering, imitation, or derivative use is
               prohibited without written permission.
             </p>
-            <p>
-              © Oakley Cheuvront. All Rights Reserved.
-            </p>
+            <p>© Oakley Cheuvront. All Rights Reserved.</p>
           </div>
 
           <div className="card restrictedNotice">
             <div className="cardTitle restrictedTitle">Public Disclosure Warning</div>
             <p>
-              Future Gear, electronic concepts, accessory designs, prototypes,
-              technical notes, blueprints, manufacturing ideas, and unreleased product
-              details are intentionally not displayed on this public site. Public
-              disclosure can weaken future protection strategies and should be avoided
-              until the creator decides what is ready for release.
+              Product renders, technical notes, electronics, accessory designs,
+              blueprints, mechanisms, manufacturing details, and unreleased
+              specifications remain restricted until official release.
             </p>
+          </div>
+
+          <div className="card artifactNotice">
+            <div className="cardTitle">Artifact Registry</div>
             <p>
-              Restricted materials should only be shared with trusted viewers,
-              collaborators, manufacturers, or advisors after NDA review and approval.
+              The Artifact Registry records future limited editions without revealing
+              protected designs. Mint limits can be public. Blueprints, renders, and
+              manufacturing details stay private.
             </p>
+          </div>
+
+          <div className="card artifactGrid">
+            {artifacts.map((artifact) => (
+              <div className="artifactCard" key={artifact.code}>
+                <strong>{artifact.name}</strong>
+                <span>Registry Code: {artifact.code}</span>
+                <span>Minted: {artifact.minted} / {artifact.limit}</span>
+                <span>Remaining: {artifact.limit - artifact.minted}</span>
+                <div className="counterBar">
+                  <div
+                    className="counterFill"
+                    style={{
+                      width: `${(artifact.minted / artifact.limit) * 100}%`,
+                    }}
+                  ></div>
+                </div>
+                <div className="artifactStatus">{artifact.status}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="card commerceNotice">
+            <div className="cardTitle restrictedTitle">Protected Commerce Layer</div>
+            <p>
+              Pre-order and crowdfunding systems are planned, but no payments are
+              collected on this public version. Payment collection should only be
+              activated after refund terms, delivery timelines, taxes, shipping,
+              factory requirements, and legal review are ready.
+            </p>
+          </div>
+
+          <div className="card commerceGrid">
+            <div className="commerceCard">
+              <strong>Pre-Order Chamber</strong>
+              <span>Coming soon. No customer funds collected yet.</span>
+              <div className="restrictedStatus">Inactive</div>
+            </div>
+
+            <div className="commerceCard">
+              <strong>Crowdfund Chamber</strong>
+              <span>Campaign structure pending. Manufacturing order not placed.</span>
+              <div className="restrictedStatus">Planning</div>
+            </div>
+
+            <div className="commerceCard">
+              <strong>Universe Currency</strong>
+              <span>Research phase only. No token, sale, or crypto offering active.</span>
+              <div className="restrictedStatus">Research</div>
+            </div>
           </div>
 
           <div className="card truthStandard">
@@ -803,15 +952,6 @@ export default function App() {
             </div>
           </div>
 
-          <div className="card restrictedNotice">
-            <div className="cardTitle restrictedTitle">Future Gear Public Preview</div>
-            <p>
-              The public Future Gear chamber will not display unreleased product
-              renders, electronics, dimensions, parts, mechanisms, accessory designs,
-              blueprints, schematics, or manufacturing details.
-            </p>
-          </div>
-
           <div className="card restrictedGrid">
             <div className="restrictedCard">
               <strong>Future Gear Transmission</strong>
@@ -869,15 +1009,16 @@ export default function App() {
           <div className="footerNotice">
             Ricochet Void Universe™ — All writings, archives, systems, designs,
             artwork, visual identity, progression structures, creator concepts,
-            product concepts, and related intellectual property are owned by Oakley
-            Cheuvront unless otherwise stated. Unauthorized reproduction,
-            redistribution, public disclosure, commercial use, imitation, reverse
-            engineering, or derivative use is prohibited. This website does not
-            disclose unreleased prototype designs, technical specifications, or
-            manufacturing information.
+            product concepts, artifact registry concepts, and related intellectual
+            property are owned by Oakley Cheuvront unless otherwise stated.
+            Unauthorized reproduction, redistribution, public disclosure, commercial
+            use, imitation, reverse engineering, or derivative use is prohibited.
+            This public website does not disclose unreleased prototype designs,
+            technical specifications, manufacturing information, or private creator
+            vault materials.
           </div>
 
-          <div className="hiddenSignal">a creator does not reveal the blueprint before the structure is ready</div>
+          <div className="hiddenSignal">before an artifact is forged, its place in the universe must be recorded</div>
         </section>
       )}
 
