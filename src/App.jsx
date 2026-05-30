@@ -1,127 +1,39 @@
 import { useEffect, useState } from "react";
 
 const signals = [
-  {
-    answer: "MIRROR",
-    title: "Reflection Signal",
-    difficulty: "Clear Hint",
-    hint: "Every signal begins with a reflection.",
-    message: "Reflection recognized. The first path has opened.",
-    nextHint: "Where noise falls, silence begins to speak.",
-  },
-  {
-    answer: "SILENCE",
-    title: "Silence Signal",
-    difficulty: "Light Hidden Clue",
-    hint: "Noise must fall before signal becomes visible.",
-    message: "Noise reduced. A deeper signal is now active.",
-    nextHint: "The void does not answer until you stop filling it.",
-  },
-  {
-    answer: "VOID",
-    title: "Void Signal",
-    difficulty: "Connect Ideas",
-    hint: "The empty space is not empty if you are paying attention.",
-    message: "Pattern detected. The void is responding.",
-    nextHint: "The only direction after the void is upward.",
-  },
-  {
-    answer: "ASCENSION",
-    title: "Ascension Signal",
-    difficulty: "Notice Pattern",
-    hint: "Progress is not escape. Progress is elevation.",
-    message: "Path integrity increasing.",
-    nextHint: "The next gate does not open without honesty.",
-  },
-  {
-    answer: "TRUTH",
-    title: "Truth Signal",
-    difficulty: "Compare Archives",
-    hint: "The mirror never lies. It only waits.",
-    message: "Truth standard confirmed.",
-    nextHint: "Truth without ownership becomes another excuse.",
-  },
-  {
-    answer: "ACCOUNTABILITY",
-    title: "Accountability Signal",
-    difficulty: "Self-Reflection",
-    hint: "Responsibility is the moment blame loses power.",
-    message: "Responsibility recognized.",
-    nextHint: "Only a builder can cross into the Architect path.",
-  },
-  {
-    answer: "ARCHITECT",
-    title: "Architect Signal",
-    difficulty: "Full Path Awareness",
-    hint: "The Architect does not only observe the universe. The Architect builds.",
-    message: "Creator path detected.",
-    nextHint: "The final signal is the law that has been speaking the entire time.",
-  },
-  {
-    answer: "SIGNAL GROWS WHERE NOISE FALLS",
-    title: "Foundation Completion Signal",
-    difficulty: "Complete Chain",
-    hint: "The final signal is the central law.",
-    message: "Foundation complete. Reflection Chamber unlocked.",
-    nextHint: "The path has found you. Reflection is now required.",
-  },
+  { answer: "MIRROR", title: "Reflection Signal", difficulty: "Clear Hint", hint: "Every signal begins with a reflection.", message: "Reflection recognized. The first path has opened.", nextHint: "Where noise falls, silence begins to speak." },
+  { answer: "SILENCE", title: "Silence Signal", difficulty: "Light Hidden Clue", hint: "Noise must fall before signal becomes visible.", message: "Noise reduced. A deeper signal is now active.", nextHint: "The void does not answer until you stop filling it." },
+  { answer: "VOID", title: "Void Signal", difficulty: "Connect Ideas", hint: "The empty space is not empty if you are paying attention.", message: "Pattern detected. The void is responding.", nextHint: "The only direction after the void is upward." },
+  { answer: "ASCENSION", title: "Ascension Signal", difficulty: "Notice Pattern", hint: "Progress is not escape. Progress is elevation.", message: "Path integrity increasing.", nextHint: "The next gate does not open without honesty." },
+  { answer: "TRUTH", title: "Truth Signal", difficulty: "Compare Archives", hint: "The mirror never lies. It only waits.", message: "Truth standard confirmed.", nextHint: "Truth without ownership becomes another excuse." },
+  { answer: "ACCOUNTABILITY", title: "Accountability Signal", difficulty: "Self-Reflection", hint: "Responsibility is the moment blame loses power.", message: "Responsibility recognized.", nextHint: "Only a builder can cross into the Architect path." },
+  { answer: "ARCHITECT", title: "Architect Signal", difficulty: "Full Path Awareness", hint: "The Architect does not only observe the universe. The Architect builds.", message: "Creator path detected.", nextHint: "The final signal is the law that has been speaking the entire time." },
+  { answer: "SIGNAL GROWS WHERE NOISE FALLS", title: "Foundation Completion Signal", difficulty: "Complete Chain", hint: "The final signal is the central law.", message: "Foundation complete. Reflection Chamber unlocked.", nextHint: "The path has found you. Reflection is now required." },
 ];
 
 const artifacts = [
-  {
-    name: "Founder’s Coin",
-    limit: 1000,
-    minted: 0,
-    status: "Unreleased",
-    code: "RVU-FC",
-  },
-  {
-    name: "Void Artifact Alpha",
-    limit: 500,
-    minted: 0,
-    status: "Restricted",
-    code: "RVU-VA",
-  },
-  {
-    name: "Architect Relic",
-    limit: 100,
-    minted: 0,
-    status: "Creator Vault",
-    code: "RVU-AR",
-  },
-  {
-    name: "Signal Coin",
-    limit: 2500,
-    minted: 0,
-    status: "Research Phase",
-    code: "RVU-SC",
-  },
-  {
-    name: "Archive Ring",
-    limit: 777,
-    minted: 0,
-    status: "Design Protected",
-    code: "RVU-RG",
-  },
-  {
-    name: "Family Collection Token",
-    limit: 1500,
-    minted: 0,
-    status: "Future Phase",
-    code: "RVU-FAM",
-  },
+  { name: "Founder’s Coin", limit: 1000, minted: 0, status: "Unreleased", code: "RVU-FC" },
+  { name: "Void Artifact Alpha", limit: 500, minted: 0, status: "Restricted", code: "RVU-VA" },
+  { name: "Architect Relic", limit: 100, minted: 0, status: "Creator Vault", code: "RVU-AR" },
+  { name: "Signal Coin", limit: 2500, minted: 0, status: "Research Phase", code: "RVU-SC" },
+  { name: "Archive Ring", limit: 777, minted: 0, status: "Design Protected", code: "RVU-RG" },
+  { name: "Family Collection Token", limit: 1500, minted: 0, status: "Future Phase", code: "RVU-FAM" },
+];
+
+const familyCollection = [
+  { title: "Children’s Story Vault", status: "Manuscripts Protected", note: "Full story text withheld until release." },
+  { title: "Parent Read-Along Rentals", status: "Future Platform", note: "Designed for parents to rent and read with children." },
+  { title: "Illustration Phase", status: "Needs Artwork", note: "Illustrations remain private until final approval." },
+  { title: "Audio Story Chamber", status: "Future Phase", note: "Possible narrated versions for family listening." },
+  { title: "Educational Adventures", status: "Protected Concept", note: "Knowledge paths adapted for younger audiences." },
+  { title: "Family Access Path", status: "Coming Later", note: "A separate child-safe branch of the universe." },
 ];
 
 function getCountdown(targetDate) {
   const distance = new Date(targetDate).getTime() - new Date().getTime();
 
   if (distance <= 0) {
-    return {
-      days: "00",
-      hours: "00",
-      minutes: "00",
-      seconds: "00",
-    };
+    return { days: "00", hours: "00", minutes: "00", seconds: "00" };
   }
 
   const days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -399,7 +311,8 @@ export default function App() {
           .artifactNotice,
           .commerceNotice,
           .countdownPanel,
-          .interestPanel {
+          .interestPanel,
+          .familyNotice {
             padding: 18px;
             text-align: left;
           }
@@ -410,7 +323,8 @@ export default function App() {
           .ipNotice,
           .artifactNotice,
           .countdownPanel,
-          .interestPanel {
+          .interestPanel,
+          .familyNotice {
             border-color: rgba(0,255,190,0.28);
             box-shadow:
               0 0 28px rgba(0,255,190,0.14),
@@ -447,7 +361,8 @@ export default function App() {
           .artifactNotice p,
           .commerceNotice p,
           .countdownPanel p,
-          .interestPanel p {
+          .interestPanel p,
+          .familyNotice p {
             margin: 0 0 14px;
             color: rgba(255,255,255,0.78);
             line-height: 1.65;
@@ -461,9 +376,7 @@ export default function App() {
             text-shadow: 0 0 18px rgba(0,255,190,0.22);
           }
 
-          .progressCard {
-            padding: 18px;
-          }
+          .progressCard { padding: 18px; }
 
           .progressTop {
             display: flex;
@@ -476,7 +389,7 @@ export default function App() {
             text-transform: uppercase;
           }
 
-          .progressBar {
+          .progressBar, .counterBar {
             height: 10px;
             border-radius: 999px;
             overflow: hidden;
@@ -484,7 +397,7 @@ export default function App() {
             margin-top: 14px;
           }
 
-          .progressFill {
+          .progressFill, .counterFill {
             height: 100%;
             border-radius: inherit;
             background: linear-gradient(90deg, #7d00ff, #00d4ff, #00ffbe);
@@ -576,7 +489,8 @@ export default function App() {
           .restrictedGrid,
           .artifactGrid,
           .commerceGrid,
-          .countdownGrid {
+          .countdownGrid,
+          .familyGrid {
             padding: 16px;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -590,7 +504,8 @@ export default function App() {
             grid-template-columns: repeat(3, 1fr);
           }
 
-          .artifactGrid {
+          .artifactGrid,
+          .familyGrid {
             grid-template-columns: repeat(3, 1fr);
           }
 
@@ -600,7 +515,8 @@ export default function App() {
           .restrictedCard,
           .artifactCard,
           .commerceCard,
-          .countdownCard {
+          .countdownCard,
+          .familyCard {
             border-radius: 16px;
             border: 1px solid rgba(255,255,255,0.16);
             background: rgba(255,255,255,0.06);
@@ -622,9 +538,7 @@ export default function App() {
             box-shadow: 0 0 22px rgba(0,212,255,0.25);
           }
 
-          .signalCard.locked {
-            opacity: 0.48;
-          }
+          .signalCard.locked { opacity: 0.48; }
 
           .restrictedCard,
           .commerceCard {
@@ -635,7 +549,8 @@ export default function App() {
           }
 
           .artifactCard,
-          .countdownCard {
+          .countdownCard,
+          .familyCard {
             border-color: rgba(0,255,190,0.22);
             background:
               radial-gradient(circle at 50% 0%, rgba(0,255,190,0.12), transparent 45%),
@@ -648,7 +563,8 @@ export default function App() {
           .restrictedCard:hover,
           .artifactCard:hover,
           .commerceCard:hover,
-          .countdownCard:hover {
+          .countdownCard:hover,
+          .familyCard:hover {
             transform: translateY(-5px);
             box-shadow:
               0 0 20px rgba(0,212,255,0.35),
@@ -661,7 +577,8 @@ export default function App() {
           .restrictedCard strong,
           .artifactCard strong,
           .commerceCard strong,
-          .countdownCard strong {
+          .countdownCard strong,
+          .familyCard strong {
             display: block;
             color: white;
             margin-bottom: 6px;
@@ -673,7 +590,8 @@ export default function App() {
           .restrictedCard span,
           .artifactCard span,
           .commerceCard span,
-          .countdownCard span {
+          .countdownCard span,
+          .familyCard span {
             display: block;
             color: rgba(255,255,255,0.62);
             font-size: 12px;
@@ -683,7 +601,8 @@ export default function App() {
 
           .archiveStatus,
           .restrictedStatus,
-          .artifactStatus {
+          .artifactStatus,
+          .familyStatus {
             display: inline-block;
             margin-top: 10px;
             padding: 4px 8px;
@@ -700,25 +619,10 @@ export default function App() {
             color: rgba(255,120,180,0.95);
           }
 
-          .artifactStatus {
+          .artifactStatus,
+          .familyStatus {
             background: rgba(0,255,190,0.12);
             color: rgba(0,255,190,0.92);
-          }
-
-          .counterBar {
-            height: 8px;
-            border-radius: 999px;
-            overflow: hidden;
-            margin-top: 10px;
-            background: rgba(255,255,255,0.12);
-          }
-
-          .counterFill {
-            height: 100%;
-            width: 0%;
-            border-radius: inherit;
-            background: linear-gradient(90deg, #00ffbe, #00d4ff);
-            box-shadow: 0 0 16px rgba(0,255,190,0.35);
           }
 
           .countNumber {
@@ -769,17 +673,14 @@ export default function App() {
             .restrictedGrid,
             .artifactGrid,
             .commerceGrid,
-            .countdownGrid {
+            .countdownGrid,
+            .familyGrid {
               grid-template-columns: 1fr;
             }
 
-            .accessChamber {
-              flex-direction: column;
-            }
+            .accessChamber { flex-direction: column; }
 
-            h1 {
-              font-size: 48px;
-            }
+            h1 { font-size: 48px; }
           }
         `}
       </style>
@@ -791,41 +692,63 @@ export default function App() {
       <div className="voidSymbol"></div>
       <div className="voidCore"></div>
 
-      <div className="dataStream streamOne">pre-order interest active • no payments collected •</div>
-      <div className="dataStream streamTwo">limited editions recorded • mint countdown protected •</div>
-      <div className="dataStream streamThree">designs restricted • nda review required •</div>
+      <div className="dataStream streamOne">family collection protected • manuscripts withheld •</div>
+      <div className="dataStream streamTwo">all ages may enter • each through the correct door •</div>
+      <div className="dataStream streamThree">illustration phase pending • parent read-along future •</div>
 
       {view === "home" && (
         <section className="panel">
-          <div className="signalTag">Protected Commerce Layer Active</div>
+          <div className="signalTag">Family Collection Layer Active</div>
 
           <h1>Ricochet Void Universe</h1>
 
           <p className="subtitle">
-            The universe now has protected artifact registration, pre-order interest,
-            crowdfunding preparation, mint-limit displays, and countdown systems —
-            without collecting funds or revealing private designs.
+            The universe now includes a protected family branch for children’s books,
+            parent read-along rentals, future illustrations, and age-appropriate
+            learning paths — without exposing unpublished manuscripts.
           </p>
 
           <div className="card ipNotice">
             <div className="cardTitle">Intellectual Property Notice</div>
             <p>
               Ricochet Void Universe™, its names, archives, writings, progression
-              systems, visual language, creator materials, chamber concepts, artwork,
-              design concepts, and related universe elements are protected creator
-              materials. Unauthorized copying, redistribution, commercial use,
-              public disclosure, reverse engineering, imitation, or derivative use is
-              prohibited without written permission.
+              systems, family stories, children’s books, visual language, creator
+              materials, chamber concepts, artwork, design concepts, and related
+              universe elements are protected creator materials.
             </p>
             <p>© Oakley Cheuvront. All Rights Reserved.</p>
           </div>
 
-          <div className="card restrictedNotice">
-            <div className="cardTitle restrictedTitle">Public Disclosure Warning</div>
+          <div className="card familyNotice">
+            <div className="cardTitle">Family Collection Protected Preview</div>
             <p>
-              Product renders, technical notes, electronics, accessory designs,
-              blueprints, mechanisms, manufacturing details, and unreleased
-              specifications remain restricted until official release.
+              The Family Collection is a future branch of the Ricochet Void Universe
+              created for parents, children, and younger learners. Full manuscripts,
+              unfinished story text, illustration directions, character designs, and
+              unreleased book concepts are not publicly displayed.
+            </p>
+            <p>
+              This branch allows all ages to enter the universe through a safer,
+              age-appropriate door while keeping the adult Foundation Path separate.
+            </p>
+          </div>
+
+          <div className="card familyGrid">
+            {familyCollection.map((item) => (
+              <div className="familyCard" key={item.title}>
+                <strong>{item.title}</strong>
+                <span>{item.note}</span>
+                <div className="familyStatus">{item.status}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="card restrictedNotice">
+            <div className="cardTitle restrictedTitle">Public Manuscript Warning</div>
+            <p>
+              Children’s book manuscripts, unpublished storylines, characters,
+              illustration prompts, cover concepts, and rental-platform details remain
+              restricted until the creator decides they are ready for release.
             </p>
           </div>
 
@@ -850,9 +773,7 @@ export default function App() {
               </div>
 
               <div className="countdownCard">
-                <div className="countNumber">
-                  {countdown.minutes}:{countdown.seconds}
-                </div>
+                <div className="countNumber">{countdown.minutes}:{countdown.seconds}</div>
                 <strong>Minutes : Seconds</strong>
                 <span>Release timing placeholder</span>
               </div>
@@ -876,46 +797,11 @@ export default function App() {
                 <span>Minted: {artifact.minted} / {artifact.limit}</span>
                 <span>Remaining: {artifact.limit - artifact.minted}</span>
                 <div className="counterBar">
-                  <div
-                    className="counterFill"
-                    style={{
-                      width: `${(artifact.minted / artifact.limit) * 100}%`,
-                    }}
-                  ></div>
+                  <div className="counterFill" style={{ width: `${(artifact.minted / artifact.limit) * 100}%` }}></div>
                 </div>
                 <div className="artifactStatus">{artifact.status}</div>
               </div>
             ))}
-          </div>
-
-          <div className="card commerceNotice">
-            <div className="cardTitle restrictedTitle">Protected Commerce Layer</div>
-            <p>
-              Pre-order and crowdfunding systems are planned, but no payments are
-              collected on this public version. Payment collection should only be
-              activated after refund terms, delivery timelines, taxes, shipping,
-              factory requirements, and legal review are ready.
-            </p>
-          </div>
-
-          <div className="card commerceGrid">
-            <div className="commerceCard">
-              <strong>Pre-Order Chamber</strong>
-              <span>Coming soon. No customer funds collected yet.</span>
-              <div className="restrictedStatus">Inactive</div>
-            </div>
-
-            <div className="commerceCard">
-              <strong>Crowdfund Chamber</strong>
-              <span>Campaign structure pending. Manufacturing order not placed.</span>
-              <div className="restrictedStatus">Planning</div>
-            </div>
-
-            <div className="commerceCard">
-              <strong>Universe Currency</strong>
-              <span>Research phase only. No token, sale, or crypto offering active.</span>
-              <div className="restrictedStatus">Research</div>
-            </div>
           </div>
 
           <div className="card interestPanel">
@@ -925,41 +811,21 @@ export default function App() {
               not connected to payment processing, email storage, or live ordering yet.
             </p>
 
-            <input
-              className="reflectionInput"
-              value={collectorName}
-              onChange={(e) => setCollectorName(e.target.value)}
-              placeholder="COLLECTOR NAME OR VOID NAME"
-            />
+            <input className="reflectionInput" value={collectorName} onChange={(e) => setCollectorName(e.target.value)} placeholder="COLLECTOR NAME OR VOID NAME" />
+            <input className="reflectionInput" value={collectorEmail} onChange={(e) => setCollectorEmail(e.target.value)} placeholder="EMAIL FOR FUTURE NOTIFICATION" />
 
-            <input
-              className="reflectionInput"
-              value={collectorEmail}
-              onChange={(e) => setCollectorEmail(e.target.value)}
-              placeholder="EMAIL FOR FUTURE NOTIFICATION"
-            />
-
-            <select
-              className="selectInput"
-              value={selectedArtifact}
-              onChange={(e) => setSelectedArtifact(e.target.value)}
-            >
+            <select className="selectInput" value={selectedArtifact} onChange={(e) => setSelectedArtifact(e.target.value)}>
               {artifacts.map((artifact) => (
-                <option key={artifact.code} value={artifact.name}>
-                  {artifact.name}
-                </option>
+                <option key={artifact.code} value={artifact.name}>{artifact.name}</option>
               ))}
             </select>
 
-            <button className="actionButton" onClick={submitInterest}>
-              Register Interest
-            </button>
+            <button className="actionButton" onClick={submitInterest}>Register Interest</button>
           </div>
 
           {interestSubmitted && (
             <div className="card gateResult granted">
-              Interest recorded for {collectorName.trim() || "Unknown Collector"} —
-              {selectedArtifact}. No payment has been collected.
+              Interest recorded for {collectorName.trim() || "Unknown Collector"} — {selectedArtifact}. No payment has been collected.
             </div>
           )}
 
@@ -983,10 +849,7 @@ export default function App() {
             </div>
 
             <div className="progressBar">
-              <div
-                className="progressFill"
-                style={{ width: `${(completed / signals.length) * 100}%` }}
-              ></div>
+              <div className="progressFill" style={{ width: `${(completed / signals.length) * 100}%` }}></div>
             </div>
           </div>
 
@@ -997,15 +860,10 @@ export default function App() {
               const locked = index > currentSignal;
 
               return (
-                <div
-                  key={signal.title}
-                  className={`signalCard ${verified ? "verified" : ""} ${current ? "current" : ""} ${locked ? "locked" : ""}`}
-                >
+                <div key={signal.title} className={`signalCard ${verified ? "verified" : ""} ${current ? "current" : ""} ${locked ? "locked" : ""}`}>
                   <strong>{signal.title}</strong>
                   <span>Difficulty: {signal.difficulty}</span>
-                  <span>
-                    Status: {verified ? "Verified" : current ? "Awaiting Signal" : "Locked"}
-                  </span>
+                  <span>Status: {verified ? "Verified" : current ? "Awaiting Signal" : "Locked"}</span>
                 </div>
               );
             })}
@@ -1013,103 +871,28 @@ export default function App() {
 
           {!foundationComplete && (
             <div className="card accessChamber">
-              <input
-                className="accessInput"
-                value={signalInput}
-                onChange={(e) => setSignalInput(e.target.value)}
-                placeholder="ENTER CURRENT ARCHIVE SIGNAL"
-              />
-
-              <button className="actionButton" onClick={verifyCurrentSignal}>
-                Verify Current Signal
-              </button>
+              <input className="accessInput" value={signalInput} onChange={(e) => setSignalInput(e.target.value)} placeholder="ENTER CURRENT ARCHIVE SIGNAL" />
+              <button className="actionButton" onClick={verifyCurrentSignal}>Verify Current Signal</button>
             </div>
           )}
 
-          <div
-            className={`card gateResult ${
-              signalStatus === "granted" ? "granted" : signalStatus === "denied" ? "denied" : ""
-            }`}
-          >
-            {foundationComplete
-              ? "Foundation complete. Reflection Chamber unlocked."
-              : lastMessage}
+          <div className={`card gateResult ${signalStatus === "granted" ? "granted" : signalStatus === "denied" ? "denied" : ""}`}>
+            {foundationComplete ? "Foundation complete. Reflection Chamber unlocked." : lastMessage}
           </div>
 
           {foundationComplete && (
-            <button className="actionButton" onClick={() => setView("reflection")}>
-              Enter Reflection Chamber
-            </button>
+            <button className="actionButton" onClick={() => setView("reflection")}>Enter Reflection Chamber</button>
           )}
 
           <div className="card archiveGridFull">
-            <div className="archiveCardFull">
-              <strong>Silence Architecture</strong>
-              <span>Displayed order is not the path</span>
-              <div className="archiveStatus">Distorted</div>
-            </div>
-
-            <div className="archiveCardFull">
-              <strong>The Human Glitch</strong>
-              <span>Displayed order is not the path</span>
-              <div className="archiveStatus">Unverified</div>
-            </div>
-
-            <div className="archiveCardFull">
-              <strong>Neural Wealth Mapping</strong>
-              <span>Displayed order is not the path</span>
-              <div className="archiveStatus">Unknown</div>
-            </div>
-
-            <div className="archiveCardFull">
-              <strong>The Mirror Code</strong>
-              <span>Every signal begins with a reflection</span>
-              <div className="archiveStatus">Signal Detected</div>
-            </div>
-
-            <div className="archiveCardFull">
-              <strong>Project Ascension</strong>
-              <span>Displayed order is not the path</span>
-              <div className="archiveStatus">Dormant</div>
-            </div>
-
-            <div className="archiveCardFull">
-              <strong>Void Protocol 7</strong>
-              <span>Displayed order is not the path</span>
-              <div className="archiveStatus">Fragment Found</div>
-            </div>
-
-            <div className="archiveCardFull">
-              <strong>The Dopamine Collapse Manual</strong>
-              <span>Displayed order is not the path</span>
-              <div className="archiveStatus">Partial Signal</div>
-            </div>
-
-            <div className="archiveCardFull">
-              <strong>Psychological Warfare Against Yourself</strong>
-              <span>Displayed order is not the path</span>
-              <div className="archiveStatus">Unknown</div>
-            </div>
-          </div>
-
-          <div className="card restrictedGrid">
-            <div className="restrictedCard">
-              <strong>Future Gear Transmission</strong>
-              <span>Design files remain restricted until official release.</span>
-              <div className="restrictedStatus">Restricted</div>
-            </div>
-
-            <div className="restrictedCard">
-              <strong>Prototype Electronics</strong>
-              <span>Private creator vault access only. NDA required.</span>
-              <div className="restrictedStatus">Hidden</div>
-            </div>
-
-            <div className="restrictedCard">
-              <strong>Accessory Concepts</strong>
-              <span>No public render, blueprint, or specification available.</span>
-              <div className="restrictedStatus">Protected</div>
-            </div>
+            <div className="archiveCardFull"><strong>Silence Architecture</strong><span>Displayed order is not the path</span><div className="archiveStatus">Distorted</div></div>
+            <div className="archiveCardFull"><strong>The Human Glitch</strong><span>Displayed order is not the path</span><div className="archiveStatus">Unverified</div></div>
+            <div className="archiveCardFull"><strong>Neural Wealth Mapping</strong><span>Displayed order is not the path</span><div className="archiveStatus">Unknown</div></div>
+            <div className="archiveCardFull"><strong>The Mirror Code</strong><span>Every signal begins with a reflection</span><div className="archiveStatus">Signal Detected</div></div>
+            <div className="archiveCardFull"><strong>Project Ascension</strong><span>Displayed order is not the path</span><div className="archiveStatus">Dormant</div></div>
+            <div className="archiveCardFull"><strong>Void Protocol 7</strong><span>Displayed order is not the path</span><div className="archiveStatus">Fragment Found</div></div>
+            <div className="archiveCardFull"><strong>The Dopamine Collapse Manual</strong><span>Displayed order is not the path</span><div className="archiveStatus">Partial Signal</div></div>
+            <div className="archiveCardFull"><strong>Psychological Warfare Against Yourself</strong><span>Displayed order is not the path</span><div className="archiveStatus">Unknown</div></div>
           </div>
 
           <div className="card vaultPanel">
@@ -1120,23 +903,14 @@ export default function App() {
             </p>
 
             <div className="accessChamber">
-              <input
-                className="accessInput"
-                value={vaultInput}
-                onChange={(e) => setVaultInput(e.target.value)}
-                placeholder="CREATOR VAULT ACCESS CODE"
-              />
-
-              <button className="actionButton" onClick={verifyVaultAccess}>
-                Verify Vault Access
-              </button>
+              <input className="accessInput" value={vaultInput} onChange={(e) => setVaultInput(e.target.value)} placeholder="CREATOR VAULT ACCESS CODE" />
+              <button className="actionButton" onClick={verifyVaultAccess}>Verify Vault Access</button>
             </div>
           </div>
 
           {vaultStatus === "granted" && (
             <div className="card gateResult granted">
-              Creator Vault access recognized. Private materials remain withheld
-              from public deployment until NDA-controlled review.
+              Creator Vault access recognized. Private materials remain withheld from public deployment until NDA-controlled review.
             </div>
           )}
 
@@ -1149,19 +923,17 @@ export default function App() {
           <div className="footerNotice">
             Ricochet Void Universe™ — All writings, archives, systems, designs,
             artwork, visual identity, progression structures, creator concepts,
-            product concepts, artifact registry concepts, and related intellectual
+            product concepts, artifact registry concepts, children’s stories,
+            manuscripts, family collection materials, and related intellectual
             property are owned by Oakley Cheuvront unless otherwise stated.
             Unauthorized reproduction, redistribution, public disclosure, commercial
             use, imitation, reverse engineering, or derivative use is prohibited.
-            This public website does not disclose unreleased prototype designs,
-            technical specifications, manufacturing information, or private creator
-            vault materials. Pre-order and crowdfunding systems shown here are not
-            active payment systems.
+            This public website does not disclose unreleased manuscripts, prototype
+            designs, technical specifications, manufacturing information, or private
+            creator vault materials.
           </div>
 
-          <div className="hiddenSignal">
-            before the factory order, the signal of demand must be measured
-          </div>
+          <div className="hiddenSignal">a universe grows strongest when every generation can find a path into it</div>
         </section>
       )}
 
@@ -1183,12 +955,7 @@ export default function App() {
               your completed Foundation path.
             </p>
 
-            <input
-              className="reflectionInput"
-              value={voidName}
-              onChange={(e) => setVoidName(e.target.value)}
-              placeholder="VOID NAME, OR LEAVE BLANK FOR UNKNOWN SIGNAL"
-            />
+            <input className="reflectionInput" value={voidName} onChange={(e) => setVoidName(e.target.value)} placeholder="VOID NAME, OR LEAVE BLANK FOR UNKNOWN SIGNAL" />
           </div>
 
           <div className="card reflectionBox">
@@ -1198,16 +965,9 @@ export default function App() {
               Foundation Archives?
             </p>
 
-            <textarea
-              className="reflectionText"
-              value={reflection}
-              onChange={(e) => setReflection(e.target.value)}
-              placeholder="WRITE YOUR REALIZATION HERE..."
-            />
+            <textarea className="reflectionText" value={reflection} onChange={(e) => setReflection(e.target.value)} placeholder="WRITE YOUR REALIZATION HERE..." />
 
-            <button className="actionButton" onClick={submitReflection}>
-              Submit Reflection
-            </button>
+            <button className="actionButton" onClick={submitReflection}>Submit Reflection</button>
           </div>
 
           {reflectionSubmitted && (
@@ -1218,25 +978,12 @@ export default function App() {
           )}
 
           <div className="card reflectionGrid">
-            <div className="reflectionCard">
-              <strong>Anonymous Allowed</strong>
-              <span>Users can protect their identity while still submitting truth.</span>
-            </div>
-
-            <div className="reflectionCard">
-              <strong>Void Name Optional</strong>
-              <span>A user may claim their journey without revealing their real name.</span>
-            </div>
-
-            <div className="reflectionCard">
-              <strong>Credit Protected</strong>
-              <span>Their chosen name becomes attached to their realization.</span>
-            </div>
+            <div className="reflectionCard"><strong>Anonymous Allowed</strong><span>Users can protect their identity while still submitting truth.</span></div>
+            <div className="reflectionCard"><strong>Void Name Optional</strong><span>A user may claim their journey without revealing their real name.</span></div>
+            <div className="reflectionCard"><strong>Credit Protected</strong><span>Their chosen name becomes attached to their realization.</span></div>
           </div>
 
-          <button className="actionButton" onClick={() => setView("home")}>
-            Return To Foundation Chamber
-          </button>
+          <button className="actionButton" onClick={() => setView("home")}>Return To Foundation Chamber</button>
 
           <div className="footerNotice">
             Ricochet Void Universe™ — Reflections may be submitted anonymously or
