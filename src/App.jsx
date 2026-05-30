@@ -3,15 +3,23 @@ import { useState } from "react";
 export default function App() {
   const [code, setCode] = useState("");
   const [accessStatus, setAccessStatus] = useState("idle");
+  const [view, setView] = useState("home");
 
   const correctSignal = "SIGNAL GROWS WHERE NOISE FALLS";
 
   function verifySignal() {
     if (code.trim().toUpperCase() === correctSignal) {
       setAccessStatus("granted");
+      setTimeout(() => {
+        setView("entry");
+      }, 1200);
     } else {
       setAccessStatus("denied");
     }
+  }
+
+  function returnHome() {
+    setView("home");
   }
 
   return (
@@ -257,7 +265,9 @@ export default function App() {
           .archiveGrid,
           .platformStrip,
           .futureGearPreview,
-          .unlockedChamber {
+          .entryScreen,
+          .entryNav,
+          .entryGrid {
             margin: 24px auto 0;
             max-width: 900px;
             border: 1px solid rgba(0,212,255,0.28);
@@ -335,7 +345,8 @@ export default function App() {
             color: rgba(255,255,255,0.45);
           }
 
-          .accessButton {
+          .accessButton,
+          .backButton {
             border: none;
             border-radius: 12px;
             padding: 14px 18px;
@@ -346,7 +357,8 @@ export default function App() {
             transition: 0.3s ease;
           }
 
-          .accessButton:hover {
+          .accessButton:hover,
+          .backButton:hover {
             transform: translateY(-2px);
             box-shadow:
               0 0 24px rgba(0,212,255,0.55),
@@ -372,62 +384,6 @@ export default function App() {
             box-shadow: 0 0 30px rgba(255,0,136,0.25);
           }
 
-          .entryUnlocked {
-            margin-top: 16px;
-            padding: 18px;
-            border-radius: 18px;
-            background: rgba(0,255,190,0.08);
-            border: 1px solid rgba(0,255,190,0.35);
-            box-shadow: 0 0 35px rgba(0,255,190,0.2);
-          }
-
-          .unlockedChamber {
-            padding: 16px;
-            display: none;
-            border-color: rgba(0,255,190,0.35);
-            box-shadow:
-              0 0 30px rgba(0,255,190,0.2),
-              inset 0 0 25px rgba(0,255,190,0.08);
-          }
-
-          .unlockedChamber.active {
-            display: block;
-            animation: unlockReveal 1s ease forwards;
-          }
-
-          .unlockedTitle {
-            font-size: 13px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: rgba(0,255,190,0.95);
-            margin-bottom: 12px;
-          }
-
-          .unlockedGrid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-          }
-
-          .unlockedCard {
-            padding: 14px;
-            border-radius: 16px;
-            border: 1px solid rgba(0,255,190,0.22);
-            background: rgba(0,255,190,0.055);
-            text-align: left;
-          }
-
-          .unlockedCard strong {
-            display: block;
-            margin-bottom: 6px;
-          }
-
-          .unlockedCard span {
-            color: rgba(255,255,255,0.62);
-            font-size: 12px;
-            letter-spacing: 1px;
-          }
-
           .archiveGrid {
             padding: 16px;
             display: grid;
@@ -446,19 +402,6 @@ export default function App() {
             overflow: hidden;
           }
 
-          .archiveCard::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.08), transparent);
-            transform: translateX(-120%);
-            transition: 0.5s ease;
-          }
-
-          .archiveCard:hover::after {
-            transform: translateX(120%);
-          }
-
           .archiveCard:hover {
             transform: translateY(-4px);
             box-shadow: 0 0 24px rgba(0,212,255,0.25);
@@ -468,8 +411,6 @@ export default function App() {
             display: block;
             color: white;
             margin-bottom: 6px;
-            position: relative;
-            z-index: 1;
           }
 
           .archiveCard span {
@@ -477,8 +418,6 @@ export default function App() {
             color: rgba(255,255,255,0.58);
             font-size: 12px;
             letter-spacing: 1px;
-            position: relative;
-            z-index: 1;
           }
 
           .platformStrip {
@@ -585,6 +524,70 @@ export default function App() {
             text-transform: uppercase;
           }
 
+          .entryScreen {
+            position: relative;
+            z-index: 10;
+            max-width: 1120px;
+            padding: 28px;
+            animation: gateOpen 1.4s ease forwards;
+          }
+
+          .entryTitle {
+            margin: 0;
+            font-size: clamp(42px, 7vw, 82px);
+            letter-spacing: 3px;
+            text-shadow:
+              0 0 18px rgba(0,255,190,0.75),
+              0 0 35px rgba(0,212,255,0.5),
+              0 0 65px rgba(125,0,255,0.45);
+          }
+
+          .entrySubtitle {
+            max-width: 760px;
+            margin: 18px auto 0;
+            color: rgba(255,255,255,0.82);
+            font-size: 18px;
+          }
+
+          .entryNav {
+            padding: 14px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+          }
+
+          .entryGrid {
+            padding: 16px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+          }
+
+          .entryCard {
+            min-height: 130px;
+            padding: 16px;
+            border-radius: 18px;
+            border: 1px solid rgba(0,255,190,0.22);
+            background:
+              radial-gradient(circle at 50% 0%, rgba(0,255,190,0.13), transparent 45%),
+              rgba(255,255,255,0.06);
+            text-align: left;
+            box-shadow: inset 0 0 18px rgba(255,255,255,0.04);
+          }
+
+          .entryCard strong {
+            display: block;
+            margin-bottom: 8px;
+            color: rgba(0,255,190,0.95);
+            letter-spacing: 1px;
+          }
+
+          .entryCard span {
+            font-size: 13px;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.5;
+          }
+
           @keyframes voidShift {
             from { background-position: 0% 0%; }
             to { background-position: 100% 100%; }
@@ -636,20 +639,6 @@ export default function App() {
             100% { opacity: 0; transform: translateX(45px) scaleX(0.4); }
           }
 
-          @keyframes unlockReveal {
-            from {
-              opacity: 0;
-              transform: translateY(20px) scale(0.96);
-              filter: blur(6px);
-            }
-
-            to {
-              opacity: 1;
-              transform: translateY(0) scale(1);
-              filter: blur(0);
-            }
-          }
-
           @keyframes heroReveal {
             from {
               opacity: 0;
@@ -664,12 +653,27 @@ export default function App() {
             }
           }
 
+          @keyframes gateOpen {
+            from {
+              opacity: 0;
+              transform: scale(0.92);
+              filter: blur(12px);
+            }
+
+            to {
+              opacity: 1;
+              transform: scale(1);
+              filter: blur(0);
+            }
+          }
+
           @media (max-width: 900px) {
             .menu,
             .archiveGrid,
             .platformStrip,
             .gearGrid,
-            .unlockedGrid {
+            .entryNav,
+            .entryGrid {
               grid-template-columns: 1fr;
             }
 
@@ -677,7 +681,8 @@ export default function App() {
               flex-direction: column;
             }
 
-            h1 {
+            h1,
+            .entryTitle {
               font-size: 48px;
             }
           }
@@ -707,148 +712,178 @@ export default function App() {
       <div className="signalShard shardTwo"></div>
       <div className="signalShard shardThree"></div>
 
-      <section className="heroPanel">
-        <div className="signalTag">Foundation Gateway Active</div>
+      {view === "home" && (
+        <section className="heroPanel">
+          <div className="signalTag">Foundation Gateway Active</div>
 
-        <h1>Ricochet Void Universe</h1>
+          <h1>Ricochet Void Universe</h1>
 
-        <p className="subtitle">
-          Signal grows where noise falls. Complete the archives, submit the
-          correct signal, and unlock Entry Access.
-        </p>
+          <p className="subtitle">
+            Signal grows where noise falls. Complete the archives, submit the
+            correct signal, and unlock Entry Access.
+          </p>
 
-        <div className="terminal">
-          <div className="terminalTop">
-            <div className="dot"></div>
-            <div className="dot"></div>
-            <div className="dot"></div>
-          </div>
+          <div className="terminal">
+            <div className="terminalTop">
+              <div className="dot"></div>
+              <div className="dot"></div>
+              <div className="dot"></div>
+            </div>
 
-          <div className="terminalBody">
-            <div><strong>STATUS:</strong> Foundation Gate Online</div>
-            <div><strong>ENTRY ACCESS:</strong> $0 after archive completion</div>
-            <div><strong>REQUIRED SIGNAL:</strong> Hidden inside the Foundation path</div>
-            <div><strong>PATH:</strong> Decode → Submit → Verify → Unlock</div>
-          </div>
-        </div>
-
-        <div className="accessChamber">
-          <input
-            className="accessInput"
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-            placeholder="ENTER ARCHIVE COMPLETION SIGNAL"
-          />
-
-          <button className="accessButton" onClick={verifySignal}>
-            Verify Signal
-          </button>
-        </div>
-
-        {accessStatus === "granted" && (
-          <div className="gateResult granted">
-            Signal verified. Entry Access granted.
-            <div className="entryUnlocked">
-              Universe Gate Open — Entry Chamber Activated.
+            <div className="terminalBody">
+              <div><strong>STATUS:</strong> Foundation Gate Online</div>
+              <div><strong>ENTRY ACCESS:</strong> $0 after archive completion</div>
+              <div><strong>REQUIRED SIGNAL:</strong> Hidden inside the Foundation path</div>
+              <div><strong>PATH:</strong> Decode → Submit → Verify → Unlock</div>
             </div>
           </div>
-        )}
 
-        {accessStatus === "denied" && (
-          <div className="gateResult denied">
-            Signal rejected. Archive path incomplete.
+          <div className="accessChamber">
+            <input
+              className="accessInput"
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              placeholder="ENTER ARCHIVE COMPLETION SIGNAL"
+            />
+
+            <button className="accessButton" onClick={verifySignal}>
+              Verify Signal
+            </button>
           </div>
-        )}
 
-        {accessStatus === "idle" && (
-          <div className="gateResult">
-            Awaiting archive completion signal.
+          {accessStatus === "granted" && (
+            <div className="gateResult granted">
+              Signal verified. Opening Entry Chamber...
+            </div>
+          )}
+
+          {accessStatus === "denied" && (
+            <div className="gateResult denied">
+              Signal rejected. Archive path incomplete.
+            </div>
+          )}
+
+          {accessStatus === "idle" && (
+            <div className="gateResult">
+              Awaiting archive completion signal.
+            </div>
+          )}
+
+          <div className="archiveGrid">
+            <div className="archiveCard">
+              <strong>Mirror Code</strong>
+              <span>Foundation archive awaiting completion</span>
+            </div>
+
+            <div className="archiveCard">
+              <strong>Silence Architecture</strong>
+              <span>Signal hidden beneath noise</span>
+            </div>
+
+            <div className="archiveCard">
+              <strong>Void Progression</strong>
+              <span>Access path locked</span>
+            </div>
           </div>
-        )}
 
-        <div className={`unlockedChamber ${accessStatus === "granted" ? "active" : ""}`}>
-          <div className="unlockedTitle">Entry Chamber Unlocked</div>
+          <div className="platformStrip">
+            <div className="platformCell">Entry Access</div>
+            <div className="platformCell">Signal Access</div>
+            <div className="platformCell">Sub-Creator</div>
+            <div className="platformCell">Architect Circle</div>
+            <div className="platformCell">Future Gear</div>
+          </div>
 
-          <div className="unlockedGrid">
-            <div className="unlockedCard">
+          <div className="futureGearPreview">
+            <div className="futureGearTitle">Future Gear Chamber Preview</div>
+
+            <div className="gearGrid">
+              <div className="gearItem">Void Runner Shoes</div>
+              <div className="gearItem">Signal Coins</div>
+              <div className="gearItem">Void Watches</div>
+              <div className="gearItem">Archive Rings</div>
+              <div className="gearItem">Architect Hoodies</div>
+              <div className="gearItem">Void Chronometers</div>
+            </div>
+          </div>
+
+          <div className="menu">
+            <a href="#foundation" className="button">
+              Begin Foundation
+              <span>Start Path</span>
+            </a>
+
+            <a href="#archives" className="button">
+              Foundation Archives
+              <span>Decode</span>
+            </a>
+
+            <a href="#portal" className="button">
+              Access Portal
+              <span>Verify</span>
+            </a>
+
+            <a href="#futuregear" className="button">
+              Future Gear
+              <span>Coming Soon</span>
+            </a>
+          </div>
+
+          <div className="hiddenSignal">silence is not empty</div>
+        </section>
+      )}
+
+      {view === "entry" && (
+        <section className="entryScreen">
+          <div className="signalTag">Entry Access Granted</div>
+
+          <h1 className="entryTitle">Entry Chamber Open</h1>
+
+          <p className="entrySubtitle">
+            The Foundation Signal has been verified. You have crossed the first gate
+            of the Ricochet Void Universe.
+          </p>
+
+          <div className="entryNav">
+            <div className="platformCell">Entry Chamber</div>
+            <div className="platformCell">Signal Dashboard</div>
+            <div className="platformCell">Creator Path</div>
+            <div className="platformCell">Future Gear</div>
+          </div>
+
+          <div className="entryGrid">
+            <div className="entryCard">
               <strong>Entry Chamber</strong>
-              <span>First unlocked universe area</span>
+              <span>
+                This is the first unlocked area. Future content, guided paths,
+                and foundation rewards will appear here.
+              </span>
             </div>
 
-            <div className="unlockedCard">
+            <div className="entryCard">
               <strong>Signal Dashboard</strong>
-              <span>Progress tracking chamber pending</span>
+              <span>
+                Track archive progress, completed signals, and access milestones
+                as the universe expands.
+              </span>
             </div>
 
-            <div className="unlockedCard">
+            <div className="entryCard">
               <strong>Creator Path</strong>
-              <span>Sub-Creator access structure forming</span>
+              <span>
+                A future route for Sub-Creators, user chambers, marketplace
+                progression, and community-built expansions.
+              </span>
             </div>
           </div>
-        </div>
 
-        <div className="archiveGrid">
-          <div className="archiveCard">
-            <strong>Mirror Code</strong>
-            <span>Foundation archive awaiting completion</span>
-          </div>
+          <button className="backButton" onClick={returnHome}>
+            Return To Foundation Gate
+          </button>
 
-          <div className="archiveCard">
-            <strong>Silence Architecture</strong>
-            <span>Signal hidden beneath noise</span>
-          </div>
-
-          <div className="archiveCard">
-            <strong>Void Progression</strong>
-            <span>Access path locked</span>
-          </div>
-        </div>
-
-        <div className="platformStrip">
-          <div className="platformCell">Entry Access</div>
-          <div className="platformCell">Signal Access</div>
-          <div className="platformCell">Sub-Creator</div>
-          <div className="platformCell">Architect Circle</div>
-          <div className="platformCell">Future Gear</div>
-        </div>
-
-        <div className="futureGearPreview">
-          <div className="futureGearTitle">Future Gear Chamber Preview</div>
-
-          <div className="gearGrid">
-            <div className="gearItem">Void Runner Shoes</div>
-            <div className="gearItem">Signal Coins</div>
-            <div className="gearItem">Void Watches</div>
-            <div className="gearItem">Archive Rings</div>
-            <div className="gearItem">Architect Hoodies</div>
-            <div className="gearItem">Void Chronometers</div>
-          </div>
-        </div>
-
-        <div className="menu">
-          <a href="#foundation" className="button">
-            Begin Foundation
-            <span>Start Path</span>
-          </a>
-
-          <a href="#archives" className="button">
-            Foundation Archives
-            <span>Decode</span>
-          </a>
-
-          <a href="#portal" className="button">
-            Access Portal
-            <span>Verify</span>
-          </a>
-
-          <a href="#futuregear" className="button">
-            Future Gear
-            <span>Coming Soon</span>
-          </a>
-        </div>
-
-        <div className="hiddenSignal">silence is not empty</div>
-      </section>
+          <div className="hiddenSignal">entry is only the first chamber</div>
+        </section>
+      )}
     </main>
   );
 }
