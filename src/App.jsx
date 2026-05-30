@@ -5,57 +5,65 @@ const signals = [
     answer: "MIRROR",
     title: "Reflection Signal",
     difficulty: "Clear Hint",
-    status: "Transmitting",
+    hint: "Every signal begins with a reflection.",
     message: "Reflection recognized. The first path has opened.",
+    nextHint: "Where noise falls, silence begins to speak.",
   },
   {
     answer: "SILENCE",
     title: "Silence Signal",
     difficulty: "Light Hidden Clue",
-    status: "Dormant",
+    hint: "Noise must fall before signal becomes visible.",
     message: "Noise reduced. A deeper signal is now active.",
+    nextHint: "The void does not answer until you stop filling it.",
   },
   {
     answer: "VOID",
     title: "Void Signal",
     difficulty: "Connect Ideas",
-    status: "Dormant",
+    hint: "The empty space is not empty if you are paying attention.",
     message: "Pattern detected. The void is responding.",
+    nextHint: "The only direction after the void is upward.",
   },
   {
     answer: "ASCENSION",
     title: "Ascension Signal",
     difficulty: "Notice Pattern",
-    status: "Dormant",
+    hint: "Progress is not escape. Progress is elevation.",
     message: "Path integrity increasing.",
+    nextHint: "The next gate does not open without honesty.",
   },
   {
     answer: "TRUTH",
     title: "Truth Signal",
     difficulty: "Compare Archives",
-    status: "Dormant",
+    hint: "The mirror never lies. It only waits.",
     message: "Truth standard confirmed.",
+    nextHint: "Truth without ownership becomes another excuse.",
   },
   {
     answer: "ACCOUNTABILITY",
     title: "Accountability Signal",
     difficulty: "Self-Reflection",
-    status: "Dormant",
+    hint: "Responsibility is the moment blame loses power.",
     message: "Responsibility recognized.",
+    nextHint: "Only a builder can cross into the Architect path.",
   },
   {
     answer: "ARCHITECT",
     title: "Architect Signal",
     difficulty: "Full Path Awareness",
-    status: "Dormant",
+    hint: "The Architect does not only observe the universe. The Architect builds.",
     message: "Creator path detected.",
+    nextHint: "The final signal is the law that has been speaking the entire time.",
   },
   {
     answer: "SIGNAL GROWS WHERE NOISE FALLS",
     title: "Foundation Completion Signal",
     difficulty: "Complete Chain",
-    status: "Dormant",
+    hint: "The final signal is the central law.",
     message: "Foundation complete. Reflection Chamber unlocked.",
+    nextHint: "The path has found you. Reflection is now required.",
   },
 ];
 
@@ -65,6 +73,7 @@ export default function App() {
   const [signalInput, setSignalInput] = useState("");
   const [signalStatus, setSignalStatus] = useState("idle");
   const [lastMessage, setLastMessage] = useState("Awaiting first archive signal.");
+  const [pathHint, setPathHint] = useState(signals[0].hint);
   const [voidName, setVoidName] = useState("");
   const [reflection, setReflection] = useState("");
   const [reflectionSubmitted, setReflectionSubmitted] = useState(false);
@@ -76,9 +85,11 @@ export default function App() {
     if (foundationComplete) return;
 
     const expected = signals[currentSignal].answer;
+
     if (signalInput.trim().toUpperCase() === expected) {
       setSignalStatus("granted");
       setLastMessage(signals[currentSignal].message);
+      setPathHint(signals[currentSignal].nextHint);
       setSignalInput("");
 
       setTimeout(() => {
@@ -90,6 +101,7 @@ export default function App() {
           setLastMessage("Foundation complete. Reflection Chamber unlocked.");
         } else {
           setSignalStatus("idle");
+          setPathHint(signals[next].hint);
         }
       }, 900);
     } else {
@@ -282,14 +294,15 @@ export default function App() {
           }
 
           .truthStandard,
-          .creatorOath,
           .pathNotice,
+          .hintChamber,
           .reflectionBox {
             padding: 18px;
             text-align: left;
           }
 
           .truthStandard,
+          .hintChamber,
           .reflectionBox {
             border-color: rgba(0,255,190,0.28);
             box-shadow:
@@ -307,6 +320,7 @@ export default function App() {
 
           .truthStandard p,
           .pathNotice p,
+          .hintChamber p,
           .reflectionBox p {
             margin: 0 0 14px;
             color: rgba(255,255,255,0.78);
@@ -314,13 +328,11 @@ export default function App() {
             font-size: 14px;
           }
 
-          .oathLine {
-            color: rgba(255,255,255,0.76);
-            font-size: 14px;
-            line-height: 1.7;
-            border-left: 2px solid rgba(0,212,255,0.55);
-            padding-left: 12px;
-            margin: 8px 0;
+          .hintText {
+            font-size: 18px;
+            line-height: 1.6;
+            color: rgba(0,255,190,0.95);
+            text-shadow: 0 0 18px rgba(0,255,190,0.22);
           }
 
           .progressCard {
@@ -372,9 +384,7 @@ export default function App() {
             letter-spacing: 2px;
           }
 
-          .accessInput {
-            flex: 1;
-          }
+          .accessInput { flex: 1; }
 
           .reflectionInput,
           .reflectionText {
@@ -441,13 +451,7 @@ export default function App() {
             gap: 12px;
           }
 
-          .signalGrid {
-            grid-template-columns: repeat(4, 1fr);
-          }
-
-          .reflectionGrid {
-            grid-template-columns: repeat(3, 1fr);
-          }
+          .reflectionGrid { grid-template-columns: repeat(3, 1fr); }
 
           .archiveCardFull,
           .signalCard,
@@ -560,7 +564,7 @@ export default function App() {
       <div className="voidSymbol"></div>
       <div className="voidCore"></div>
 
-      <div className="dataStream streamOne">verify each signal • difficulty rises • truth remains •</div>
+      <div className="dataStream streamOne">verify each signal • next hint revealed • difficulty rises •</div>
       <div className="dataStream streamTwo">anonymous reflection chamber • choose a void name • protect your signal •</div>
       <div className="dataStream streamThree">access may be purchased • trust must be earned •</div>
 
@@ -572,7 +576,7 @@ export default function App() {
 
           <p className="subtitle">
             The Foundation path is verified one signal at a time. Each correct
-            archive signal confirms the user is moving in the right direction.
+            archive signal confirms direction and reveals the next hint.
           </p>
 
           <div className="card truthStandard">
@@ -583,12 +587,9 @@ export default function App() {
             </p>
           </div>
 
-          <div className="card pathNotice">
-            <div className="cardTitle">Progressive Signal Rule</div>
-            <p>
-              The first hint is easier. Each signal after becomes harder. The site
-              confirms progress without revealing the entire path.
-            </p>
+          <div className="card hintChamber">
+            <div className="cardTitle">Current Path Hint</div>
+            <div className="hintText">{pathHint}</div>
           </div>
 
           <div className="card progressCard">
@@ -718,8 +719,8 @@ export default function App() {
           <h1>Reflection Chamber</h1>
 
           <p className="subtitle">
-            You may remain anonymous, or you may create your own Ricochet Void
-            Universe name so your realization cannot be claimed by someone else.
+            You may remain anonymous, or create your own Ricochet Void Universe
+            name so your realization cannot be claimed by someone else.
           </p>
 
           <div className="card reflectionBox">
@@ -784,7 +785,9 @@ export default function App() {
             Return To Foundation Chamber
           </button>
 
-          <div className="hiddenSignal">a signal proves the path was found. a reflection proves the path was felt.</div>
+          <div className="hiddenSignal">
+            a signal proves the path was found. a reflection proves the path was felt.
+          </div>
         </section>
       )}
     </main>
