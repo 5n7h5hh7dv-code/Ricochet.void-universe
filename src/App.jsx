@@ -74,6 +74,8 @@ export default function App() {
   const [signalStatus, setSignalStatus] = useState("idle");
   const [lastMessage, setLastMessage] = useState("Awaiting first archive signal.");
   const [pathHint, setPathHint] = useState(signals[0].hint);
+  const [vaultInput, setVaultInput] = useState("");
+  const [vaultStatus, setVaultStatus] = useState("idle");
   const [voidName, setVoidName] = useState("");
   const [reflection, setReflection] = useState("");
   const [reflectionSubmitted, setReflectionSubmitted] = useState(false);
@@ -107,6 +109,14 @@ export default function App() {
     } else {
       setSignalStatus("denied");
       setLastMessage("Signal rejected. Return to the archive and look closer.");
+    }
+  }
+
+  function verifyVaultAccess() {
+    if (vaultInput.trim().toUpperCase() === "CREATOR-VAULT") {
+      setVaultStatus("granted");
+    } else {
+      setVaultStatus("denied");
     }
   }
 
@@ -274,7 +284,7 @@ export default function App() {
           }
 
           .subtitle {
-            max-width: 860px;
+            max-width: 880px;
             margin: 22px auto 0;
             font-size: 20px;
             color: rgba(255,255,255,0.86);
@@ -294,20 +304,31 @@ export default function App() {
           }
 
           .truthStandard,
-          .pathNotice,
           .hintChamber,
-          .reflectionBox {
+          .reflectionBox,
+          .ipNotice,
+          .restrictedNotice,
+          .vaultPanel {
             padding: 18px;
             text-align: left;
           }
 
           .truthStandard,
           .hintChamber,
-          .reflectionBox {
+          .reflectionBox,
+          .ipNotice {
             border-color: rgba(0,255,190,0.28);
             box-shadow:
               0 0 28px rgba(0,255,190,0.14),
               inset 0 0 25px rgba(0,255,190,0.07);
+          }
+
+          .restrictedNotice,
+          .vaultPanel {
+            border-color: rgba(255,0,136,0.32);
+            box-shadow:
+              0 0 28px rgba(255,0,136,0.14),
+              inset 0 0 25px rgba(255,0,136,0.07);
           }
 
           .cardTitle {
@@ -318,10 +339,16 @@ export default function App() {
             margin-bottom: 10px;
           }
 
+          .restrictedTitle {
+            color: rgba(255,0,136,0.95);
+          }
+
           .truthStandard p,
-          .pathNotice p,
           .hintChamber p,
-          .reflectionBox p {
+          .reflectionBox p,
+          .ipNotice p,
+          .restrictedNotice p,
+          .vaultPanel p {
             margin: 0 0 14px;
             color: rgba(255,255,255,0.78);
             line-height: 1.65;
@@ -444,18 +471,23 @@ export default function App() {
 
           .archiveGridFull,
           .signalGrid,
-          .reflectionGrid {
+          .reflectionGrid,
+          .restrictedGrid {
             padding: 16px;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 12px;
           }
 
-          .reflectionGrid { grid-template-columns: repeat(3, 1fr); }
+          .reflectionGrid,
+          .restrictedGrid {
+            grid-template-columns: repeat(3, 1fr);
+          }
 
           .archiveCardFull,
           .signalCard,
-          .reflectionCard {
+          .reflectionCard,
+          .restrictedCard {
             border-radius: 16px;
             border: 1px solid rgba(255,255,255,0.16);
             background: rgba(255,255,255,0.06);
@@ -481,9 +513,17 @@ export default function App() {
             opacity: 0.48;
           }
 
+          .restrictedCard {
+            border-color: rgba(255,0,136,0.22);
+            background:
+              radial-gradient(circle at 50% 0%, rgba(255,0,136,0.12), transparent 45%),
+              rgba(255,255,255,0.055);
+          }
+
           .archiveCardFull:hover,
           .signalCard:hover,
-          .reflectionCard:hover {
+          .reflectionCard:hover,
+          .restrictedCard:hover {
             transform: translateY(-5px);
             box-shadow:
               0 0 20px rgba(0,212,255,0.35),
@@ -492,7 +532,8 @@ export default function App() {
 
           .archiveCardFull strong,
           .signalCard strong,
-          .reflectionCard strong {
+          .reflectionCard strong,
+          .restrictedCard strong {
             display: block;
             color: white;
             margin-bottom: 6px;
@@ -500,7 +541,8 @@ export default function App() {
 
           .archiveCardFull span,
           .signalCard span,
-          .reflectionCard span {
+          .reflectionCard span,
+          .restrictedCard span {
             display: block;
             color: rgba(255,255,255,0.62);
             font-size: 12px;
@@ -508,7 +550,8 @@ export default function App() {
             line-height: 1.5;
           }
 
-          .archiveStatus {
+          .archiveStatus,
+          .restrictedStatus {
             display: inline-block;
             margin-top: 10px;
             padding: 4px 8px;
@@ -518,6 +561,26 @@ export default function App() {
             font-size: 10px;
             letter-spacing: 1.5px;
             text-transform: uppercase;
+          }
+
+          .restrictedStatus {
+            background: rgba(255,0,136,0.12);
+            color: rgba(255,120,180,0.95);
+          }
+
+          .footerNotice {
+            position: relative;
+            z-index: 10;
+            max-width: 980px;
+            margin: 28px auto 0;
+            padding: 16px;
+            border-radius: 18px;
+            border: 1px solid rgba(255,255,255,0.16);
+            background: rgba(0,0,0,0.32);
+            color: rgba(255,255,255,0.62);
+            font-size: 11px;
+            line-height: 1.6;
+            letter-spacing: 1px;
           }
 
           .hiddenSignal {
@@ -542,7 +605,8 @@ export default function App() {
           @media (max-width: 900px) {
             .archiveGridFull,
             .signalGrid,
-            .reflectionGrid {
+            .reflectionGrid,
+            .restrictedGrid {
               grid-template-columns: 1fr;
             }
 
@@ -564,20 +628,51 @@ export default function App() {
       <div className="voidSymbol"></div>
       <div className="voidCore"></div>
 
-      <div className="dataStream streamOne">verify each signal • next hint revealed • difficulty rises •</div>
-      <div className="dataStream streamTwo">anonymous reflection chamber • choose a void name • protect your signal •</div>
+      <div className="dataStream streamOne">protected creator materials • public disclosure restricted •</div>
+      <div className="dataStream streamTwo">designs withheld until release • nda access required •</div>
       <div className="dataStream streamThree">access may be purchased • trust must be earned •</div>
 
       {view === "home" && (
         <section className="panel">
-          <div className="signalTag">Progressive Verification Active</div>
+          <div className="signalTag">Creator Protection Layer Active</div>
 
           <h1>Ricochet Void Universe</h1>
 
           <p className="subtitle">
-            The Foundation path is verified one signal at a time. Each correct
-            archive signal confirms direction and reveals the next hint.
+            The Foundation path is verified one signal at a time. Creator designs,
+            prototypes, electronics, accessories, and future product concepts remain
+            restricted until official release.
           </p>
+
+          <div className="card ipNotice">
+            <div className="cardTitle">Intellectual Property Notice</div>
+            <p>
+              Ricochet Void Universe™, its names, archives, writings, progression
+              systems, visual language, creator materials, chamber concepts, artwork,
+              design concepts, and related universe elements are protected creator
+              materials. Unauthorized copying, redistribution, commercial use,
+              public disclosure, reverse engineering, imitation, or derivative use is
+              prohibited without written permission.
+            </p>
+            <p>
+              © Oakley Cheuvront. All Rights Reserved.
+            </p>
+          </div>
+
+          <div className="card restrictedNotice">
+            <div className="cardTitle restrictedTitle">Public Disclosure Warning</div>
+            <p>
+              Future Gear, electronic concepts, accessory designs, prototypes,
+              technical notes, blueprints, manufacturing ideas, and unreleased product
+              details are intentionally not displayed on this public site. Public
+              disclosure can weaken future protection strategies and should be avoided
+              until the creator decides what is ready for release.
+            </p>
+            <p>
+              Restricted materials should only be shared with trusted viewers,
+              collaborators, manufacturers, or advisors after NDA review and approval.
+            </p>
+          </div>
 
           <div className="card truthStandard">
             <div className="cardTitle">The Truth Standard</div>
@@ -708,7 +803,81 @@ export default function App() {
             </div>
           </div>
 
-          <div className="hiddenSignal">the path confirms itself one signal at a time</div>
+          <div className="card restrictedNotice">
+            <div className="cardTitle restrictedTitle">Future Gear Public Preview</div>
+            <p>
+              The public Future Gear chamber will not display unreleased product
+              renders, electronics, dimensions, parts, mechanisms, accessory designs,
+              blueprints, schematics, or manufacturing details.
+            </p>
+          </div>
+
+          <div className="card restrictedGrid">
+            <div className="restrictedCard">
+              <strong>Future Gear Transmission</strong>
+              <span>Design files remain restricted until official release.</span>
+              <div className="restrictedStatus">Restricted</div>
+            </div>
+
+            <div className="restrictedCard">
+              <strong>Prototype Electronics</strong>
+              <span>Private creator vault access only. NDA required.</span>
+              <div className="restrictedStatus">Hidden</div>
+            </div>
+
+            <div className="restrictedCard">
+              <strong>Accessory Concepts</strong>
+              <span>No public render, blueprint, or specification available.</span>
+              <div className="restrictedStatus">Protected</div>
+            </div>
+          </div>
+
+          <div className="card vaultPanel">
+            <div className="cardTitle restrictedTitle">Creator Vault Gateway</div>
+            <p>
+              Restricted creator materials are not published publicly. Trusted eyes
+              only. NDA review required before private design disclosure.
+            </p>
+
+            <div className="accessChamber">
+              <input
+                className="accessInput"
+                value={vaultInput}
+                onChange={(e) => setVaultInput(e.target.value)}
+                placeholder="CREATOR VAULT ACCESS CODE"
+              />
+
+              <button className="actionButton" onClick={verifyVaultAccess}>
+                Verify Vault Access
+              </button>
+            </div>
+          </div>
+
+          {vaultStatus === "granted" && (
+            <div className="card gateResult granted">
+              Creator Vault access recognized. Private materials remain withheld
+              from public deployment until NDA-controlled review.
+            </div>
+          )}
+
+          {vaultStatus === "denied" && (
+            <div className="card gateResult denied">
+              Vault access denied. Restricted creator materials remain sealed.
+            </div>
+          )}
+
+          <div className="footerNotice">
+            Ricochet Void Universe™ — All writings, archives, systems, designs,
+            artwork, visual identity, progression structures, creator concepts,
+            product concepts, and related intellectual property are owned by Oakley
+            Cheuvront unless otherwise stated. Unauthorized reproduction,
+            redistribution, public disclosure, commercial use, imitation, reverse
+            engineering, or derivative use is prohibited. This website does not
+            disclose unreleased prototype designs, technical specifications, or
+            manufacturing information.
+          </div>
+
+          <div className="hiddenSignal">a creator does not reveal the blueprint before the structure is ready</div>
         </section>
       )}
 
@@ -784,6 +953,12 @@ export default function App() {
           <button className="actionButton" onClick={() => setView("home")}>
             Return To Foundation Chamber
           </button>
+
+          <div className="footerNotice">
+            Ricochet Void Universe™ — Reflections may be submitted anonymously or
+            under a chosen Void Name. Submissions should be truthful, voluntary, and
+            respectful. Creator systems and protected materials remain restricted.
+          </div>
 
           <div className="hiddenSignal">
             a signal proves the path was found. a reflection proves the path was felt.
