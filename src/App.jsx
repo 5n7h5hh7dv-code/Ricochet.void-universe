@@ -50,7 +50,7 @@ export default function App() {
           .heroPanel {
             position: relative;
             z-index: 10;
-            max-width: 1240px;
+            max-width: 1260px;
             animation: heroReveal 1.8s ease forwards;
           }
 
@@ -253,7 +253,7 @@ export default function App() {
           }
 
           .subtitle {
-            max-width: 820px;
+            max-width: 840px;
             margin: 22px auto 0;
             font-size: 20px;
             color: rgba(255,255,255,0.86);
@@ -265,11 +265,13 @@ export default function App() {
           .archiveGrid,
           .platformStrip,
           .futureGearPreview,
+          .truthStandard,
+          .creatorOath,
           .entryScreen,
           .entryNav,
           .entryGrid {
             margin: 24px auto 0;
-            max-width: 900px;
+            max-width: 920px;
             border: 1px solid rgba(0,212,255,0.28);
             border-radius: 18px;
             background: linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.25));
@@ -322,6 +324,46 @@ export default function App() {
           .terminalBody em {
             color: rgba(255,0,136,0.9);
             font-style: normal;
+          }
+
+          .truthStandard {
+            padding: 18px;
+            text-align: left;
+            border-color: rgba(0,255,190,0.28);
+            box-shadow:
+              0 0 28px rgba(0,255,190,0.14),
+              inset 0 0 25px rgba(0,255,190,0.07);
+          }
+
+          .truthStandardTitle,
+          .oathTitle {
+            font-size: 13px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(0,255,190,0.95);
+            margin-bottom: 10px;
+          }
+
+          .truthStandard p {
+            margin: 0;
+            color: rgba(255,255,255,0.78);
+            line-height: 1.6;
+            font-size: 14px;
+          }
+
+          .creatorOath {
+            padding: 18px;
+            text-align: left;
+            border-color: rgba(255,255,255,0.2);
+          }
+
+          .oathLine {
+            color: rgba(255,255,255,0.76);
+            font-size: 14px;
+            line-height: 1.7;
+            border-left: 2px solid rgba(0,212,255,0.55);
+            padding-left: 12px;
+            margin: 8px 0;
           }
 
           .accessChamber {
@@ -697,15 +739,15 @@ export default function App() {
       <div className="voidCore"></div>
 
       <div className="dataStream streamOne">
-        signal grows where noise falls • archive path active • signal grows where noise falls •
+        signal grows where noise falls • truth begins where excuses end •
       </div>
 
       <div className="dataStream streamTwo">
-        entry access locked • decode the foundation • submit the signal •
+        access may be purchased • trust must be earned •
       </div>
 
       <div className="dataStream streamThree">
-        future gear chamber loading • creator market pending • architect circle sealed •
+        creator oath active • mirror standard online •
       </div>
 
       <div className="signalShard shardOne"></div>
@@ -722,6 +764,24 @@ export default function App() {
             Signal grows where noise falls. Complete the archives, submit the
             correct signal, and unlock Entry Access.
           </p>
+
+          <div className="truthStandard">
+            <div className="truthStandardTitle">The Truth Standard</div>
+            <p>
+              The Ricochet Void Universe is built on radical truthfulness:
+              truth to others, but especially truth to yourself. The highest
+              chambers are not about pretending to have answers. They are about
+              becoming honest enough to recognize what is real.
+            </p>
+          </div>
+
+          <div className="creatorOath">
+            <div className="oathTitle">Creator's Oath</div>
+            <div className="oathLine">I will not claim certainty where I have doubt.</div>
+            <div className="oathLine">I will not teach what I have not lived.</div>
+            <div className="oathLine">I will not promise what I cannot deliver.</div>
+            <div className="oathLine">I will speak truthfully about my experiences and allow others to discover their own.</div>
+          </div>
 
           <div className="terminal">
             <div className="terminalTop">
@@ -772,17 +832,17 @@ export default function App() {
           <div className="archiveGrid">
             <div className="archiveCard">
               <strong>Mirror Code</strong>
-              <span>Foundation archive awaiting completion</span>
+              <span>Truth begins with the person in the mirror</span>
             </div>
 
             <div className="archiveCard">
               <strong>Silence Architecture</strong>
-              <span>Signal hidden beneath noise</span>
+              <span>Noise falls. Signal becomes visible.</span>
             </div>
 
             <div className="archiveCard">
               <strong>Void Progression</strong>
-              <span>Access path locked</span>
+              <span>Access path locked until the signal is earned</span>
             </div>
           </div>
 
@@ -829,7 +889,7 @@ export default function App() {
             </a>
           </div>
 
-          <div className="hiddenSignal">silence is not empty</div>
+          <div className="hiddenSignal">the mirror never lies</div>
         </section>
       )}
 
@@ -861,10 +921,10 @@ export default function App() {
             </div>
 
             <div className="entryCard">
-              <strong>Signal Dashboard</strong>
+              <strong>Truth Reflection</strong>
               <span>
-                Track archive progress, completed signals, and access milestones
-                as the universe expands.
+                The first unlocked standard: be truthful with yourself before
+                trying to prove anything to the world.
               </span>
             </div>
 
@@ -881,7 +941,7 @@ export default function App() {
             Return To Foundation Gate
           </button>
 
-          <div className="hiddenSignal">entry is only the first chamber</div>
+          <div className="hiddenSignal">entry is only the first honest step</div>
         </section>
       )}
     </main>
