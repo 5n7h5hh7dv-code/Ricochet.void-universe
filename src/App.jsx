@@ -1,212 +1,72 @@
 import { useEffect, useState } from "react";
 
 const signals = [
-  {
-    answer: "MIRROR",
-    title: "Reflection Signal",
-    difficulty: "Clear Hint",
-    hint: "Every signal begins with a reflection.",
-    message: "Reflection recognized. The first path has opened.",
-    nextHint: "Where noise falls, silence begins to speak.",
-  },
-  {
-    answer: "SILENCE",
-    title: "Silence Signal",
-    difficulty: "Light Hidden Clue",
-    hint: "Noise must fall before signal becomes visible.",
-    message: "Noise reduced. A deeper signal is now active.",
-    nextHint: "The void does not answer until you stop filling it.",
-  },
-  {
-    answer: "VOID",
-    title: "Void Signal",
-    difficulty: "Connect Ideas",
-    hint: "The empty space is not empty if you are paying attention.",
-    message: "Pattern detected. The void is responding.",
-    nextHint: "The only direction after the void is upward.",
-  },
-  {
-    answer: "ASCENSION",
-    title: "Ascension Signal",
-    difficulty: "Notice Pattern",
-    hint: "Progress is not escape. Progress is elevation.",
-    message: "Path integrity increasing.",
-    nextHint: "The next gate does not open without honesty.",
-  },
-  {
-    answer: "TRUTH",
-    title: "Truth Signal",
-    difficulty: "Compare Archives",
-    hint: "The mirror never lies. It only waits.",
-    message: "Truth standard confirmed.",
-    nextHint: "Truth without ownership becomes another excuse.",
-  },
-  {
-    answer: "ACCOUNTABILITY",
-    title: "Accountability Signal",
-    difficulty: "Self-Reflection",
-    hint: "Responsibility is the moment blame loses power.",
-    message: "Responsibility recognized.",
-    nextHint: "Only a builder can cross into the Architect path.",
-  },
-  {
-    answer: "ARCHITECT",
-    title: "Architect Signal",
-    difficulty: "Full Path Awareness",
-    hint: "The Architect does not only observe the universe. The Architect builds.",
-    message: "Creator path detected.",
-    nextHint: "The final signal is the law that has been speaking the entire time.",
-  },
-  {
-    answer: "SIGNAL GROWS WHERE NOISE FALLS",
-    title: "Foundation Completion Signal",
-    difficulty: "Complete Chain",
-    hint: "The final signal is the central law.",
-    message: "Foundation complete. Reflection Chamber unlocked.",
-    nextHint: "The path has found you. Reflection is now required.",
-  },
+  { answer: "MIRROR", title: "Reflection Signal", difficulty: "Clear Hint", hint: "Every signal begins with a reflection.", message: "Reflection recognized. The first path has opened.", nextHint: "Where noise falls, silence begins to speak." },
+  { answer: "SILENCE", title: "Silence Signal", difficulty: "Light Hidden Clue", hint: "Noise must fall before signal becomes visible.", message: "Noise reduced. A deeper signal is now active.", nextHint: "The void does not answer until you stop filling it." },
+  { answer: "VOID", title: "Void Signal", difficulty: "Connect Ideas", hint: "The empty space is not empty if you are paying attention.", message: "Pattern detected. The void is responding.", nextHint: "The only direction after the void is upward." },
+  { answer: "ASCENSION", title: "Ascension Signal", difficulty: "Notice Pattern", hint: "Progress is not escape. Progress is elevation.", message: "Path integrity increasing.", nextHint: "The next gate does not open without honesty." },
+  { answer: "TRUTH", title: "Truth Signal", difficulty: "Compare Archives", hint: "The mirror never lies. It only waits.", message: "Truth standard confirmed.", nextHint: "Truth without ownership becomes another excuse." },
+  { answer: "ACCOUNTABILITY", title: "Accountability Signal", difficulty: "Self-Reflection", hint: "Responsibility is the moment blame loses power.", message: "Responsibility recognized.", nextHint: "Only a builder can cross into the Architect path." },
+  { answer: "ARCHITECT", title: "Architect Signal", difficulty: "Full Path Awareness", hint: "The Architect does not only observe the universe. The Architect builds.", message: "Creator path detected.", nextHint: "The final signal is the law that has been speaking the entire time." },
+  { answer: "SIGNAL GROWS WHERE NOISE FALLS", title: "Foundation Completion Signal", difficulty: "Complete Chain", hint: "The final signal is the central law.", message: "Foundation complete. Reflection Chamber unlocked.", nextHint: "The path has found you. Reflection is now required." },
 ];
 
 const archivePdfs = [
   {
-    title: "The Coded Mirror",
-    note: "Every signal begins with a reflection",
-    status: "Signal Detected",
-    file: "/archives/ARCHIVE_I_The_Coded_Mirror_Complete_Edition_V1.pdf",
-  },
-  {
-    title: "Void Protocol 7",
-    note: "PDF archive connected",
-    status: "Fragment Found",
-    file: "/archives/ARCHIVE_II_Void_Protocol_7_Complete_Edition_V1.pdf",
-  },
-  {
     title: "Neural Wealth Mapping",
-    note: "PDF archive connected",
-    status: "Unknown",
     file: "/archives/ARCHIVE_III_Neural_Wealth_Mapping_Complete_Edition_V1.pdf",
   },
   {
-    title: "The Dopamine Collapse Manual",
-    note: "PDF archive connected",
-    status: "Partial Signal",
-    file: "/archives/ARCHIVE_IV_The_Dopamine_Collapse_Manual_Complete_Edition_V1.pdf",
-  },
-  {
-    title: "Project Ascension",
-    note: "PDF archive connected",
-    status: "Dormant",
-    file: "/archives/ARCHIVE_V_Project_Ascension_Complete_Edition_V1.pdf",
-  },
-  {
-    title: "The Human Glitch",
-    note: "PDF archive connected",
-    status: "Unverified",
-    file: "/archives/ARCHIVE_VI_The_Human_Glitch_Complete_Edition_V1.pdf",
-  },
-  {
     title: "Psychological Warfare Against Yourself",
-    note: "PDF archive connected",
-    status: "Unknown",
     file: "/archives/ARCHIVE_VII_Psychological_Warfare_Against_Yourself_Complete_Edition_V1.pdf",
   },
   {
+    title: "The Coded Mirror",
+    file: "/archives/ARCHIVE_I_The_Coded_Mirror_Complete_Edition_V1.pdf",
+  },
+  {
+    title: "The Human Glitch",
+    file: "/archives/ARCHIVE_VI_The_Human_Glitch_Complete_Edition_V1.pdf",
+  },
+  {
+    title: "The Dopamine Collapse Manual",
+    file: "/archives/ARCHIVE_IV_The_Dopamine_Collapse_Manual_Complete_Edition_V1.pdf",
+  },
+  {
     title: "The Internal Empire Blueprint",
-    note: "PDF archive connected",
-    status: "Restricted Signal",
     file: "/archives/ARCHIVE_VIII_The_Internal_Empire_Blueprint_Complete_Edition_V1.pdf",
+  },
+  {
+    title: "Void Protocol 7",
+    file: "/archives/ARCHIVE_II_Void_Protocol_7_Complete_Edition_V1.pdf",
+  },
+  {
+    title: "Project Ascension",
+    file: "/archives/ARCHIVE_V_Project_Ascension_Complete_Edition_V1.pdf",
   },
 ];
 
 const artifacts = [
-  {
-    name: "Founder’s Coin",
-    limit: 1000,
-    minted: 0,
-    status: "Unreleased",
-    code: "RVU-FC",
-  },
-  {
-    name: "Void Artifact Alpha",
-    limit: 500,
-    minted: 0,
-    status: "Restricted",
-    code: "RVU-VA",
-  },
-  {
-    name: "Architect Relic",
-    limit: 100,
-    minted: 0,
-    status: "Creator Vault",
-    code: "RVU-AR",
-  },
-  {
-    name: "Signal Coin",
-    limit: 2500,
-    minted: 0,
-    status: "Research Phase",
-    code: "RVU-SC",
-  },
-  {
-    name: "Archive Ring",
-    limit: 777,
-    minted: 0,
-    status: "Design Protected",
-    code: "RVU-RG",
-  },
-  {
-    name: "Family Collection Token",
-    limit: 1500,
-    minted: 0,
-    status: "Future Phase",
-    code: "RVU-FAM",
-  },
+  { name: "Founder’s Coin", limit: 1000, minted: 0, status: "Unreleased", code: "RVU-FC" },
+  { name: "Void Artifact Alpha", limit: 500, minted: 0, status: "Restricted", code: "RVU-VA" },
+  { name: "Architect Relic", limit: 100, minted: 0, status: "Creator Vault", code: "RVU-AR" },
+  { name: "Signal Coin", limit: 2500, minted: 0, status: "Research Phase", code: "RVU-SC" },
+  { name: "Archive Ring", limit: 777, minted: 0, status: "Design Protected", code: "RVU-RG" },
+  { name: "Family Collection Token", limit: 1500, minted: 0, status: "Future Phase", code: "RVU-FAM" },
 ];
 
 const familyCollection = [
-  {
-    title: "Children’s Story Vault",
-    status: "Manuscripts Protected",
-    note: "Full story text withheld until release.",
-  },
-  {
-    title: "Parent Read-Along Rentals",
-    status: "Future Platform",
-    note: "Designed for parents to rent and read with children.",
-  },
-  {
-    title: "Illustration Phase",
-    status: "Needs Artwork",
-    note: "Illustrations remain private until final approval.",
-  },
-  {
-    title: "Audio Story Chamber",
-    status: "Future Phase",
-    note: "Possible narrated versions for family listening.",
-  },
-  {
-    title: "Educational Adventures",
-    status: "Protected Concept",
-    note: "Knowledge paths adapted for younger audiences.",
-  },
-  {
-    title: "Family Access Path",
-    status: "Coming Later",
-    note: "A separate child-safe branch of the universe.",
-  },
+  { title: "Children’s Story Vault", status: "Manuscripts Protected", note: "Full story text withheld until release." },
+  { title: "Parent Read-Along Rentals", status: "Future Platform", note: "Designed for parents to rent and read with children." },
+  { title: "Illustration Phase", status: "Needs Artwork", note: "Illustrations remain private until final approval." },
+  { title: "Audio Story Chamber", status: "Future Phase", note: "Possible narrated versions for family listening." },
+  { title: "Educational Adventures", status: "Protected Concept", note: "Knowledge paths adapted for younger audiences." },
+  { title: "Family Access Path", status: "Coming Later", note: "A separate child-safe branch of the universe." },
 ];
 
 function getCountdown(targetDate) {
   const distance = new Date(targetDate).getTime() - new Date().getTime();
-
-  if (distance <= 0) {
-    return {
-      days: "00",
-      hours: "00",
-      minutes: "00",
-      seconds: "00",
-    };
-  }
+  if (distance <= 0) return { days: "00", hours: "00", minutes: "00", seconds: "00" };
 
   return {
     days: String(Math.floor(distance / (1000 * 60 * 60 * 24))).padStart(2, "0"),
@@ -881,23 +741,24 @@ export default function App() {
       <div className="voidCore"></div>
 
       <div className="dataStream streamOne">
-        complete archive pdfs connected • public order remains false •
+        archives displayed out of order • numbers hidden from public view •
       </div>
       <div className="dataStream streamTwo">
         foundation • artifacts • commerce • family • vault • reflection •
       </div>
       <div className="dataStream streamThree">
-        the pdf is the archive • the chamber verifies the path •
+        the archive name is visible • the true order remains earned •
       </div>
 
       <section className="panel">
-        <div className="signalTag">Complete Archive PDF System Active</div>
+        <div className="signalTag">Hidden Archive Order Active</div>
 
         <h1>Ricochet Void Universe</h1>
 
         <p className="subtitle">
-          The Foundation PDFs are now connected through protected archive panels.
-          The files must be uploaded into public/archives with exact matching names.
+          The Foundation Archives are available by name only. Their public display
+          order is intentionally scattered, and the true path remains hidden inside
+          the archive signals.
         </p>
 
         <div className="chamberNav">
@@ -994,9 +855,9 @@ export default function App() {
             <div className="card sectionPad greenPanel">
               <div className="cardTitle">Foundation Archive Access</div>
               <p>
-                The PDFs remain the true Foundation path. The order displayed here is not
-                the correct path. Each archive opens a protected access panel and then
-                opens the matching complete PDF file.
+                The PDFs remain the true Foundation path. Archive numbers, internal order,
+                file paths, and progression sequence are hidden from the public interface.
+                Only the archive names are displayed.
               </p>
             </div>
 
@@ -1004,44 +865,25 @@ export default function App() {
               {archivePdfs.map((archive) => (
                 <div className="universeCard" key={archive.title}>
                   <strong>{archive.title}</strong>
-                  <span>{archive.note}</span>
 
                   <button
                     className="actionButton"
                     style={{ marginTop: "12px" }}
                     onClick={() => setSelectedArchive(archive)}
                   >
-                    Open Archive Panel
+                    Open Archive
                   </button>
-
-                  <div className="status">{archive.status}</div>
                 </div>
               ))}
             </div>
 
             {selectedArchive && (
               <div className="card sectionPad greenPanel">
-                <div className="cardTitle">Archive Access Panel</div>
+                <div className="cardTitle">Archive Access</div>
 
                 <p>
                   <strong>{selectedArchive.title}</strong>
                 </p>
-
-                <p>
-                  This archive is part of the Foundation path. The public display order
-                  is not the true progression order. The user must follow the hidden
-                  signals inside the PDFs.
-                </p>
-
-                <p>
-                  Connected PDF path:
-                  <br />
-                  <span style={{ color: "rgba(0,255,190,0.95)" }}>
-                    {selectedArchive.file}
-                  </span>
-                </p>
-
-                <p>Status: {selectedArchive.status}</p>
 
                 <a
                   className="actionButton"
@@ -1049,11 +891,11 @@ export default function App() {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Open PDF File
+                  Open PDF
                 </a>
 
                 <button className="secondaryButton" onClick={() => setSelectedArchive(null)}>
-                  Close Panel
+                  Close
                 </button>
               </div>
             )}
@@ -1376,7 +1218,7 @@ export default function App() {
         </div>
 
         <div className="hiddenSignal">
-          the complete archives are connected. the path remains earned.
+          the visible archive is only a name. the true order is still hidden.
         </div>
       </section>
     </main>
