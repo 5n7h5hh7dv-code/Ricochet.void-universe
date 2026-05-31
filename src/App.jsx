@@ -52,6 +52,10 @@ function getCountdown(targetDate) {
   };
 }
 
+function cleanInput(value) {
+  return String(value).replace(/[<>]/g, "").trim();
+}
+
 export default function App() {
   const [activeChamber, setActiveChamber] = useState("foundation");
   const [selectedArchiveTitle, setSelectedArchiveTitle] = useState(null);
@@ -68,6 +72,7 @@ export default function App() {
   const [memberMessage, setMemberMessage] = useState("No member session active.");
   const [memberWaitlist, setMemberWaitlist] = useState([]);
   const [memberSelectedItem, setMemberSelectedItem] = useState("Founder’s Coin");
+  const [progressSaved, setProgressSaved] = useState(false);
 
   const [vaultInput, setVaultInput] = useState("");
   const [vaultStatus, setVaultStatus] = useState("idle");
@@ -88,9 +93,69 @@ export default function App() {
     selectedArchive && !foundationComplete && selectedArchive.title === currentArchive.title;
 
   useEffect(() => {
+    const saved = localStorage.getItem("rvuMemberPreview");
+
+    if (saved) {
+      try {
+        const data = JSON.parse(saved);
+        setCurrentStep(Number(data.currentStep || 0));
+        setMemberName(data.memberName || "");
+        setMemberEmail(data.memberEmail || "");
+        setMemberVoidName(data.memberVoidName || "");
+        setMemberSignedIn(Boolean(data.memberSignedIn));
+        setMemberWaitlist(Array.isArray(data.memberWaitlist) ? data.memberWaitlist : []);
+        setVoidName(data.voidName || "");
+        setReflection(data.reflection || "");
+        setReflectionSubmitted(Boolean(data.reflectionSubmitted));
+
+        const restoredStep = Number(data.currentStep || 0);
+        if (restoredStep >= foundationPath.length) {
+          setPathHint("The path has found you. Reflection is now required.");
+          setLastMessage("Foundation complete. Reflection Chamber unlocked.");
+        } else {
+          setPathHint(foundationPath[restoredStep].hint);
+          setLastMessage("Saved progress restored.");
+        }
+
+        setProgressSaved(true);
+      } catch {
+        localStorage.removeItem("rvuMemberPreview");
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     const timer = setInterval(() => setCountdown(getCountdown("2026-12-31T23:59:59")), 1000);
     return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    const data = {
+      currentStep,
+      memberName,
+      memberEmail,
+      memberVoidName,
+      memberSignedIn,
+      memberWaitlist,
+      voidName,
+      reflection,
+      reflectionSubmitted,
+      savedAt: new Date().toISOString(),
+    };
+
+    localStorage.setItem("rvuMemberPreview", JSON.stringify(data));
+    setProgressSaved(true);
+  }, [
+    currentStep,
+    memberName,
+    memberEmail,
+    memberVoidName,
+    memberSignedIn,
+    memberWaitlist,
+    voidName,
+    reflection,
+    reflectionSubmitted,
+  ]);
 
   function verifyCurrentSignal() {
     if (foundationComplete) return;
@@ -124,18 +189,25 @@ export default function App() {
   }
 
   function handleMemberSignup() {
-    if (!memberEmail.trim()) {
+    const email = cleanInput(memberEmail);
+    const name = cleanInput(memberName);
+    const vName = cleanInput(memberVoidName);
+
+    if (!email) {
       setMemberMessage("Enter an email to create a preview member profile.");
       return;
     }
 
+    setMemberEmail(email);
+    setMemberName(name);
+    setMemberVoidName(vName);
     setMemberSignedIn(true);
-    setMemberMessage("Member preview active. Real login and saved cloud progress will connect later.");
+    setMemberMessage("Member preview active. Progress now saves on this device.");
   }
 
   function handleMemberLogout() {
     setMemberSignedIn(false);
-    setMemberMessage("Member preview signed out.");
+    setMemberMessage("Member preview signed out. Saved progress remains on this device.");
   }
 
   function joinWaitlist() {
@@ -150,6 +222,25 @@ export default function App() {
     } else {
       setMemberMessage(`${memberSelectedItem} is already on your waitlist preview.`);
     }
+  }
+
+  function resetLocalProgress() {
+    localStorage.removeItem("rvuMemberPreview");
+    setCurrentStep(0);
+    setSignalInput("");
+    setSignalStatus("idle");
+    setLastMessage("Local progress reset. Awaiting first archive signal.");
+    setPathHint(foundationPath[0].hint);
+    setMemberName("");
+    setMemberEmail("");
+    setMemberVoidName("");
+    setMemberSignedIn(false);
+    setMemberWaitlist([]);
+    setVoidName("");
+    setReflection("");
+    setReflectionSubmitted(false);
+    setMemberMessage("Local member preview reset.");
+    setProgressSaved(false);
   }
 
   return (
@@ -458,6 +549,16 @@ export default function App() {
           box-shadow: 0 0 24px rgba(0,212,255,0.55), 0 0 38px rgba(125,0,255,0.35);
         }
 
+        .dangerButton {
+          border: 1px solid rgba(255,0,136,0.45);
+          border-radius: 12px;
+          padding: 12px 16px;
+          color: white;
+          background: rgba(255,0,136,0.12);
+          cursor: pointer;
+          margin-top: 12px;
+        }
+
         .secondaryButton {
           border: 1px solid rgba(255,255,255,0.2);
           border-radius: 12px;
@@ -627,19 +728,19 @@ export default function App() {
       <div className="voidSymbol"></div>
       <div className="voidCore"></div>
 
-      <div className="dataStream streamOne">member chamber active • future login infrastructure forming •</div>
+      <div className="dataStream streamOne">local saved progress active • future backend still required •</div>
       <div className="dataStream streamTwo">foundation • member • artifacts • commerce • family • vault • reflection •</div>
-      <div className="dataStream streamThree">progress will later be saved to real accounts •</div>
+      <div className="dataStream streamThree">feature built • feature hardened • universe continues •</div>
 
       <section className="panel">
-        <div className="signalTag">Member Access Chamber Active</div>
+        <div className="signalTag">Saved Member Progress Prototype Active</div>
 
         <h1>Ricochet Void Universe</h1>
 
         <p className="subtitle">
-          Archive numbers are hidden. The path remains locked in order. The universe
-          now includes a Member Access Chamber for future sign up, saved progress,
-          waitlists, orders, and account-based progression.
+          The universe now remembers member preview progress on this device. This is
+          not real cloud login yet, but it prepares the path for accounts, saved
+          progress, waitlists, ordering, and protected access.
         </p>
 
         <div className="chamberNav">
@@ -760,13 +861,13 @@ export default function App() {
             <div className="card sectionPad greenPanel">
               <div className="cardTitle">Member Access Chamber</div>
               <p>
-                This is the prototype layer for future real accounts. Later, members will
-                sign up, log in, save Foundation progress, continue where they left off,
-                join waitlists, order products, and connect access level to subscriptions.
+                This is the saved-progress prototype layer. It remembers member preview
+                information, Foundation progress, reflection draft, and waitlist items
+                on this device only.
               </p>
               <p>
-                This version is front-end only. It does not create real accounts or store
-                private information on a server yet.
+                This is not real authentication yet. Later we will connect this to a
+                backend so users can log in from any device.
               </p>
             </div>
 
@@ -783,7 +884,7 @@ export default function App() {
                 <button className="secondaryButton" onClick={handleMemberLogout}>Sign Out Preview</button>
               )}
 
-              <div className={memberSignedIn ? "memberBadge" : "status statusRed"}>
+              <div className={memberSignedIn ? "memberBadge" : "statusRed"}>
                 {memberSignedIn ? "Member Preview Active" : "Not Signed In"}
               </div>
             </div>
@@ -795,31 +896,31 @@ export default function App() {
             <div className="card grid3">
               <div className="universeCard greenCard">
                 <strong>Saved Foundation Progress</strong>
-                <span>{currentStep} / {foundationPath.length} signals verified in this session.</span>
-                <span>Future: save this to member account database.</span>
-                <div className="status statusGreen">Prototype</div>
+                <span>{currentStep} / {foundationPath.length} signals verified.</span>
+                <span>{progressSaved ? "Saved locally on this device." : "Not saved yet."}</span>
+                <div className="statusGreen">Local Save</div>
               </div>
 
               <div className="universeCard greenCard">
                 <strong>Member Identity</strong>
                 <span>Name: {memberName || "Not entered"}</span>
                 <span>Void Name: {memberVoidName || "Not chosen"}</span>
-                <div className="status statusGreen">Preview</div>
+                <div className="statusGreen">Preview</div>
               </div>
 
               <div className="universeCard greenCard">
                 <strong>Future Access Tier</strong>
-                <span>Entry Access unlocks after Foundation completion.</span>
-                <span>Future: Signal, Sub-Creator, Architect Circle, Universe Architect.</span>
-                <div className="status statusGreen">Planned</div>
+                <span>{foundationComplete ? "Entry Access eligible." : "Entry Access locked until Foundation completion."}</span>
+                <span>Future: paid subscription tiers attach here.</span>
+                <div className="statusGreen">Planned</div>
               </div>
             </div>
 
             <div className="card sectionPad greenPanel">
               <div className="cardTitle">Waitlist Preview</div>
               <p>
-                This prepares the future item waitlist system. Later this will connect to
-                real accounts, product drops, limited artifacts, and order status.
+                This prepares future item waitlists. Later, this will connect to real
+                member accounts, limited drops, collector records, and order history.
               </p>
 
               <select className="selectInput" value={memberSelectedItem} onChange={(e) => setMemberSelectedItem(e.target.value)}>
@@ -835,20 +936,31 @@ export default function App() {
               <div className="universeCard greenCard">
                 <strong>Waitlist Items</strong>
                 <span>{memberWaitlist.length ? memberWaitlist.join(", ") : "No waitlist items yet."}</span>
-                <div className="status statusGreen">Preview</div>
+                <div className="statusGreen">Saved Locally</div>
               </div>
 
               <div className="universeCard redCard">
                 <strong>Order History</strong>
                 <span>No real orders yet. Payment systems are not active.</span>
-                <div className="status statusRed">Future</div>
+                <div className="statusRed">Future</div>
               </div>
 
               <div className="universeCard redCard">
                 <strong>Account Backend</strong>
                 <span>Future connection: Supabase, Firebase, Clerk, Auth0, or custom backend.</span>
-                <div className="status statusRed">Not Connected</div>
+                <div className="statusRed">Not Connected</div>
               </div>
+            </div>
+
+            <div className="card sectionPad redPanel">
+              <div className="cardTitle restrictedTitle">Local Data Control</div>
+              <p>
+                This reset clears only the preview progress saved inside this browser.
+                It does not affect GitHub, Vercel, PDFs, or any real database.
+              </p>
+              <button className="dangerButton" onClick={resetLocalProgress}>
+                Reset Local Preview Progress
+              </button>
             </div>
           </>
         )}
@@ -926,7 +1038,7 @@ export default function App() {
 
             {interestSubmitted && (
               <div className="card gateResult granted">
-                Interest recorded for {collectorName.trim() || "Unknown Collector"} — {selectedArtifact}. No payment has been collected.
+                Interest recorded for {cleanInput(collectorName) || "Unknown Collector"} — {selectedArtifact}. No payment has been collected.
               </div>
             )}
           </>
@@ -1034,7 +1146,7 @@ export default function App() {
 
             {reflectionSubmitted && (
               <div className="card gateResult granted">
-                Reflection received from {voidName.trim() || "Unknown Signal"}.
+                Reflection received from {cleanInput(voidName) || "Unknown Signal"}.
                 Your realization has been recorded inside the Foundation Chamber.
               </div>
             )}
@@ -1073,7 +1185,7 @@ export default function App() {
         </div>
 
         <div className="hiddenSignal">
-          member identity prepares the path, but the truth still has to be earned.
+          progress can be remembered, but truth still has to be lived.
         </div>
       </section>
     </main>
