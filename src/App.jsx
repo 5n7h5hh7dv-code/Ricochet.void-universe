@@ -31,6 +31,14 @@ const artifacts = [
   { name: "Family Collection Token", limit: 1500, minted: 0, status: "Future Phase", code: "RVU-FAM" },
 ];
 
+const accessTiers = [
+  { name: "Entry Access", price: "$0", state: "Earned after Foundation completion", access: "First member chamber access after review." },
+  { name: "Signal Access", price: "$9.99/mo", state: "Future paid tier", access: "Core chamber access, updates, and continued universe path." },
+  { name: "Sub-Creator Access", price: "$24.99/mo", state: "Future paid tier", access: "Creation tools, guided prompts, community systems, and deeper paths." },
+  { name: "Architect Circle", price: "$49.99/mo", state: "Future paid tier", access: "Private drops, deeper creator rooms, and advanced universe access." },
+  { name: "Universe Architect", price: "$99.99/mo", state: "Highest future tier", access: "Highest public access tier before creator-only systems." },
+];
+
 const familyCollection = [
   { title: "Children’s Story Vault", status: "Manuscripts Protected", note: "Full story text withheld until release." },
   { title: "Parent Read-Along Rentals", status: "Future Platform", note: "Designed for parents to rent and read with children." },
@@ -404,9 +412,9 @@ export default function App() {
 
         .chamberNav {
           margin: 28px auto 0;
-          max-width: 1150px;
+          max-width: 1240px;
           display: grid;
-          grid-template-columns: repeat(7, 1fr);
+          grid-template-columns: repeat(8, 1fr);
           gap: 10px;
           position: sticky;
           top: 12px;
@@ -713,6 +721,13 @@ export default function App() {
           margin: 8px 0;
         }
 
+        .tierPrice {
+          font-size: 26px;
+          color: rgba(0,255,190,0.95);
+          margin: 8px 0;
+          text-shadow: 0 0 18px rgba(0,255,190,0.25);
+        }
+
         .footerNotice {
           position: relative;
           z-index: 10;
@@ -761,22 +776,23 @@ export default function App() {
       <div className="voidSymbol"></div>
       <div className="voidCore"></div>
 
-      <div className="dataStream streamOne">member dashboard active • access status visible •</div>
-      <div className="dataStream streamTwo">foundation • member • artifacts • commerce • family • vault • reflection •</div>
-      <div className="dataStream streamThree">feature built • feature hardened • universe continues •</div>
+      <div className="dataStream streamOne">access tiers chamber active • payment still locked •</div>
+      <div className="dataStream streamTwo">foundation • member • access • artifacts • commerce • family • vault • reflection •</div>
+      <div className="dataStream streamThree">firewall headers remain in vercel json • backend security comes later •</div>
 
       <section className="panel">
-        <div className="signalTag">Member Dashboard Upgrade Active</div>
+        <div className="signalTag">Access Tier Chamber Active</div>
 
         <h1>Ricochet Void Universe</h1>
 
         <p className="subtitle">
-          The Member Chamber now shows a stronger dashboard: saved progress, access
-          eligibility, waitlist status, order preview, and security notes.
+          The universe now displays its future access structure while keeping payments
+          inactive until the backend, security, refund terms, and protected content
+          delivery are ready.
         </p>
 
         <div className="chamberNav">
-          {["foundation", "member", "artifacts", "commerce", "family", "vault", "reflection"].map((chamber) => (
+          {["foundation", "member", "access", "artifacts", "commerce", "family", "vault", "reflection"].map((chamber) => (
             <button
               key={chamber}
               className={`navButton ${activeChamber === chamber ? "active" : ""}`}
@@ -1005,6 +1021,47 @@ export default function App() {
           </>
         )}
 
+        {activeChamber === "access" && (
+          <>
+            <div className="card sectionPad greenPanel">
+              <div className="cardTitle">Access Tier Chamber</div>
+              <p>
+                This chamber displays the future Ricochet Void Universe access model.
+                Payments are intentionally inactive until real authentication, protected
+                content delivery, refund terms, backend storage, tax/shipping logic, and
+                payment security are ready.
+              </p>
+            </div>
+
+            <div className="card grid3">
+              {accessTiers.map((tier) => (
+                <div className={tier.name === "Entry Access" && foundationComplete ? "universeCard greenCard" : "universeCard redCard"} key={tier.name}>
+                  <strong>{tier.name}</strong>
+                  <div className="tierPrice">{tier.price}</div>
+                  <span>{tier.state}</span>
+                  <span>{tier.access}</span>
+                  <div className={tier.name === "Entry Access" && foundationComplete ? "statusGreen" : "statusRed"}>
+                    {tier.name === "Entry Access" && foundationComplete ? "Eligible" : "Locked / Future"}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="card sectionPad redPanel">
+              <div className="cardTitle restrictedTitle">Payment Security Hold</div>
+              <p>
+                No live payment processor is connected in this prototype. This protects
+                the project from collecting money before member accounts, delivery rules,
+                product terms, and backend security are ready.
+              </p>
+              <p>
+                Future payment layer: subscription checkout, order records, refund
+                policy, tax/shipping settings, protected fulfillment, and fraud controls.
+              </p>
+            </div>
+          </>
+        )}
+
         {activeChamber === "artifacts" && (
           <>
             <div className="card sectionPad greenPanel">
@@ -1220,12 +1277,13 @@ export default function App() {
           use, imitation, reverse engineering, or derivative use is prohibited.
           This public website does not disclose unreleased manuscripts, prototype
           designs, technical specifications, manufacturing information, or private
-          creator vault materials. Member login, waitlists, orders, and saved progress
-          are currently preview systems only until connected to a real backend.
+          creator vault materials. Member login, waitlists, orders, subscriptions,
+          payment systems, and saved progress are currently preview systems only
+          until connected to a real backend and protected by account-level security.
         </div>
 
         <div className="hiddenSignal">
-          the dashboard shows the path, but the path still has to be walked.
+          access can be priced, but trust and truth still have to be earned.
         </div>
       </section>
     </main>
