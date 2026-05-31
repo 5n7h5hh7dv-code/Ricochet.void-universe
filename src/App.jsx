@@ -1,94 +1,14 @@
 import { useEffect, useState } from "react";
 
 const foundationPath = [
-  {
-    key: "mirror",
-    title: "The Coded Mirror",
-    file: "/archives/the-coded-mirror-complete.pdf",
-    signal: "MIRROR",
-    signalTitle: "Reflection Signal",
-    difficulty: "Clear Hint",
-    hint: "Every signal begins with a reflection.",
-    success: "Reflection recognized. The first path has opened.",
-    nextHint: "Where noise falls, silence begins to speak.",
-  },
-  {
-    key: "void",
-    title: "Void Protocol 7",
-    file: "/archives/void-protocol-7-complete.pdf",
-    signal: "SILENCE",
-    signalTitle: "Silence Signal",
-    difficulty: "Light Hidden Clue",
-    hint: "Noise must fall before signal becomes visible.",
-    success: "Noise reduced. A deeper signal is now active.",
-    nextHint: "The void does not answer until you stop filling it.",
-  },
-  {
-    key: "wealth",
-    title: "Neural Wealth Mapping",
-    file: "/archives/neural-wealth-mapping-complete.pdf",
-    signal: "VOID",
-    signalTitle: "Void Signal",
-    difficulty: "Connect Ideas",
-    hint: "The empty space is not empty if you are paying attention.",
-    success: "Pattern detected. The void is responding.",
-    nextHint: "The only direction after the void is upward.",
-  },
-  {
-    key: "dopamine",
-    title: "The Dopamine Collapse Manual",
-    file: "/archives/dopamine-collapse-manual-complete.pdf",
-    signal: "ASCENSION",
-    signalTitle: "Ascension Signal",
-    difficulty: "Notice Pattern",
-    hint: "Progress is not escape. Progress is elevation.",
-    success: "Path integrity increasing.",
-    nextHint: "The next gate does not open without honesty.",
-  },
-  {
-    key: "ascension",
-    title: "Project Ascension",
-    file: "/archives/project-ascension-complete.pdf",
-    signal: "TRUTH",
-    signalTitle: "Truth Signal",
-    difficulty: "Compare Archives",
-    hint: "The mirror never lies. It only waits.",
-    success: "Truth standard confirmed.",
-    nextHint: "Truth without ownership becomes another excuse.",
-  },
-  {
-    key: "glitch",
-    title: "The Human Glitch",
-    file: "/archives/the-human-glitch-complete.pdf",
-    signal: "ACCOUNTABILITY",
-    signalTitle: "Accountability Signal",
-    difficulty: "Self-Reflection",
-    hint: "Responsibility is the moment blame loses power.",
-    success: "Responsibility recognized.",
-    nextHint: "Only a builder can cross into the Architect path.",
-  },
-  {
-    key: "warfare",
-    title: "Psychological Warfare Against Yourself",
-    file: "/archives/psychological-warfare-against-yourself-complete.pdf",
-    signal: "ARCHITECT",
-    signalTitle: "Architect Signal",
-    difficulty: "Full Path Awareness",
-    hint: "The Architect does not only observe the universe. The Architect builds.",
-    success: "Creator path detected.",
-    nextHint: "The final signal is the law that has been speaking the entire time.",
-  },
-  {
-    key: "empire",
-    title: "The Internal Empire Blueprint",
-    file: "/archives/the-internal-empire-blueprint-complete.pdf",
-    signal: "SIGNAL GROWS WHERE NOISE FALLS",
-    signalTitle: "Foundation Completion Signal",
-    difficulty: "Complete Chain",
-    hint: "The final signal is the central law.",
-    success: "Foundation complete. Reflection Chamber unlocked.",
-    nextHint: "The path has found you. Reflection is now required.",
-  },
+  { key: "mirror", title: "The Coded Mirror", file: "/archives/the-coded-mirror-complete.pdf", signal: "MIRROR", signalTitle: "Reflection Signal", difficulty: "Clear Hint", hint: "Every signal begins with a reflection.", success: "Reflection recognized. The first path has opened." },
+  { key: "void", title: "Void Protocol 7", file: "/archives/void-protocol-7-complete.pdf", signal: "SILENCE", signalTitle: "Silence Signal", difficulty: "Light Hidden Clue", hint: "Where noise falls, silence begins to speak.", success: "Noise reduced. A deeper signal is now active." },
+  { key: "wealth", title: "Neural Wealth Mapping", file: "/archives/neural-wealth-mapping-complete.pdf", signal: "VOID", signalTitle: "Void Signal", difficulty: "Connect Ideas", hint: "The void does not answer until you stop filling it.", success: "Pattern detected. The void is responding." },
+  { key: "dopamine", title: "The Dopamine Collapse Manual", file: "/archives/dopamine-collapse-manual-complete.pdf", signal: "ASCENSION", signalTitle: "Ascension Signal", difficulty: "Notice Pattern", hint: "The only direction after the void is upward.", success: "Path integrity increasing." },
+  { key: "ascension", title: "Project Ascension", file: "/archives/project-ascension-complete.pdf", signal: "TRUTH", signalTitle: "Truth Signal", difficulty: "Compare Archives", hint: "The next gate does not open without honesty.", success: "Truth standard confirmed." },
+  { key: "glitch", title: "The Human Glitch", file: "/archives/the-human-glitch-complete.pdf", signal: "ACCOUNTABILITY", signalTitle: "Accountability Signal", difficulty: "Self-Reflection", hint: "Truth without ownership becomes another excuse.", success: "Responsibility recognized." },
+  { key: "warfare", title: "Psychological Warfare Against Yourself", file: "/archives/psychological-warfare-against-yourself-complete.pdf", signal: "ARCHITECT", signalTitle: "Architect Signal", difficulty: "Full Path Awareness", hint: "Only a builder can cross into the Architect path.", success: "Creator path detected." },
+  { key: "empire", title: "The Internal Empire Blueprint", file: "/archives/the-internal-empire-blueprint-complete.pdf", signal: "SIGNAL GROWS WHERE NOISE FALLS", signalTitle: "Foundation Completion Signal", difficulty: "Complete Chain", hint: "The final signal is the central law.", success: "Foundation complete. Reflection Chamber unlocked." },
 ];
 
 const publicArchiveDisplay = [
@@ -140,6 +60,15 @@ export default function App() {
   const [signalStatus, setSignalStatus] = useState("idle");
   const [lastMessage, setLastMessage] = useState("Awaiting first archive signal.");
   const [pathHint, setPathHint] = useState(foundationPath[0].hint);
+
+  const [memberName, setMemberName] = useState("");
+  const [memberEmail, setMemberEmail] = useState("");
+  const [memberVoidName, setMemberVoidName] = useState("");
+  const [memberSignedIn, setMemberSignedIn] = useState(false);
+  const [memberMessage, setMemberMessage] = useState("No member session active.");
+  const [memberWaitlist, setMemberWaitlist] = useState([]);
+  const [memberSelectedItem, setMemberSelectedItem] = useState("Founder’s Coin");
+
   const [vaultInput, setVaultInput] = useState("");
   const [vaultStatus, setVaultStatus] = useState("idle");
   const [voidName, setVoidName] = useState("");
@@ -192,6 +121,35 @@ export default function App() {
 
   function verifyVaultAccess() {
     setVaultStatus(vaultInput.trim().toUpperCase() === "CREATOR-VAULT" ? "granted" : "denied");
+  }
+
+  function handleMemberSignup() {
+    if (!memberEmail.trim()) {
+      setMemberMessage("Enter an email to create a preview member profile.");
+      return;
+    }
+
+    setMemberSignedIn(true);
+    setMemberMessage("Member preview active. Real login and saved cloud progress will connect later.");
+  }
+
+  function handleMemberLogout() {
+    setMemberSignedIn(false);
+    setMemberMessage("Member preview signed out.");
+  }
+
+  function joinWaitlist() {
+    if (!memberSignedIn) {
+      setMemberMessage("Sign in or create a member preview before joining a waitlist.");
+      return;
+    }
+
+    if (!memberWaitlist.includes(memberSelectedItem)) {
+      setMemberWaitlist([...memberWaitlist, memberSelectedItem]);
+      setMemberMessage(`${memberSelectedItem} added to your member waitlist preview.`);
+    } else {
+      setMemberMessage(`${memberSelectedItem} is already on your waitlist preview.`);
+    }
   }
 
   return (
@@ -353,9 +311,9 @@ export default function App() {
 
         .chamberNav {
           margin: 28px auto 0;
-          max-width: 1100px;
+          max-width: 1150px;
           display: grid;
-          grid-template-columns: repeat(6, 1fr);
+          grid-template-columns: repeat(7, 1fr);
           gap: 10px;
           position: sticky;
           top: 12px;
@@ -395,10 +353,7 @@ export default function App() {
           backdrop-filter: blur(10px);
         }
 
-        .sectionPad {
-          padding: 18px;
-          text-align: left;
-        }
+        .sectionPad { padding: 18px; text-align: left; }
 
         .greenPanel {
           border-color: rgba(0,255,190,0.28);
@@ -447,8 +402,7 @@ export default function App() {
           text-transform: uppercase;
         }
 
-        .progressBar,
-        .counterBar {
+        .progressBar, .counterBar {
           height: 10px;
           border-radius: 999px;
           overflow: hidden;
@@ -456,8 +410,7 @@ export default function App() {
           margin-top: 14px;
         }
 
-        .progressFill,
-        .counterFill {
+        .progressFill, .counterFill {
           height: 100%;
           border-radius: inherit;
           background: linear-gradient(90deg, #7d00ff, #00d4ff, #00ffbe);
@@ -465,16 +418,9 @@ export default function App() {
           transition: width 0.6s ease;
         }
 
-        .accessChamber {
-          display: flex;
-          gap: 10px;
-          padding: 10px;
-        }
+        .accessChamber { display: flex; gap: 10px; padding: 10px; }
 
-        .accessInput,
-        .reflectionInput,
-        .reflectionText,
-        .selectInput {
+        .accessInput, .reflectionInput, .reflectionText, .selectInput {
           border: none;
           outline: none;
           border-radius: 12px;
@@ -486,19 +432,13 @@ export default function App() {
 
         .accessInput { flex: 1; }
 
-        .reflectionInput,
-        .reflectionText,
-        .selectInput {
+        .reflectionInput, .reflectionText, .selectInput {
           width: 100%;
           box-sizing: border-box;
           margin-top: 10px;
         }
 
-        .reflectionText {
-          min-height: 130px;
-          resize: vertical;
-          line-height: 1.5;
-        }
+        .reflectionText { min-height: 130px; resize: vertical; line-height: 1.5; }
 
         .actionButton {
           border: none;
@@ -516,14 +456,6 @@ export default function App() {
         .actionButton:hover {
           transform: translateY(-2px);
           box-shadow: 0 0 24px rgba(0,212,255,0.55), 0 0 38px rgba(125,0,255,0.35);
-        }
-
-        .actionButton.disabled,
-        .actionButton:disabled {
-          opacity: 0.35;
-          cursor: not-allowed;
-          transform: none;
-          box-shadow: none;
         }
 
         .secondaryButton {
@@ -555,8 +487,7 @@ export default function App() {
           box-shadow: 0 0 30px rgba(255,0,136,0.25);
         }
 
-        .grid4,
-        .grid3 {
+        .grid4, .grid3 {
           padding: 16px;
           display: grid;
           gap: 12px;
@@ -581,11 +512,7 @@ export default function App() {
           box-shadow: 0 0 20px rgba(0,212,255,0.35), 0 0 35px rgba(255,0,136,0.18);
         }
 
-        .universeCard strong {
-          display: block;
-          color: white;
-          margin-bottom: 6px;
-        }
+        .universeCard strong { display: block; color: white; margin-bottom: 6px; }
 
         .universeCard span {
           display: block;
@@ -610,45 +537,46 @@ export default function App() {
 
         .redCard {
           border-color: rgba(255,0,136,0.22);
-          background:
-            radial-gradient(circle at 50% 0%, rgba(255,0,136,0.12), transparent 45%),
-            rgba(255,255,255,0.055);
+          background: radial-gradient(circle at 50% 0%, rgba(255,0,136,0.12), transparent 45%), rgba(255,255,255,0.055);
         }
 
         .greenCard {
           border-color: rgba(0,255,190,0.22);
-          background:
-            radial-gradient(circle at 50% 0%, rgba(0,255,190,0.12), transparent 45%),
-            rgba(255,255,255,0.055);
+          background: radial-gradient(circle at 50% 0%, rgba(0,255,190,0.12), transparent 45%), rgba(255,255,255,0.055);
         }
 
-        .status {
+        .status, .statusRed, .statusGreen {
           display: inline-block;
           margin-top: 10px;
           padding: 4px 8px;
           border-radius: 999px;
-          background: rgba(0,212,255,0.12);
-          color: rgba(0,212,255,0.86);
           font-size: 10px;
           letter-spacing: 1.5px;
           text-transform: uppercase;
         }
 
-        .statusRed {
-          background: rgba(255,0,136,0.12);
-          color: rgba(255,120,180,0.95);
-        }
-
-        .statusGreen {
-          background: rgba(0,255,190,0.12);
-          color: rgba(0,255,190,0.92);
-        }
+        .status { background: rgba(0,212,255,0.12); color: rgba(0,212,255,0.86); }
+        .statusRed { background: rgba(255,0,136,0.12); color: rgba(255,120,180,0.95); }
+        .statusGreen { background: rgba(0,255,190,0.12); color: rgba(0,255,190,0.92); }
 
         .countNumber {
           font-size: 34px;
           color: rgba(0,255,190,0.95);
           text-shadow: 0 0 18px rgba(0,255,190,0.28);
           margin-bottom: 4px;
+        }
+
+        .memberBadge {
+          display: inline-block;
+          padding: 8px 14px;
+          border-radius: 999px;
+          border: 1px solid rgba(0,255,190,0.35);
+          background: rgba(0,255,190,0.08);
+          color: rgba(0,255,190,0.95);
+          font-size: 12px;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          margin-top: 10px;
         }
 
         .footerNotice {
@@ -686,19 +614,9 @@ export default function App() {
         @keyframes heroReveal { from { opacity: 0; transform: translateY(30px) scale(0.96); filter: blur(8px); } to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } }
 
         @media (max-width: 900px) {
-          .chamberNav,
-          .grid4,
-          .grid3 {
-            grid-template-columns: 1fr;
-          }
-
-          .accessChamber {
-            flex-direction: column;
-          }
-
-          h1 {
-            font-size: 48px;
-          }
+          .chamberNav, .grid4, .grid3 { grid-template-columns: 1fr; }
+          .accessChamber { flex-direction: column; }
+          h1 { font-size: 48px; }
         }
       `}</style>
 
@@ -709,22 +627,23 @@ export default function App() {
       <div className="voidSymbol"></div>
       <div className="voidCore"></div>
 
-      <div className="dataStream streamOne">archives scattered • numbers hidden • sequence locked •</div>
-      <div className="dataStream streamTwo">foundation • artifacts • commerce • family • vault • reflection •</div>
-      <div className="dataStream streamThree">the right archive opens only when the path allows it •</div>
+      <div className="dataStream streamOne">member chamber active • future login infrastructure forming •</div>
+      <div className="dataStream streamTwo">foundation • member • artifacts • commerce • family • vault • reflection •</div>
+      <div className="dataStream streamThree">progress will later be saved to real accounts •</div>
 
       <section className="panel">
-        <div className="signalTag">Ordered Completion Lock Active</div>
+        <div className="signalTag">Member Access Chamber Active</div>
 
         <h1>Ricochet Void Universe</h1>
 
         <p className="subtitle">
-          Archive numbers are hidden. The archive display is scattered. PDFs can only
-          open when the user is on the correct step of the Foundation path.
+          Archive numbers are hidden. The path remains locked in order. The universe
+          now includes a Member Access Chamber for future sign up, saved progress,
+          waitlists, orders, and account-based progression.
         </p>
 
         <div className="chamberNav">
-          {["foundation", "artifacts", "commerce", "family", "vault", "reflection"].map((chamber) => (
+          {["foundation", "member", "artifacts", "commerce", "family", "vault", "reflection"].map((chamber) => (
             <button
               key={chamber}
               className={`navButton ${activeChamber === chamber ? "active" : ""}`}
@@ -739,10 +658,7 @@ export default function App() {
           <>
             <div className="card sectionPad greenPanel">
               <div className="cardTitle">The Truth Standard</div>
-              <p>
-                The goal is not only to find hidden answers. The goal is to become
-                truthful enough with yourself to understand what the answers reveal.
-              </p>
+              <p>The goal is not only to find hidden answers. The goal is to become truthful enough with yourself to understand what the answers reveal.</p>
             </div>
 
             <div className="card sectionPad greenPanel">
@@ -778,15 +694,8 @@ export default function App() {
 
             {!foundationComplete && (
               <div className="card accessChamber">
-                <input
-                  className="accessInput"
-                  value={signalInput}
-                  onChange={(e) => setSignalInput(e.target.value)}
-                  placeholder="ENTER CURRENT ARCHIVE SIGNAL"
-                />
-                <button className="actionButton" onClick={verifyCurrentSignal}>
-                  Verify Current Signal
-                </button>
+                <input className="accessInput" value={signalInput} onChange={(e) => setSignalInput(e.target.value)} placeholder="ENTER CURRENT ARCHIVE SIGNAL" />
+                <button className="actionButton" onClick={verifyCurrentSignal}>Verify Current Signal</button>
               </div>
             )}
 
@@ -795,9 +704,7 @@ export default function App() {
             </div>
 
             {foundationComplete && (
-              <button className="actionButton" onClick={() => setActiveChamber("reflection")}>
-                Enter Reflection Chamber
-              </button>
+              <button className="actionButton" onClick={() => setActiveChamber("reflection")}>Enter Reflection Chamber</button>
             )}
 
             <div className="card sectionPad greenPanel">
@@ -813,11 +720,7 @@ export default function App() {
               {publicArchiveDisplay.map((title) => (
                 <div className="universeCard" key={title}>
                   <strong>{title}</strong>
-                  <button
-                    className="actionButton"
-                    style={{ marginTop: "12px" }}
-                    onClick={() => setSelectedArchiveTitle(title)}
-                  >
+                  <button className="actionButton" style={{ marginTop: "12px" }} onClick={() => setSelectedArchiveTitle(title)}>
                     Open Archive
                   </button>
                 </div>
@@ -826,13 +729,8 @@ export default function App() {
 
             {selectedArchiveTitle && (
               <div className={`card sectionPad ${selectedArchiveUnlocked ? "greenPanel" : "redPanel"}`}>
-                <div className={`cardTitle ${selectedArchiveUnlocked ? "" : "restrictedTitle"}`}>
-                  Archive Access
-                </div>
-
-                <p>
-                  <strong>{selectedArchiveTitle}</strong>
-                </p>
+                <div className={`cardTitle ${selectedArchiveUnlocked ? "" : "restrictedTitle"}`}>Archive Access</div>
+                <p><strong>{selectedArchiveTitle}</strong></p>
 
                 {selectedArchiveUnlocked ? (
                   <>
@@ -841,10 +739,7 @@ export default function App() {
                       Foundation path. Read it, find the hidden signal, then return here
                       to verify completion.
                     </p>
-
-                    <a className="actionButton" href={selectedArchive.file} target="_blank" rel="noreferrer">
-                      Open PDF
-                    </a>
+                    <a className="actionButton" href={selectedArchive.file} target="_blank" rel="noreferrer">Open PDF</a>
                   </>
                 ) : (
                   <p>
@@ -854,11 +749,107 @@ export default function App() {
                   </p>
                 )}
 
-                <button className="secondaryButton" onClick={() => setSelectedArchiveTitle(null)}>
-                  Close
-                </button>
+                <button className="secondaryButton" onClick={() => setSelectedArchiveTitle(null)}>Close</button>
               </div>
             )}
+          </>
+        )}
+
+        {activeChamber === "member" && (
+          <>
+            <div className="card sectionPad greenPanel">
+              <div className="cardTitle">Member Access Chamber</div>
+              <p>
+                This is the prototype layer for future real accounts. Later, members will
+                sign up, log in, save Foundation progress, continue where they left off,
+                join waitlists, order products, and connect access level to subscriptions.
+              </p>
+              <p>
+                This version is front-end only. It does not create real accounts or store
+                private information on a server yet.
+              </p>
+            </div>
+
+            <div className="card sectionPad greenPanel">
+              <div className="cardTitle">Create Member Preview</div>
+
+              <input className="reflectionInput" value={memberName} onChange={(e) => setMemberName(e.target.value)} placeholder="MEMBER NAME" />
+              <input className="reflectionInput" value={memberVoidName} onChange={(e) => setMemberVoidName(e.target.value)} placeholder="VOID NAME / UNIVERSE NAME" />
+              <input className="reflectionInput" value={memberEmail} onChange={(e) => setMemberEmail(e.target.value)} placeholder="EMAIL ADDRESS" />
+
+              <button className="actionButton" onClick={handleMemberSignup}>Create / Preview Login</button>
+
+              {memberSignedIn && (
+                <button className="secondaryButton" onClick={handleMemberLogout}>Sign Out Preview</button>
+              )}
+
+              <div className={memberSignedIn ? "memberBadge" : "status statusRed"}>
+                {memberSignedIn ? "Member Preview Active" : "Not Signed In"}
+              </div>
+            </div>
+
+            <div className={`card gateResult ${memberSignedIn ? "granted" : "denied"}`}>
+              {memberMessage}
+            </div>
+
+            <div className="card grid3">
+              <div className="universeCard greenCard">
+                <strong>Saved Foundation Progress</strong>
+                <span>{currentStep} / {foundationPath.length} signals verified in this session.</span>
+                <span>Future: save this to member account database.</span>
+                <div className="status statusGreen">Prototype</div>
+              </div>
+
+              <div className="universeCard greenCard">
+                <strong>Member Identity</strong>
+                <span>Name: {memberName || "Not entered"}</span>
+                <span>Void Name: {memberVoidName || "Not chosen"}</span>
+                <div className="status statusGreen">Preview</div>
+              </div>
+
+              <div className="universeCard greenCard">
+                <strong>Future Access Tier</strong>
+                <span>Entry Access unlocks after Foundation completion.</span>
+                <span>Future: Signal, Sub-Creator, Architect Circle, Universe Architect.</span>
+                <div className="status statusGreen">Planned</div>
+              </div>
+            </div>
+
+            <div className="card sectionPad greenPanel">
+              <div className="cardTitle">Waitlist Preview</div>
+              <p>
+                This prepares the future item waitlist system. Later this will connect to
+                real accounts, product drops, limited artifacts, and order status.
+              </p>
+
+              <select className="selectInput" value={memberSelectedItem} onChange={(e) => setMemberSelectedItem(e.target.value)}>
+                {artifacts.map((artifact) => (
+                  <option key={artifact.code} value={artifact.name}>{artifact.name}</option>
+                ))}
+              </select>
+
+              <button className="actionButton" onClick={joinWaitlist}>Join Waitlist Preview</button>
+            </div>
+
+            <div className="card grid3">
+              <div className="universeCard greenCard">
+                <strong>Waitlist Items</strong>
+                <span>{memberWaitlist.length ? memberWaitlist.join(", ") : "No waitlist items yet."}</span>
+                <div className="status statusGreen">Preview</div>
+              </div>
+
+              <div className="universeCard redCard">
+                <strong>Order History</strong>
+                <span>No real orders yet. Payment systems are not active.</span>
+                <div className="status statusRed">Future</div>
+              </div>
+
+              <div className="universeCard redCard">
+                <strong>Account Backend</strong>
+                <span>Future connection: Supabase, Firebase, Clerk, Auth0, or custom backend.</span>
+                <div className="status statusRed">Not Connected</div>
+              </div>
+            </div>
           </>
         )}
 
@@ -883,7 +874,7 @@ export default function App() {
                   <div className="counterBar">
                     <div className="counterFill" style={{ width: `${(artifact.minted / artifact.limit) * 100}%` }}></div>
                   </div>
-                  <div className="status statusGreen">{artifact.status}</div>
+                  <div className="statusGreen">{artifact.status}</div>
                 </div>
               ))}
             </div>
@@ -909,9 +900,9 @@ export default function App() {
             </div>
 
             <div className="card grid3">
-              <div className="universeCard redCard"><strong>Pre-Order Chamber</strong><span>Coming soon. No customer funds collected yet.</span><div className="status statusRed">Inactive</div></div>
-              <div className="universeCard redCard"><strong>Crowdfund Chamber</strong><span>Campaign structure pending. Manufacturing order not placed.</span><div className="status statusRed">Planning</div></div>
-              <div className="universeCard redCard"><strong>Universe Currency</strong><span>Research phase only. No token, sale, or crypto offering active.</span><div className="status statusRed">Research</div></div>
+              <div className="universeCard redCard"><strong>Pre-Order Chamber</strong><span>Coming soon. No customer funds collected yet.</span><div className="statusRed">Inactive</div></div>
+              <div className="universeCard redCard"><strong>Crowdfund Chamber</strong><span>Campaign structure pending. Manufacturing order not placed.</span><div className="statusRed">Planning</div></div>
+              <div className="universeCard redCard"><strong>Universe Currency</strong><span>Research phase only. No token, sale, or crypto offering active.</span><div className="statusRed">Research</div></div>
             </div>
 
             <div className="card sectionPad greenPanel">
@@ -930,9 +921,7 @@ export default function App() {
                 ))}
               </select>
 
-              <button className="actionButton" onClick={() => setInterestSubmitted(true)}>
-                Register Interest
-              </button>
+              <button className="actionButton" onClick={() => setInterestSubmitted(true)}>Register Interest</button>
             </div>
 
             {interestSubmitted && (
@@ -960,7 +949,7 @@ export default function App() {
                 <div className="universeCard greenCard" key={item.title}>
                   <strong>{item.title}</strong>
                   <span>{item.note}</span>
-                  <div className="status statusGreen">{item.status}</div>
+                  <div className="statusGreen">{item.status}</div>
                 </div>
               ))}
             </div>
@@ -987,9 +976,7 @@ export default function App() {
 
               <div className="accessChamber">
                 <input className="accessInput" value={vaultInput} onChange={(e) => setVaultInput(e.target.value)} placeholder="CREATOR VAULT ACCESS CODE" />
-                <button className="actionButton" onClick={verifyVaultAccess}>
-                  Verify Vault Access
-                </button>
+                <button className="actionButton" onClick={verifyVaultAccess}>Verify Vault Access</button>
               </div>
             </div>
 
@@ -1006,9 +993,9 @@ export default function App() {
             )}
 
             <div className="card grid3">
-              <div className="universeCard redCard"><strong>Future Gear Transmission</strong><span>Design files remain restricted until official release.</span><div className="status statusRed">Restricted</div></div>
-              <div className="universeCard redCard"><strong>Prototype Electronics</strong><span>Private creator vault access only. NDA required.</span><div className="status statusRed">Hidden</div></div>
-              <div className="universeCard redCard"><strong>Accessory Concepts</strong><span>No public render, blueprint, or specification available.</span><div className="status statusRed">Protected</div></div>
+              <div className="universeCard redCard"><strong>Future Gear Transmission</strong><span>Design files remain restricted until official release.</span><div className="statusRed">Restricted</div></div>
+              <div className="universeCard redCard"><strong>Prototype Electronics</strong><span>Private creator vault access only. NDA required.</span><div className="statusRed">Hidden</div></div>
+              <div className="universeCard redCard"><strong>Accessory Concepts</strong><span>No public render, blueprint, or specification available.</span><div className="statusRed">Protected</div></div>
             </div>
           </>
         )}
@@ -1042,9 +1029,7 @@ export default function App() {
 
               <textarea className="reflectionText" value={reflection} onChange={(e) => setReflection(e.target.value)} placeholder="WRITE YOUR REALIZATION HERE..." />
 
-              <button className="actionButton" onClick={() => setReflectionSubmitted(true)}>
-                Submit Reflection
-              </button>
+              <button className="actionButton" onClick={() => setReflectionSubmitted(true)}>Submit Reflection</button>
             </div>
 
             {reflectionSubmitted && (
@@ -1083,11 +1068,12 @@ export default function App() {
           use, imitation, reverse engineering, or derivative use is prohibited.
           This public website does not disclose unreleased manuscripts, prototype
           designs, technical specifications, manufacturing information, or private
-          creator vault materials.
+          creator vault materials. Member login, waitlists, orders, and saved progress
+          are currently preview systems only until connected to a real backend.
         </div>
 
         <div className="hiddenSignal">
-          the visible archive is only a name. the true order is still hidden.
+          member identity prepares the path, but the truth still has to be earned.
         </div>
       </section>
     </main>
