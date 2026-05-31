@@ -12,14 +12,14 @@ const signals = [
 ];
 
 const archivePdfs = [
-  ["Silence Architecture", "PDF link pending", "Distorted"],
-  ["The Human Glitch", "PDF link pending", "Unverified"],
-  ["Neural Wealth Mapping", "PDF link pending", "Unknown"],
-  ["The Mirror Code", "Every signal begins with a reflection", "Signal Detected"],
-  ["Project Ascension", "PDF link pending", "Dormant"],
-  ["Void Protocol 7", "PDF link pending", "Fragment Found"],
-  ["The Dopamine Collapse Manual", "PDF link pending", "Partial Signal"],
-  ["Psychological Warfare Against Yourself", "PDF link pending", "Unknown"],
+  { title: "Silence Architecture", note: "PDF link pending", status: "Distorted", file: "/archives/silence-architecture.pdf" },
+  { title: "The Human Glitch", note: "PDF link pending", status: "Unverified", file: "/archives/the-human-glitch.pdf" },
+  { title: "Neural Wealth Mapping", note: "PDF link pending", status: "Unknown", file: "/archives/neural-wealth-mapping.pdf" },
+  { title: "The Mirror Code", note: "Every signal begins with a reflection", status: "Signal Detected", file: "/archives/the-mirror-code.pdf" },
+  { title: "Project Ascension", note: "PDF link pending", status: "Dormant", file: "/archives/project-ascension.pdf" },
+  { title: "Void Protocol 7", note: "PDF link pending", status: "Fragment Found", file: "/archives/void-protocol-7.pdf" },
+  { title: "The Dopamine Collapse Manual", note: "PDF link pending", status: "Partial Signal", file: "/archives/dopamine-collapse-manual.pdf" },
+  { title: "Psychological Warfare Against Yourself", note: "PDF link pending", status: "Unknown", file: "/archives/psychological-warfare-against-yourself.pdf" },
 ];
 
 const artifacts = [
@@ -54,6 +54,7 @@ function getCountdown(targetDate) {
 
 export default function App() {
   const [activeChamber, setActiveChamber] = useState("foundation");
+  const [selectedArchive, setSelectedArchive] = useState(null);
   const [currentSignal, setCurrentSignal] = useState(0);
   const [signalInput, setSignalInput] = useState("");
   const [signalStatus, setSignalStatus] = useState("idle");
@@ -74,9 +75,7 @@ export default function App() {
   const foundationComplete = completed >= signals.length;
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCountdown(getCountdown("2026-12-31T23:59:59"));
-    }, 1000);
+    const timer = setInterval(() => setCountdown(getCountdown("2026-12-31T23:59:59")), 1000);
     return () => clearInterval(timer);
   }, []);
 
@@ -427,11 +426,23 @@ export default function App() {
           box-shadow: 0 0 20px rgba(0,212,255,0.35);
           cursor: pointer;
           transition: 0.3s ease;
+          text-decoration: none;
+          display: inline-block;
         }
 
         .actionButton:hover {
           transform: translateY(-2px);
           box-shadow: 0 0 24px rgba(0,212,255,0.55), 0 0 38px rgba(125,0,255,0.35);
+        }
+
+        .secondaryButton {
+          border: 1px solid rgba(255,255,255,0.2);
+          border-radius: 12px;
+          padding: 12px 16px;
+          color: white;
+          background: rgba(255,255,255,0.08);
+          cursor: pointer;
+          margin-left: 10px;
         }
 
         .gateResult {
@@ -603,18 +614,18 @@ export default function App() {
       <div className="voidSymbol"></div>
       <div className="voidCore"></div>
 
-      <div className="dataStream streamOne">pdf archive links active • true path remains hidden •</div>
+      <div className="dataStream streamOne">archive access panel active • public order remains false •</div>
       <div className="dataStream streamTwo">foundation • artifacts • commerce • family • vault • reflection •</div>
-      <div className="dataStream streamThree">signal grows where noise falls • access may be purchased • trust must be earned •</div>
+      <div className="dataStream streamThree">the pdf is the archive • the chamber verifies the path •</div>
 
       <section className="panel">
-        <div className="signalTag">PDF Archive Link System Active</div>
+        <div className="signalTag">Archive Access Panel Active</div>
 
         <h1>Ricochet Void Universe</h1>
 
         <p className="subtitle">
-          The universe is now divided into chambers, and the Foundation Archive chamber
-          now includes protected PDF access placeholders.
+          The Foundation PDFs remain the real path. The site now opens an Archive
+          Access Panel for each archive without exposing the true order.
         </p>
 
         <div className="chamberNav">
@@ -689,24 +700,49 @@ export default function App() {
             <div className="card sectionPad greenPanel">
               <div className="cardTitle">Foundation Archive Access</div>
               <p>
-                The PDFs remain the true Foundation path. The order displayed here is not
-                the correct path. Each archive will eventually link to its protected public
-                PDF file.
+                The PDFs remain the true Foundation path. The order displayed here is
+                not the correct path. Each archive opens a protected access panel.
               </p>
             </div>
 
             <div className="card grid4">
-              {archivePdfs.map(([title, note, status]) => (
-                <div className="universeCard" key={title}>
-                  <strong>{title}</strong>
-                  <span>{note}</span>
-                  <button className="actionButton" style={{ marginTop: "12px" }}>
-                    Open Archive PDF
+              {archivePdfs.map((archive) => (
+                <div className="universeCard" key={archive.title}>
+                  <strong>{archive.title}</strong>
+                  <span>{archive.note}</span>
+                  <button className="actionButton" style={{ marginTop: "12px" }} onClick={() => setSelectedArchive(archive)}>
+                    Open Archive Panel
                   </button>
-                  <div className="status">{status}</div>
+                  <div className="status">{archive.status}</div>
                 </div>
               ))}
             </div>
+
+            {selectedArchive && (
+              <div className="card sectionPad greenPanel">
+                <div className="cardTitle">Archive Access Panel</div>
+                <p><strong>{selectedArchive.title}</strong></p>
+                <p>
+                  This archive is part of the Foundation path. The public display order
+                  is not the true progression order. The user must follow the hidden
+                  signals inside the PDFs.
+                </p>
+                <p>
+                  Future PDF path:
+                  <br />
+                  <span style={{ color: "rgba(0,255,190,0.95)" }}>{selectedArchive.file}</span>
+                </p>
+                <p>
+                  Status: {selectedArchive.status}
+                </p>
+                <a className="actionButton" href={selectedArchive.file} target="_blank" rel="noreferrer">
+                  Open PDF File
+                </a>
+                <button className="secondaryButton" onClick={() => setSelectedArchive(null)}>
+                  Close Panel
+                </button>
+              </div>
+            )}
           </>
         )}
 
@@ -928,7 +964,7 @@ export default function App() {
           creator vault materials.
         </div>
 
-        <div className="hiddenSignal">the pdf is the archive. the chamber verifies the path.</div>
+        <div className="hiddenSignal">the archive opens when attention becomes proof</div>
       </section>
     </main>
   );
