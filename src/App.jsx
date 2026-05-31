@@ -87,6 +87,7 @@ export default function App() {
 
   const currentArchive = foundationPath[currentStep];
   const foundationComplete = currentStep >= foundationPath.length;
+  const progressPercent = Math.round((currentStep / foundationPath.length) * 100);
   const selectedArchive =
     selectedArchiveTitle && foundationPath.find((archive) => archive.title === selectedArchiveTitle);
   const selectedArchiveUnlocked =
@@ -98,7 +99,9 @@ export default function App() {
     if (saved) {
       try {
         const data = JSON.parse(saved);
-        setCurrentStep(Number(data.currentStep || 0));
+        const restoredStep = Math.min(Number(data.currentStep || 0), foundationPath.length);
+
+        setCurrentStep(restoredStep);
         setMemberName(data.memberName || "");
         setMemberEmail(data.memberEmail || "");
         setMemberVoidName(data.memberVoidName || "");
@@ -108,7 +111,6 @@ export default function App() {
         setReflection(data.reflection || "");
         setReflectionSubmitted(Boolean(data.reflectionSubmitted));
 
-        const restoredStep = Number(data.currentStep || 0);
         if (restoredStep >= foundationPath.length) {
           setPathHint("The path has found you. Reflection is now required.");
           setLastMessage("Foundation complete. Reflection Chamber unlocked.");
@@ -680,6 +682,37 @@ export default function App() {
           margin-top: 10px;
         }
 
+        .dashboardHero {
+          padding: 20px;
+          display: grid;
+          grid-template-columns: 1.2fr 0.8fr;
+          gap: 14px;
+          align-items: stretch;
+        }
+
+        .dashboardMain {
+          border-radius: 18px;
+          border: 1px solid rgba(0,255,190,0.22);
+          background: rgba(0,255,190,0.06);
+          padding: 18px;
+          text-align: left;
+        }
+
+        .dashboardStat {
+          border-radius: 18px;
+          border: 1px solid rgba(255,255,255,0.16);
+          background: rgba(255,255,255,0.06);
+          padding: 18px;
+          text-align: left;
+        }
+
+        .bigMetric {
+          font-size: 44px;
+          color: rgba(0,255,190,0.95);
+          text-shadow: 0 0 22px rgba(0,255,190,0.25);
+          margin: 8px 0;
+        }
+
         .footerNotice {
           position: relative;
           z-index: 10;
@@ -715,7 +748,7 @@ export default function App() {
         @keyframes heroReveal { from { opacity: 0; transform: translateY(30px) scale(0.96); filter: blur(8px); } to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } }
 
         @media (max-width: 900px) {
-          .chamberNav, .grid4, .grid3 { grid-template-columns: 1fr; }
+          .chamberNav, .grid4, .grid3, .dashboardHero { grid-template-columns: 1fr; }
           .accessChamber { flex-direction: column; }
           h1 { font-size: 48px; }
         }
@@ -728,19 +761,18 @@ export default function App() {
       <div className="voidSymbol"></div>
       <div className="voidCore"></div>
 
-      <div className="dataStream streamOne">local saved progress active • future backend still required •</div>
+      <div className="dataStream streamOne">member dashboard active • access status visible •</div>
       <div className="dataStream streamTwo">foundation • member • artifacts • commerce • family • vault • reflection •</div>
       <div className="dataStream streamThree">feature built • feature hardened • universe continues •</div>
 
       <section className="panel">
-        <div className="signalTag">Saved Member Progress Prototype Active</div>
+        <div className="signalTag">Member Dashboard Upgrade Active</div>
 
         <h1>Ricochet Void Universe</h1>
 
         <p className="subtitle">
-          The universe now remembers member preview progress on this device. This is
-          not real cloud login yet, but it prepares the path for accounts, saved
-          progress, waitlists, ordering, and protected access.
+          The Member Chamber now shows a stronger dashboard: saved progress, access
+          eligibility, waitlist status, order preview, and security notes.
         </p>
 
         <div className="chamberNav">
@@ -773,7 +805,7 @@ export default function App() {
                 <div>{currentStep} / {foundationPath.length} Signals Verified</div>
               </div>
               <div className="progressBar">
-                <div className="progressFill" style={{ width: `${(currentStep / foundationPath.length) * 100}%` }}></div>
+                <div className="progressFill" style={{ width: `${progressPercent}%` }}></div>
               </div>
             </div>
 
@@ -858,17 +890,24 @@ export default function App() {
 
         {activeChamber === "member" && (
           <>
-            <div className="card sectionPad greenPanel">
-              <div className="cardTitle">Member Access Chamber</div>
-              <p>
-                This is the saved-progress prototype layer. It remembers member preview
-                information, Foundation progress, reflection draft, and waitlist items
-                on this device only.
-              </p>
-              <p>
-                This is not real authentication yet. Later we will connect this to a
-                backend so users can log in from any device.
-              </p>
+            <div className="card dashboardHero">
+              <div className="dashboardMain">
+                <div className="cardTitle">Member Dashboard</div>
+                <p>
+                  This dashboard shows what the future account system will track:
+                  identity, progress, access eligibility, waitlists, order history,
+                  and security state.
+                </p>
+                <div className={memberSignedIn ? "memberBadge" : "statusRed"}>
+                  {memberSignedIn ? "Member Preview Active" : "Not Signed In"}
+                </div>
+              </div>
+
+              <div className="dashboardStat">
+                <div className="cardTitle">Foundation Completion</div>
+                <div className="bigMetric">{progressPercent}%</div>
+                <span>{currentStep} / {foundationPath.length} signals verified</span>
+              </div>
             </div>
 
             <div className="card sectionPad greenPanel">
@@ -883,10 +922,6 @@ export default function App() {
               {memberSignedIn && (
                 <button className="secondaryButton" onClick={handleMemberLogout}>Sign Out Preview</button>
               )}
-
-              <div className={memberSignedIn ? "memberBadge" : "statusRed"}>
-                {memberSignedIn ? "Member Preview Active" : "Not Signed In"}
-              </div>
             </div>
 
             <div className={`card gateResult ${memberSignedIn ? "granted" : "denied"}`}>
@@ -895,24 +930,49 @@ export default function App() {
 
             <div className="card grid3">
               <div className="universeCard greenCard">
-                <strong>Saved Foundation Progress</strong>
+                <strong>Member Identity</strong>
+                <span>Name: {memberName || "Not entered"}</span>
+                <span>Void Name: {memberVoidName || "Not chosen"}</span>
+                <span>Email: {memberEmail || "Not entered"}</span>
+                <div className="statusGreen">Preview</div>
+              </div>
+
+              <div className="universeCard greenCard">
+                <strong>Saved Progress</strong>
                 <span>{currentStep} / {foundationPath.length} signals verified.</span>
                 <span>{progressSaved ? "Saved locally on this device." : "Not saved yet."}</span>
                 <div className="statusGreen">Local Save</div>
               </div>
 
+              <div className={foundationComplete ? "universeCard greenCard" : "universeCard redCard"}>
+                <strong>Entry Access Eligibility</strong>
+                <span>{foundationComplete ? "Eligible after final review layer." : "Locked until Foundation completion."}</span>
+                <span>Future: account-based access unlock.</span>
+                <div className={foundationComplete ? "statusGreen" : "statusRed"}>
+                  {foundationComplete ? "Eligible" : "Locked"}
+                </div>
+              </div>
+            </div>
+
+            <div className="card grid3">
               <div className="universeCard greenCard">
-                <strong>Member Identity</strong>
-                <span>Name: {memberName || "Not entered"}</span>
-                <span>Void Name: {memberVoidName || "Not chosen"}</span>
-                <div className="statusGreen">Preview</div>
+                <strong>Waitlist Status</strong>
+                <span>{memberWaitlist.length ? memberWaitlist.join(", ") : "No waitlist items yet."}</span>
+                <div className="statusGreen">Saved Locally</div>
               </div>
 
-              <div className="universeCard greenCard">
-                <strong>Future Access Tier</strong>
-                <span>{foundationComplete ? "Entry Access eligible." : "Entry Access locked until Foundation completion."}</span>
-                <span>Future: paid subscription tiers attach here.</span>
-                <div className="statusGreen">Planned</div>
+              <div className="universeCard redCard">
+                <strong>Order History</strong>
+                <span>No real orders yet. Payment systems are not active.</span>
+                <span>Future: receipts, shipment state, pre-orders, rental history.</span>
+                <div className="statusRed">Future</div>
+              </div>
+
+              <div className="universeCard redCard">
+                <strong>Security State</strong>
+                <span>Current: local preview only.</span>
+                <span>Future: real auth, private database rules, protected files.</span>
+                <div className="statusRed">Backend Needed</div>
               </div>
             </div>
 
@@ -930,26 +990,6 @@ export default function App() {
               </select>
 
               <button className="actionButton" onClick={joinWaitlist}>Join Waitlist Preview</button>
-            </div>
-
-            <div className="card grid3">
-              <div className="universeCard greenCard">
-                <strong>Waitlist Items</strong>
-                <span>{memberWaitlist.length ? memberWaitlist.join(", ") : "No waitlist items yet."}</span>
-                <div className="statusGreen">Saved Locally</div>
-              </div>
-
-              <div className="universeCard redCard">
-                <strong>Order History</strong>
-                <span>No real orders yet. Payment systems are not active.</span>
-                <div className="statusRed">Future</div>
-              </div>
-
-              <div className="universeCard redCard">
-                <strong>Account Backend</strong>
-                <span>Future connection: Supabase, Firebase, Clerk, Auth0, or custom backend.</span>
-                <div className="statusRed">Not Connected</div>
-              </div>
             </div>
 
             <div className="card sectionPad redPanel">
@@ -1185,7 +1225,7 @@ export default function App() {
         </div>
 
         <div className="hiddenSignal">
-          progress can be remembered, but truth still has to be lived.
+          the dashboard shows the path, but the path still has to be walked.
         </div>
       </section>
     </main>
