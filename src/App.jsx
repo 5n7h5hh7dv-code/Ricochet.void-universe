@@ -11,6 +11,17 @@ const signals = [
   { answer: "SIGNAL GROWS WHERE NOISE FALLS", title: "Foundation Completion Signal", difficulty: "Complete Chain", hint: "The final signal is the central law.", message: "Foundation complete. Reflection Chamber unlocked.", nextHint: "The path has found you. Reflection is now required." },
 ];
 
+const archivePdfs = [
+  ["Silence Architecture", "PDF link pending", "Distorted"],
+  ["The Human Glitch", "PDF link pending", "Unverified"],
+  ["Neural Wealth Mapping", "PDF link pending", "Unknown"],
+  ["The Mirror Code", "Every signal begins with a reflection", "Signal Detected"],
+  ["Project Ascension", "PDF link pending", "Dormant"],
+  ["Void Protocol 7", "PDF link pending", "Fragment Found"],
+  ["The Dopamine Collapse Manual", "PDF link pending", "Partial Signal"],
+  ["Psychological Warfare Against Yourself", "PDF link pending", "Unknown"],
+];
+
 const artifacts = [
   { name: "Founder’s Coin", limit: 1000, minted: 0, status: "Unreleased", code: "RVU-FC" },
   { name: "Void Artifact Alpha", limit: 500, minted: 0, status: "Restricted", code: "RVU-VA" },
@@ -66,13 +77,11 @@ export default function App() {
     const timer = setInterval(() => {
       setCountdown(getCountdown("2026-12-31T23:59:59"));
     }, 1000);
-
     return () => clearInterval(timer);
   }, []);
 
   function verifyCurrentSignal() {
     if (foundationComplete) return;
-
     const expected = signals[currentSignal].answer;
 
     if (signalInput.trim().toUpperCase() === expected) {
@@ -101,14 +110,6 @@ export default function App() {
 
   function verifyVaultAccess() {
     setVaultStatus(vaultInput.trim().toUpperCase() === "CREATOR-VAULT" ? "granted" : "denied");
-  }
-
-  function submitReflection() {
-    setReflectionSubmitted(true);
-  }
-
-  function submitInterest() {
-    setInterestSubmitted(true);
   }
 
   return (
@@ -417,12 +418,6 @@ export default function App() {
           line-height: 1.5;
         }
 
-        .accessInput::placeholder,
-        .reflectionInput::placeholder,
-        .reflectionText::placeholder {
-          color: rgba(255,255,255,0.45);
-        }
-
         .actionButton {
           border: none;
           border-radius: 12px;
@@ -608,27 +603,30 @@ export default function App() {
       <div className="voidSymbol"></div>
       <div className="voidCore"></div>
 
-      <div className="dataStream streamOne">chamber navigation active • universe structure forming •</div>
+      <div className="dataStream streamOne">pdf archive links active • true path remains hidden •</div>
       <div className="dataStream streamTwo">foundation • artifacts • commerce • family • vault • reflection •</div>
       <div className="dataStream streamThree">signal grows where noise falls • access may be purchased • trust must be earned •</div>
 
       <section className="panel">
-        <div className="signalTag">Chamber Navigation System Active</div>
+        <div className="signalTag">PDF Archive Link System Active</div>
 
         <h1>Ricochet Void Universe</h1>
 
         <p className="subtitle">
-          The universe is now divided into chambers. Each chamber protects a different
-          part of the creation while keeping the full path organized.
+          The universe is now divided into chambers, and the Foundation Archive chamber
+          now includes protected PDF access placeholders.
         </p>
 
         <div className="chamberNav">
-          <button className={`navButton ${activeChamber === "foundation" ? "active" : ""}`} onClick={() => setActiveChamber("foundation")}>Foundation</button>
-          <button className={`navButton ${activeChamber === "artifacts" ? "active" : ""}`} onClick={() => setActiveChamber("artifacts")}>Artifacts</button>
-          <button className={`navButton ${activeChamber === "commerce" ? "active" : ""}`} onClick={() => setActiveChamber("commerce")}>Commerce</button>
-          <button className={`navButton ${activeChamber === "family" ? "active" : ""}`} onClick={() => setActiveChamber("family")}>Family</button>
-          <button className={`navButton ${activeChamber === "vault" ? "active" : ""}`} onClick={() => setActiveChamber("vault")}>Vault</button>
-          <button className={`navButton ${activeChamber === "reflection" ? "active" : ""}`} onClick={() => setActiveChamber("reflection")}>Reflection</button>
+          {["foundation", "artifacts", "commerce", "family", "vault", "reflection"].map((chamber) => (
+            <button
+              key={chamber}
+              className={`navButton ${activeChamber === chamber ? "active" : ""}`}
+              onClick={() => setActiveChamber(chamber)}
+            >
+              {chamber}
+            </button>
+          ))}
         </div>
 
         {activeChamber === "foundation" && (
@@ -688,15 +686,26 @@ export default function App() {
               <button className="actionButton" onClick={() => setActiveChamber("reflection")}>Enter Reflection Chamber</button>
             )}
 
+            <div className="card sectionPad greenPanel">
+              <div className="cardTitle">Foundation Archive Access</div>
+              <p>
+                The PDFs remain the true Foundation path. The order displayed here is not
+                the correct path. Each archive will eventually link to its protected public
+                PDF file.
+              </p>
+            </div>
+
             <div className="card grid4">
-              <div className="universeCard"><strong>Silence Architecture</strong><span>Displayed order is not the path</span><div className="status">Distorted</div></div>
-              <div className="universeCard"><strong>The Human Glitch</strong><span>Displayed order is not the path</span><div className="status">Unverified</div></div>
-              <div className="universeCard"><strong>Neural Wealth Mapping</strong><span>Displayed order is not the path</span><div className="status">Unknown</div></div>
-              <div className="universeCard"><strong>The Mirror Code</strong><span>Every signal begins with a reflection</span><div className="status">Signal Detected</div></div>
-              <div className="universeCard"><strong>Project Ascension</strong><span>Displayed order is not the path</span><div className="status">Dormant</div></div>
-              <div className="universeCard"><strong>Void Protocol 7</strong><span>Displayed order is not the path</span><div className="status">Fragment Found</div></div>
-              <div className="universeCard"><strong>The Dopamine Collapse Manual</strong><span>Displayed order is not the path</span><div className="status">Partial Signal</div></div>
-              <div className="universeCard"><strong>Psychological Warfare Against Yourself</strong><span>Displayed order is not the path</span><div className="status">Unknown</div></div>
+              {archivePdfs.map(([title, note, status]) => (
+                <div className="universeCard" key={title}>
+                  <strong>{title}</strong>
+                  <span>{note}</span>
+                  <button className="actionButton" style={{ marginTop: "12px" }}>
+                    Open Archive PDF
+                  </button>
+                  <div className="status">{status}</div>
+                </div>
+              ))}
             </div>
           </>
         )}
@@ -741,14 +750,6 @@ export default function App() {
               </p>
             </div>
 
-            <div className="card sectionPad greenPanel">
-              <div className="cardTitle">Limited Release Countdown</div>
-              <p>
-                Public countdown display for future limited-edition artifact release.
-                This does not reveal private designs or open payment collection.
-              </p>
-            </div>
-
             <div className="card grid3">
               <div className="universeCard greenCard"><div className="countNumber">{countdown.days}</div><strong>Days</strong><span>Until protected release window</span></div>
               <div className="universeCard greenCard"><div className="countNumber">{countdown.hours}</div><strong>Hours</strong><span>Countdown display active</span></div>
@@ -777,7 +778,7 @@ export default function App() {
                 ))}
               </select>
 
-              <button className="actionButton" onClick={submitInterest}>Register Interest</button>
+              <button className="actionButton" onClick={() => setInterestSubmitted(true)}>Register Interest</button>
             </div>
 
             {interestSubmitted && (
@@ -885,7 +886,7 @@ export default function App() {
 
               <textarea className="reflectionText" value={reflection} onChange={(e) => setReflection(e.target.value)} placeholder="WRITE YOUR REALIZATION HERE..." />
 
-              <button className="actionButton" onClick={submitReflection}>Submit Reflection</button>
+              <button className="actionButton" onClick={() => setReflectionSubmitted(true)}>Submit Reflection</button>
             </div>
 
             {reflectionSubmitted && (
@@ -927,7 +928,7 @@ export default function App() {
           creator vault materials.
         </div>
 
-        <div className="hiddenSignal">the universe becomes clearer when every chamber has its own purpose</div>
+        <div className="hiddenSignal">the pdf is the archive. the chamber verifies the path.</div>
       </section>
     </main>
   );
