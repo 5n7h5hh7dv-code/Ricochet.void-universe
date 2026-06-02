@@ -82,6 +82,7 @@ function cleanInput(value) {
 }
 
 export default function App() {
+  const [introComplete, setIntroComplete] = useState(false);
   const [creatorPreview, setCreatorPreview] = useState(false);
   const [creatorPreviewInput, setCreatorPreviewInput] = useState("");
   const [creatorPreviewMessage, setCreatorPreviewMessage] = useState("Creator preview locked.");
@@ -124,6 +125,8 @@ export default function App() {
     const previewUnlocked = localStorage.getItem("rvuCreatorPreview") === "unlocked";
     setCreatorPreview(previewUnlocked);
 
+    const introTimer = setTimeout(() => setIntroComplete(true), 5200);
+
     const saved = localStorage.getItem("rvuMemberPreview");
     if (saved) {
       try {
@@ -153,6 +156,8 @@ export default function App() {
         localStorage.removeItem("rvuMemberPreview");
       }
     }
+
+    return () => clearTimeout(introTimer);
   }, []);
 
   useEffect(() => {
@@ -187,6 +192,10 @@ export default function App() {
     reflection,
     reflectionSubmitted,
   ]);
+
+  function skipIntro() {
+    setIntroComplete(true);
+  }
 
   function unlockCreatorPreview() {
     if (creatorPreviewInput.trim().toUpperCase() === CREATOR_PREVIEW_CODE) {
@@ -395,6 +404,104 @@ export default function App() {
           opacity: 0.5;
           pointer-events: none;
           animation: orbitRotate 50s linear infinite;
+        }
+
+        .crashIntro {
+          position: fixed;
+          inset: 0;
+          z-index: 1000;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: radial-gradient(circle at center, #090018 0%, #020208 60%, #000 100%);
+          overflow: hidden;
+          animation: introFade 5.2s ease forwards;
+        }
+
+        .crashStarfield {
+          position: absolute;
+          inset: -20%;
+          background-image:
+            radial-gradient(white 1px, transparent 1px),
+            radial-gradient(rgba(0,212,255,0.9) 1px, transparent 1px),
+            radial-gradient(rgba(255,0,136,0.8) 1px, transparent 1px);
+          background-size: 70px 70px, 110px 110px, 170px 170px;
+          animation: collapseStars 5s cubic-bezier(.2,.9,.2,1) forwards;
+          opacity: 0.9;
+        }
+
+        .crashRing {
+          position: absolute;
+          width: 75vmin;
+          height: 75vmin;
+          border-radius: 50%;
+          border: 1px solid rgba(0,255,190,0.3);
+          box-shadow:
+            0 0 60px rgba(0,212,255,0.35),
+            inset 0 0 80px rgba(125,0,255,0.3);
+          animation: ringCollapse 5s ease forwards;
+        }
+
+        .crashRingTwo {
+          width: 95vmin;
+          height: 95vmin;
+          border-color: rgba(255,0,136,0.25);
+          animation-delay: 0.2s;
+        }
+
+        .crashCore {
+          position: absolute;
+          width: 26vmin;
+          height: 26vmin;
+          border-radius: 50%;
+          background:
+            radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(0,212,255,0.75) 12%, rgba(125,0,255,0.3) 30%, rgba(0,0,0,1) 58%);
+          box-shadow:
+            0 0 80px rgba(0,212,255,0.65),
+            0 0 140px rgba(255,0,136,0.45),
+            0 0 220px rgba(125,0,255,0.5);
+          animation: voidBirth 5s ease forwards;
+        }
+
+        .crashFlash {
+          position: absolute;
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          background: white;
+          box-shadow: 0 0 120px 80px rgba(255,255,255,0.3);
+          opacity: 0;
+          animation: ricochetFlash 5s ease forwards;
+        }
+
+        .crashTitle {
+          position: relative;
+          z-index: 4;
+          margin-top: 42vmin;
+          font-size: clamp(28px, 5vw, 74px);
+          letter-spacing: 5px;
+          text-transform: uppercase;
+          text-shadow:
+            0 0 20px rgba(0,212,255,0.9),
+            0 0 45px rgba(255,0,136,0.5);
+          opacity: 0;
+          animation: titleMaterialize 5s ease forwards;
+        }
+
+        .introSkip {
+          position: absolute;
+          right: 24px;
+          bottom: 24px;
+          z-index: 5;
+          border: 1px solid rgba(255,255,255,0.22);
+          border-radius: 999px;
+          padding: 10px 14px;
+          background: rgba(0,0,0,0.4);
+          color: rgba(255,255,255,0.8);
+          cursor: pointer;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          font-size: 11px;
         }
 
         .dataStream {
@@ -810,6 +917,45 @@ export default function App() {
           text-transform: uppercase;
         }
 
+        @keyframes introFade {
+          0%, 85% { opacity: 1; visibility: visible; }
+          100% { opacity: 0; visibility: hidden; }
+        }
+
+        @keyframes collapseStars {
+          0% { transform: scale(1.4) rotate(0deg); filter: blur(0); }
+          45% { transform: scale(0.85) rotate(80deg); filter: blur(1px); }
+          70% { transform: scale(0.28) rotate(170deg); filter: blur(3px); }
+          100% { transform: scale(1.4) rotate(260deg); filter: blur(0); }
+        }
+
+        @keyframes ringCollapse {
+          0% { transform: scale(2.2) rotate(0deg); opacity: 0; }
+          25% { opacity: 0.8; }
+          60% { transform: scale(0.35) rotate(220deg); opacity: 1; }
+          100% { transform: scale(1.5) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes voidBirth {
+          0% { transform: scale(0); opacity: 0; }
+          35% { transform: scale(0.5); opacity: 0.75; }
+          65% { transform: scale(1.3); opacity: 1; }
+          100% { transform: scale(0.15); opacity: 0; }
+        }
+
+        @keyframes ricochetFlash {
+          0%, 55% { opacity: 0; transform: scale(0.2); }
+          67% { opacity: 1; transform: scale(22); }
+          100% { opacity: 0; transform: scale(0.2); }
+        }
+
+        @keyframes titleMaterialize {
+          0%, 48% { opacity: 0; transform: translateY(20px) scale(0.95); filter: blur(8px); }
+          70% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+          92% { opacity: 1; }
+          100% { opacity: 0; }
+        }
+
         @keyframes voidShift { from { background-position: 0% 0%; } to { background-position: 100% 100%; } }
         @keyframes starDrift { from { background-position: 0 0, 0 0, 0 0; } to { background-position: 300px 500px, -250px 400px, 200px -300px; } }
         @keyframes signalFloat { from { background-position: 0 0, 0 0, 0 0; } to { background-position: 220px -300px, -260px 240px, 340px -180px; } }
@@ -827,6 +973,18 @@ export default function App() {
           h1 { font-size: 48px; }
         }
       `}</style>
+
+      {!introComplete && (
+        <div className="crashIntro">
+          <div className="crashStarfield"></div>
+          <div className="crashRing crashRingTwo"></div>
+          <div className="crashRing"></div>
+          <div className="crashCore"></div>
+          <div className="crashFlash"></div>
+          <div className="crashTitle">Ricochet Void Universe</div>
+          <button className="introSkip" onClick={skipIntro}>Skip Formation</button>
+        </div>
+      )}
 
       <div className="stars"></div>
       <div className="signalParticles"></div>
@@ -880,7 +1038,6 @@ export default function App() {
       ) : (
         <section className="panel">
           <div className="signalTag">Creator Preview Mode Active</div>
-
           <h1>Ricochet Void Universe</h1>
 
           <p className="subtitle">
