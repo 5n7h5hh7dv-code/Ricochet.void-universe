@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+const CREATOR_PREVIEW_CODE = "CREATOR-PREVIEW";
+
 const foundationPath = [
   { key: "mirror", title: "The Coded Mirror", file: "/archives/the-coded-mirror-complete.pdf", signal: "MIRROR", signalTitle: "Reflection Signal", difficulty: "Clear Hint", hint: "Every signal begins with a reflection.", success: "Reflection recognized. The first path has opened." },
   { key: "void", title: "Void Protocol 7", file: "/archives/void-protocol-7-complete.pdf", signal: "SILENCE", signalTitle: "Silence Signal", difficulty: "Light Hidden Clue", hint: "Where noise falls, silence begins to speak.", success: "Noise reduced. A deeper signal is now active." },
@@ -80,6 +82,10 @@ function cleanInput(value) {
 }
 
 export default function App() {
+  const [creatorPreview, setCreatorPreview] = useState(false);
+  const [creatorPreviewInput, setCreatorPreviewInput] = useState("");
+  const [creatorPreviewMessage, setCreatorPreviewMessage] = useState("Creator preview locked.");
+
   const [activeChamber, setActiveChamber] = useState("foundation");
   const [selectedArchiveTitle, setSelectedArchiveTitle] = useState(null);
   const [currentStep, setCurrentStep] = useState(0);
@@ -111,14 +117,14 @@ export default function App() {
   const currentArchive = foundationPath[currentStep];
   const foundationComplete = currentStep >= foundationPath.length;
   const progressPercent = Math.round((currentStep / foundationPath.length) * 100);
-  const selectedArchive =
-    selectedArchiveTitle && foundationPath.find((archive) => archive.title === selectedArchiveTitle);
-  const selectedArchiveUnlocked =
-    selectedArchive && !foundationComplete && selectedArchive.title === currentArchive.title;
+  const selectedArchive = selectedArchiveTitle && foundationPath.find((archive) => archive.title === selectedArchiveTitle);
+  const selectedArchiveUnlocked = selectedArchive && !foundationComplete && selectedArchive.title === currentArchive.title;
 
   useEffect(() => {
-    const saved = localStorage.getItem("rvuMemberPreview");
+    const previewUnlocked = localStorage.getItem("rvuCreatorPreview") === "unlocked";
+    setCreatorPreview(previewUnlocked);
 
+    const saved = localStorage.getItem("rvuMemberPreview");
     if (saved) {
       try {
         const data = JSON.parse(saved);
@@ -181,6 +187,24 @@ export default function App() {
     reflection,
     reflectionSubmitted,
   ]);
+
+  function unlockCreatorPreview() {
+    if (creatorPreviewInput.trim().toUpperCase() === CREATOR_PREVIEW_CODE) {
+      setCreatorPreview(true);
+      localStorage.setItem("rvuCreatorPreview", "unlocked");
+      setCreatorPreviewMessage("Creator preview unlocked on this device.");
+      setCreatorPreviewInput("");
+    } else {
+      setCreatorPreview(false);
+      setCreatorPreviewMessage("Preview code rejected.");
+    }
+  }
+
+  function lockCreatorPreview() {
+    setCreatorPreview(false);
+    localStorage.removeItem("rvuCreatorPreview");
+    setCreatorPreviewMessage("Creator preview locked.");
+  }
 
   function verifyCurrentSignal() {
     if (foundationComplete) return;
@@ -749,6 +773,20 @@ export default function App() {
           margin: 16px 0;
         }
 
+        .launchShell {
+          max-width: 980px;
+          position: relative;
+          z-index: 10;
+        }
+
+        .launchStatement {
+          font-size: 16px;
+          line-height: 1.8;
+          color: rgba(255,255,255,0.75);
+          max-width: 760px;
+          margin: 20px auto;
+        }
+
         .footerNotice {
           position: relative;
           z-index: 10;
@@ -797,543 +835,594 @@ export default function App() {
       <div className="voidSymbol"></div>
       <div className="voidCore"></div>
 
-      <div className="dataStream streamOne">protected roadmap chamber active • private designs remain hidden •</div>
-      <div className="dataStream streamTwo">foundation • member • access • roadmap • artifacts • commerce • family • vault • reflection •</div>
-      <div className="dataStream streamThree">security grows with the universe •</div>
+      {!creatorPreview ? (
+        <section className="launchShell">
+          <div className="signalTag">Ricochet Void Universe</div>
+          <h1>Universe Forming</h1>
 
-      <section className="panel">
-        <div className="signalTag">Protected Roadmap Chamber Active</div>
+          <p className="launchStatement">
+            Access is not open yet. The Ricochet Void Universe is still being built,
+            protected, tested, and refined before public entry is granted.
+          </p>
 
-        <h1>Ricochet Void Universe</h1>
+          <div className="card sectionPad greenPanel">
+            <div className="cardTitle">Public Launch Shield</div>
+            <p>
+              This public shell protects unfinished systems, private creator material,
+              hidden archive signals, unreleased designs, member infrastructure,
+              future products, and protected progression logic until the universe is
+              ready for release.
+            </p>
 
-        <p className="subtitle">
-          The universe now includes a protected roadmap chamber showing the build path
-          without revealing private product designs, hidden answers, creator secrets, or
-          unreleased blueprints.
-        </p>
-
-        <div className="chamberNav">
-          {["foundation", "member", "access", "roadmap", "artifacts", "commerce", "family", "vault", "reflection"].map((chamber) => (
-            <button
-              key={chamber}
-              className={`navButton ${activeChamber === chamber ? "active" : ""}`}
-              onClick={() => setActiveChamber(chamber)}
-            >
-              {chamber}
-            </button>
-          ))}
-        </div>
-
-        {activeChamber === "foundation" && (
-          <>
-            <div className="card sectionPad greenPanel">
-              <div className="cardTitle">The Truth Standard</div>
-              <p>The goal is not only to find hidden answers. The goal is to become truthful enough with yourself to understand what the answers reveal.</p>
-            </div>
-
-            <div className="card sectionPad greenPanel">
-              <div className="cardTitle">Current Path Hint</div>
-              <div className="hintText">{pathHint}</div>
-            </div>
-
-            <div className="card progressCard">
-              <div className="progressTop">
-                <div>Foundation Progress</div>
-                <div>{currentStep} / {foundationPath.length} Signals Verified</div>
-              </div>
-              <div className="progressBar">
-                <div className="progressFill" style={{ width: `${progressPercent}%` }}></div>
-              </div>
-            </div>
-
-            <div className="card grid4">
-              {foundationPath.map((step, index) => {
-                const verified = index < currentStep;
-                const current = index === currentStep && !foundationComplete;
-                const locked = index > currentStep;
-
-                return (
-                  <div key={step.key} className={`universeCard ${verified ? "verified" : ""} ${current ? "current" : ""} ${locked ? "locked" : ""}`}>
-                    <strong>{step.signalTitle}</strong>
-                    <span>Difficulty: {step.difficulty}</span>
-                    <span>Status: {verified ? "Verified" : current ? "Awaiting Signal" : "Locked"}</span>
-                  </div>
-                );
-              })}
-            </div>
-
-            {!foundationComplete && (
-              <div className="card accessChamber">
-                <input className="accessInput" value={signalInput} onChange={(e) => setSignalInput(e.target.value)} placeholder="ENTER CURRENT ARCHIVE SIGNAL" />
-                <button className="actionButton" onClick={verifyCurrentSignal}>Verify Current Signal</button>
-              </div>
-            )}
-
-            <div className={`card gateResult ${signalStatus === "granted" ? "granted" : signalStatus === "denied" ? "denied" : ""}`}>
-              {foundationComplete ? "Foundation complete. Reflection Chamber unlocked." : lastMessage}
-            </div>
-
-            {foundationComplete && (
-              <button className="actionButton" onClick={() => setActiveChamber("reflection")}>Enter Reflection Chamber</button>
-            )}
-
-            <div className="card sectionPad greenPanel">
-              <div className="cardTitle">Foundation Archive Access</div>
-              <p>
-                Only archive names are visible. Archive numbers, file names, file paths,
-                and the true progression order are hidden from the public interface.
-                Archives must be opened and completed in the correct order.
-              </p>
-            </div>
-
-            <div className="card grid4">
-              {publicArchiveDisplay.map((title) => (
-                <div className="universeCard" key={title}>
-                  <strong>{title}</strong>
-                  <button className="actionButton" style={{ marginTop: "12px" }} onClick={() => setSelectedArchiveTitle(title)}>
-                    Open Archive
-                  </button>
-                </div>
-              ))}
-            </div>
-
-            {selectedArchiveTitle && (
-              <div className={`card sectionPad ${selectedArchiveUnlocked ? "greenPanel" : "redPanel"}`}>
-                <div className={`cardTitle ${selectedArchiveUnlocked ? "" : "restrictedTitle"}`}>Archive Access</div>
-                <p><strong>{selectedArchiveTitle}</strong></p>
-
-                {selectedArchiveUnlocked ? (
-                  <>
-                    <p>
-                      Access granted. This archive is currently aligned with the active
-                      Foundation path. Read it, find the hidden signal, then return here
-                      to verify completion.
-                    </p>
-                    <a className="actionButton" href={selectedArchive.file} target="_blank" rel="noreferrer">Open PDF</a>
-                  </>
-                ) : (
-                  <p>
-                    Access locked. This archive is not currently aligned with the active
-                    Foundation path. Return to the hint, find the correct archive, and
-                    continue in order.
-                  </p>
-                )}
-
-                <button className="secondaryButton" onClick={() => setSelectedArchiveTitle(null)}>Close</button>
-              </div>
-            )}
-          </>
-        )}
-
-        {activeChamber === "member" && (
-          <>
-            <div className="card dashboardHero">
-              <div className="dashboardMain">
-                <div className="cardTitle">Member Dashboard</div>
-                <p>
-                  This dashboard shows what the future account system will track:
-                  identity, progress, access eligibility, waitlists, order history,
-                  and security state.
-                </p>
-                <div className={memberSignedIn ? "memberBadge" : "statusRed"}>
-                  {memberSignedIn ? "Member Preview Active" : "Not Signed In"}
-                </div>
-              </div>
-
-              <div className="dashboardStat">
-                <div className="cardTitle">Foundation Completion</div>
-                <div className="bigMetric">{progressPercent}%</div>
-                <span>{currentStep} / {foundationPath.length} signals verified</span>
-              </div>
-            </div>
-
-            <div className="card sectionPad greenPanel">
-              <div className="cardTitle">Create Member Preview</div>
-
-              <input className="reflectionInput" value={memberName} onChange={(e) => setMemberName(e.target.value)} placeholder="MEMBER NAME" />
-              <input className="reflectionInput" value={memberVoidName} onChange={(e) => setMemberVoidName(e.target.value)} placeholder="VOID NAME / UNIVERSE NAME" />
-              <input className="reflectionInput" value={memberEmail} onChange={(e) => setMemberEmail(e.target.value)} placeholder="EMAIL ADDRESS" />
-
-              <button className="actionButton" onClick={handleMemberSignup}>Create / Preview Login</button>
-
-              {memberSignedIn && (
-                <button className="secondaryButton" onClick={handleMemberLogout}>Sign Out Preview</button>
-              )}
-            </div>
-
-            <div className={`card gateResult ${memberSignedIn ? "granted" : "denied"}`}>
-              {memberMessage}
-            </div>
-
-            <div className="card grid3">
-              <div className="universeCard greenCard">
-                <strong>Member Identity</strong>
-                <span>Name: {memberName || "Not entered"}</span>
-                <span>Void Name: {memberVoidName || "Not chosen"}</span>
-                <span>Email: {memberEmail || "Not entered"}</span>
-                <div className="statusGreen">Preview</div>
-              </div>
-
-              <div className="universeCard greenCard">
-                <strong>Saved Progress</strong>
-                <span>{currentStep} / {foundationPath.length} signals verified.</span>
-                <span>{progressSaved ? "Saved locally on this device." : "Not saved yet."}</span>
-                <div className="statusGreen">Local Save</div>
-              </div>
-
-              <div className={foundationComplete ? "universeCard greenCard" : "universeCard redCard"}>
-                <strong>Entry Access Eligibility</strong>
-                <span>{foundationComplete ? "Eligible after final review layer." : "Locked until Foundation completion."}</span>
-                <span>Future: account-based access unlock.</span>
-                <div className={foundationComplete ? "statusGreen" : "statusRed"}>
-                  {foundationComplete ? "Eligible" : "Locked"}
-                </div>
-              </div>
-            </div>
-
-            <div className="card grid3">
-              <div className="universeCard greenCard">
-                <strong>Waitlist Status</strong>
-                <span>{memberWaitlist.length ? memberWaitlist.join(", ") : "No waitlist items yet."}</span>
-                <div className="statusGreen">Saved Locally</div>
-              </div>
-
-              <div className="universeCard redCard">
-                <strong>Order History</strong>
-                <span>No real orders yet. Payment systems are not active.</span>
-                <span>Future: receipts, shipment state, pre-orders, rental history.</span>
-                <div className="statusRed">Future</div>
-              </div>
-
-              <div className="universeCard redCard">
-                <strong>Security State</strong>
-                <span>Current: local preview only.</span>
-                <span>Future: real auth, private database rules, protected files.</span>
-                <div className="statusRed">Backend Needed</div>
-              </div>
-            </div>
-
-            <div className="card sectionPad greenPanel">
-              <div className="cardTitle">Waitlist Preview</div>
-              <p>
-                This prepares future item waitlists. Later, this will connect to real
-                member accounts, limited drops, collector records, and order history.
-              </p>
-
-              <select className="selectInput" value={memberSelectedItem} onChange={(e) => setMemberSelectedItem(e.target.value)}>
-                {artifacts.map((artifact) => (
-                  <option key={artifact.code} value={artifact.name}>{artifact.name}</option>
-                ))}
-              </select>
-
-              <button className="actionButton" onClick={joinWaitlist}>Join Waitlist Preview</button>
-            </div>
-
-            <div className="card sectionPad redPanel">
-              <div className="cardTitle restrictedTitle">Local Data Control</div>
-              <p>
-                This reset clears only the preview progress saved inside this browser.
-                It does not affect GitHub, Vercel, PDFs, or any real database.
-              </p>
-              <button className="dangerButton" onClick={resetLocalProgress}>
-                Reset Local Preview Progress
+            <div className="accessChamber">
+              <input
+                className="accessInput"
+                value={creatorPreviewInput}
+                onChange={(e) => setCreatorPreviewInput(e.target.value)}
+                placeholder="CREATOR PREVIEW CODE"
+              />
+              <button className="actionButton" onClick={unlockCreatorPreview}>
+                Unlock Preview
               </button>
             </div>
-          </>
-        )}
+          </div>
 
-        {activeChamber === "access" && (
-          <>
-            <div className="card sectionPad greenPanel">
-              <div className="cardTitle">Access Tier Chamber</div>
-              <p>
-                This chamber displays the future Ricochet Void Universe access model.
-                Payments are intentionally inactive until real authentication, protected
-                content delivery, refund terms, backend storage, tax/shipping logic, and
-                payment security are ready.
-              </p>
-            </div>
+          <div className={`card gateResult ${creatorPreviewMessage.includes("rejected") ? "denied" : ""}`}>
+            {creatorPreviewMessage}
+          </div>
 
-            <div className="card grid3">
-              {accessTiers.map((tier) => (
-                <div className={tier.name === "Entry Access" && foundationComplete ? "universeCard greenCard" : "universeCard redCard"} key={tier.name}>
-                  <strong>{tier.name}</strong>
-                  <div className="tierPrice">{tier.price}</div>
-                  <span>{tier.state}</span>
-                  <span>{tier.access}</span>
-                  <div className={tier.name === "Entry Access" && foundationComplete ? "statusGreen" : "statusRed"}>
-                    {tier.name === "Entry Access" && foundationComplete ? "Eligible" : "Locked / Future"}
-                  </div>
-                </div>
-              ))}
-            </div>
+          <div className="footerNotice">
+            Ricochet Void Universe™ is a protected creator project. Unreleased archives,
+            product concepts, hidden signals, creator materials, member systems, and
+            future commerce systems are not publicly available during development.
+          </div>
+        </section>
+      ) : (
+        <section className="panel">
+          <div className="signalTag">Creator Preview Mode Active</div>
 
-            <div className="card sectionPad redPanel">
-              <div className="cardTitle restrictedTitle">Payment Security Hold</div>
-              <p>
-                No live payment processor is connected in this prototype. This protects
-                the project from collecting money before member accounts, delivery rules,
-                product terms, and backend security are ready.
-              </p>
-            </div>
-          </>
-        )}
+          <h1>Ricochet Void Universe</h1>
 
-        {activeChamber === "roadmap" && (
-          <>
-            <div className="card sectionPad greenPanel">
-              <div className="cardTitle">Protected Roadmap Chamber</div>
-              <p>
-                This roadmap protects the build order without exposing hidden answers,
-                archive order, private product designs, creator-only secrets, or unreleased
-                blueprints. It shows direction without leaking the vault.
-              </p>
-            </div>
-
-            <div className="card sectionPad greenPanel">
-              {roadmapPhases.map((item) => (
-                <div className="roadmapLine" key={item.title}>
-                  <div className="cardTitle">{item.phase}</div>
-                  <p><strong>{item.title}</strong></p>
-                  <p>{item.detail}</p>
-                  <div className="statusGreen">{item.status}</div>
-                </div>
-              ))}
-            </div>
-
-            <div className="card sectionPad redPanel">
-              <div className="cardTitle restrictedTitle">Private Details Withheld</div>
-              <p>
-                Product specifications, exact factory concepts, hidden answers, creator-only
-                criteria, private electronic or accessory designs, and unreleased manuscript
-                content are intentionally not displayed here.
-              </p>
-            </div>
-          </>
-        )}
-
-        {activeChamber === "artifacts" && (
-          <>
-            <div className="card sectionPad greenPanel">
-              <div className="cardTitle">Artifact Registry</div>
-              <p>
-                The Artifact Registry records future limited editions without revealing
-                protected designs. Mint limits can be public. Blueprints, renders, and
-                manufacturing details stay private.
-              </p>
-            </div>
-
-            <div className="card grid3">
-              {artifacts.map((artifact) => (
-                <div className="universeCard greenCard" key={artifact.code}>
-                  <strong>{artifact.name}</strong>
-                  <span>Registry Code: {artifact.code}</span>
-                  <span>Minted: {artifact.minted} / {artifact.limit}</span>
-                  <span>Remaining: {artifact.limit - artifact.minted}</span>
-                  <div className="counterBar">
-                    <div className="counterFill" style={{ width: `${(artifact.minted / artifact.limit) * 100}%` }}></div>
-                  </div>
-                  <div className="statusGreen">{artifact.status}</div>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
-
-        {activeChamber === "commerce" && (
-          <>
-            <div className="card sectionPad redPanel">
-              <div className="cardTitle restrictedTitle">Protected Commerce Layer</div>
-              <p>
-                Pre-order and crowdfunding systems are planned, but no payments are
-                collected on this public version. Payment collection should only be
-                activated after refund terms, delivery timelines, taxes, shipping,
-                factory requirements, and legal review are ready.
-              </p>
-            </div>
-
-            <div className="card grid3">
-              <div className="universeCard greenCard"><div className="countNumber">{countdown.days}</div><strong>Days</strong><span>Until protected release window</span></div>
-              <div className="universeCard greenCard"><div className="countNumber">{countdown.hours}</div><strong>Hours</strong><span>Countdown display active</span></div>
-              <div className="universeCard greenCard"><div className="countNumber">{countdown.minutes}:{countdown.seconds}</div><strong>Minutes : Seconds</strong><span>Release timing placeholder</span></div>
-            </div>
-
-            <div className="card grid3">
-              <div className="universeCard redCard"><strong>Pre-Order Chamber</strong><span>Coming soon. No customer funds collected yet.</span><div className="statusRed">Inactive</div></div>
-              <div className="universeCard redCard"><strong>Crowdfund Chamber</strong><span>Campaign structure pending. Manufacturing order not placed.</span><div className="statusRed">Planning</div></div>
-              <div className="universeCard redCard"><strong>Universe Currency</strong><span>Research phase only. No token, sale, or crypto offering active.</span><div className="statusRed">Research</div></div>
-            </div>
-
-            <div className="card sectionPad greenPanel">
-              <div className="cardTitle">Collector Interest Chamber</div>
-              <p>
-                This form records interest only inside this temporary interface. It is
-                not connected to payment processing, email storage, or live ordering yet.
-              </p>
-
-              <input className="reflectionInput" value={collectorName} onChange={(e) => setCollectorName(e.target.value)} placeholder="COLLECTOR NAME OR VOID NAME" />
-              <input className="reflectionInput" value={collectorEmail} onChange={(e) => setCollectorEmail(e.target.value)} placeholder="EMAIL FOR FUTURE NOTIFICATION" />
-
-              <select className="selectInput" value={selectedArtifact} onChange={(e) => setSelectedArtifact(e.target.value)}>
-                {artifacts.map((artifact) => (
-                  <option key={artifact.code} value={artifact.name}>{artifact.name}</option>
-                ))}
-              </select>
-
-              <button className="actionButton" onClick={() => setInterestSubmitted(true)}>Register Interest</button>
-            </div>
-
-            {interestSubmitted && (
-              <div className="card gateResult granted">
-                Interest recorded for {cleanInput(collectorName) || "Unknown Collector"} — {selectedArtifact}. No payment has been collected.
-              </div>
-            )}
-          </>
-        )}
-
-        {activeChamber === "family" && (
-          <>
-            <div className="card sectionPad greenPanel">
-              <div className="cardTitle">Family Collection Protected Preview</div>
-              <p>
-                The Family Collection is a future branch of the Ricochet Void Universe
-                created for parents, children, and younger learners. Full manuscripts,
-                unfinished story text, illustration directions, character designs, and
-                unreleased book concepts are not publicly displayed.
-              </p>
-            </div>
-
-            <div className="card grid3">
-              {familyCollection.map((item) => (
-                <div className="universeCard greenCard" key={item.title}>
-                  <strong>{item.title}</strong>
-                  <span>{item.note}</span>
-                  <div className="statusGreen">{item.status}</div>
-                </div>
-              ))}
-            </div>
-
-            <div className="card sectionPad redPanel">
-              <div className="cardTitle restrictedTitle">Public Manuscript Warning</div>
-              <p>
-                Children’s book manuscripts, unpublished storylines, characters,
-                illustration prompts, cover concepts, and rental-platform details remain
-                restricted until the creator decides they are ready for release.
-              </p>
-            </div>
-          </>
-        )}
-
-        {activeChamber === "vault" && (
-          <>
-            <div className="card sectionPad redPanel">
-              <div className="cardTitle restrictedTitle">Creator Vault Gateway</div>
-              <p>
-                Restricted creator materials are not published publicly. Trusted eyes
-                only. NDA review required before private design disclosure.
-              </p>
-
-              <div className="accessChamber">
-                <input className="accessInput" value={vaultInput} onChange={(e) => setVaultInput(e.target.value)} placeholder="CREATOR VAULT ACCESS CODE" />
-                <button className="actionButton" onClick={verifyVaultAccess}>Verify Vault Access</button>
-              </div>
-            </div>
-
-            {vaultStatus === "granted" && (
-              <div className="card gateResult granted">
-                Creator Vault access recognized. Private materials remain withheld from public deployment until NDA-controlled review.
-              </div>
-            )}
-
-            {vaultStatus === "denied" && (
-              <div className="card gateResult denied">
-                Vault access denied. Restricted creator materials remain sealed.
-              </div>
-            )}
-
-            <div className="card grid3">
-              <div className="universeCard redCard"><strong>Future Gear Transmission</strong><span>Design files remain restricted until official release.</span><div className="statusRed">Restricted</div></div>
-              <div className="universeCard redCard"><strong>Prototype Electronics</strong><span>Private creator vault access only. NDA required.</span><div className="statusRed">Hidden</div></div>
-              <div className="universeCard redCard"><strong>Accessory Concepts</strong><span>No public render, blueprint, or specification available.</span><div className="statusRed">Protected</div></div>
-            </div>
-          </>
-        )}
-
-        {activeChamber === "reflection" && (
-          <>
-            <div className="card sectionPad greenPanel">
-              <div className="cardTitle">Foundation Reflection Chamber</div>
-              <p>
-                You may remain anonymous, or create your own Ricochet Void Universe
-                name so your realization cannot be claimed by someone else.
-              </p>
-            </div>
-
-            <div className="card sectionPad greenPanel">
-              <div className="cardTitle">Optional Ricochet Void Name</div>
-              <p>
-                Use your real name, remain anonymous, or create a Void Name tied to
-                your completed Foundation path.
-              </p>
-
-              <input className="reflectionInput" value={voidName} onChange={(e) => setVoidName(e.target.value)} placeholder="VOID NAME, OR LEAVE BLANK FOR UNKNOWN SIGNAL" />
-            </div>
-
-            <div className="card sectionPad greenPanel">
-              <div className="cardTitle">Foundation Realization Submission</div>
-              <p>
-                What did you come to realize about yourself after completing the
-                Foundation Archives?
-              </p>
-
-              <textarea className="reflectionText" value={reflection} onChange={(e) => setReflection(e.target.value)} placeholder="WRITE YOUR REALIZATION HERE..." />
-
-              <button className="actionButton" onClick={() => setReflectionSubmitted(true)}>Submit Reflection</button>
-            </div>
-
-            {reflectionSubmitted && (
-              <div className="card gateResult granted">
-                Reflection received from {cleanInput(voidName) || "Unknown Signal"}.
-                Your realization has been recorded inside the Foundation Chamber.
-              </div>
-            )}
-
-            <div className="card grid3">
-              <div className="universeCard greenCard"><strong>Anonymous Allowed</strong><span>Users can protect their identity while still submitting truth.</span></div>
-              <div className="universeCard greenCard"><strong>Void Name Optional</strong><span>A user may claim their journey without revealing their real name.</span></div>
-              <div className="universeCard greenCard"><strong>Credit Protected</strong><span>Their chosen name becomes attached to their realization.</span></div>
-            </div>
-          </>
-        )}
-
-        <div className="card sectionPad greenPanel">
-          <div className="cardTitle">Intellectual Property Notice</div>
-          <p>
-            Ricochet Void Universe™, its names, archives, writings, progression
-            systems, family stories, children’s books, visual language, creator
-            materials, chamber concepts, artwork, design concepts, and related
-            universe elements are protected creator materials.
+          <p className="subtitle">
+            Creator preview is unlocked on this device. Public launch remains shielded
+            until the universe is complete and ready for release.
           </p>
-          <p>© Oakley Cheuvront. All Rights Reserved.</p>
-        </div>
 
-        <div className="footerNotice">
-          Ricochet Void Universe™ — All writings, archives, systems, designs,
-          artwork, visual identity, progression structures, creator concepts,
-          product concepts, artifact registry concepts, children’s stories,
-          manuscripts, family collection materials, and related intellectual
-          property are owned by Oakley Cheuvront unless otherwise stated.
-          Unauthorized reproduction, redistribution, public disclosure, commercial
-          use, imitation, reverse engineering, or derivative use is prohibited.
-          This public website does not disclose unreleased manuscripts, prototype
-          designs, technical specifications, manufacturing information, private
-          creator vault materials, hidden answers, or protected product blueprints.
-        </div>
+          <div className="card sectionPad redPanel">
+            <div className="cardTitle restrictedTitle">Creator Preview Control</div>
+            <p>
+              This preview gate is a front-end development shield only. For true private
+              deployment security later, use Vercel deployment protection, real
+              authentication, backend permissions, and private file storage.
+            </p>
+            <button className="dangerButton" onClick={lockCreatorPreview}>
+              Lock Creator Preview
+            </button>
+          </div>
 
-        <div className="hiddenSignal">
-          the roadmap shows direction, not the secrets behind the door.
-        </div>
-      </section>
+          <div className="chamberNav">
+            {["foundation", "member", "access", "roadmap", "artifacts", "commerce", "family", "vault", "reflection"].map((chamber) => (
+              <button
+                key={chamber}
+                className={`navButton ${activeChamber === chamber ? "active" : ""}`}
+                onClick={() => setActiveChamber(chamber)}
+              >
+                {chamber}
+              </button>
+            ))}
+          </div>
+
+          {activeChamber === "foundation" && (
+            <>
+              <div className="card sectionPad greenPanel">
+                <div className="cardTitle">The Truth Standard</div>
+                <p>The goal is not only to find hidden answers. The goal is to become truthful enough with yourself to understand what the answers reveal.</p>
+              </div>
+
+              <div className="card sectionPad greenPanel">
+                <div className="cardTitle">Current Path Hint</div>
+                <div className="hintText">{pathHint}</div>
+              </div>
+
+              <div className="card progressCard">
+                <div className="progressTop">
+                  <div>Foundation Progress</div>
+                  <div>{currentStep} / {foundationPath.length} Signals Verified</div>
+                </div>
+                <div className="progressBar">
+                  <div className="progressFill" style={{ width: `${progressPercent}%` }}></div>
+                </div>
+              </div>
+
+              <div className="card grid4">
+                {foundationPath.map((step, index) => {
+                  const verified = index < currentStep;
+                  const current = index === currentStep && !foundationComplete;
+                  const locked = index > currentStep;
+
+                  return (
+                    <div key={step.key} className={`universeCard ${verified ? "verified" : ""} ${current ? "current" : ""} ${locked ? "locked" : ""}`}>
+                      <strong>{step.signalTitle}</strong>
+                      <span>Difficulty: {step.difficulty}</span>
+                      <span>Status: {verified ? "Verified" : current ? "Awaiting Signal" : "Locked"}</span>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {!foundationComplete && (
+                <div className="card accessChamber">
+                  <input className="accessInput" value={signalInput} onChange={(e) => setSignalInput(e.target.value)} placeholder="ENTER CURRENT ARCHIVE SIGNAL" />
+                  <button className="actionButton" onClick={verifyCurrentSignal}>Verify Current Signal</button>
+                </div>
+              )}
+
+              <div className={`card gateResult ${signalStatus === "granted" ? "granted" : signalStatus === "denied" ? "denied" : ""}`}>
+                {foundationComplete ? "Foundation complete. Reflection Chamber unlocked." : lastMessage}
+              </div>
+
+              {foundationComplete && (
+                <button className="actionButton" onClick={() => setActiveChamber("reflection")}>Enter Reflection Chamber</button>
+              )}
+
+              <div className="card sectionPad greenPanel">
+                <div className="cardTitle">Foundation Archive Access</div>
+                <p>
+                  Only archive names are visible. Archive numbers, file names, file paths,
+                  and the true progression order are hidden from the public interface.
+                  Archives must be opened and completed in the correct order.
+                </p>
+              </div>
+
+              <div className="card grid4">
+                {publicArchiveDisplay.map((title) => (
+                  <div className="universeCard" key={title}>
+                    <strong>{title}</strong>
+                    <button className="actionButton" style={{ marginTop: "12px" }} onClick={() => setSelectedArchiveTitle(title)}>
+                      Open Archive
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              {selectedArchiveTitle && (
+                <div className={`card sectionPad ${selectedArchiveUnlocked ? "greenPanel" : "redPanel"}`}>
+                  <div className={`cardTitle ${selectedArchiveUnlocked ? "" : "restrictedTitle"}`}>Archive Access</div>
+                  <p><strong>{selectedArchiveTitle}</strong></p>
+
+                  {selectedArchiveUnlocked ? (
+                    <>
+                      <p>
+                        Access granted. This archive is currently aligned with the active
+                        Foundation path. Read it, find the hidden signal, then return here
+                        to verify completion.
+                      </p>
+                      <a className="actionButton" href={selectedArchive.file} target="_blank" rel="noreferrer">Open PDF</a>
+                    </>
+                  ) : (
+                    <p>
+                      Access locked. This archive is not currently aligned with the active
+                      Foundation path. Return to the hint, find the correct archive, and
+                      continue in order.
+                    </p>
+                  )}
+
+                  <button className="secondaryButton" onClick={() => setSelectedArchiveTitle(null)}>Close</button>
+                </div>
+              )}
+            </>
+          )}
+
+          {activeChamber === "member" && (
+            <>
+              <div className="card dashboardHero">
+                <div className="dashboardMain">
+                  <div className="cardTitle">Member Dashboard</div>
+                  <p>
+                    This dashboard shows what the future account system will track:
+                    identity, progress, access eligibility, waitlists, order history,
+                    and security state.
+                  </p>
+                  <div className={memberSignedIn ? "memberBadge" : "statusRed"}>
+                    {memberSignedIn ? "Member Preview Active" : "Not Signed In"}
+                  </div>
+                </div>
+
+                <div className="dashboardStat">
+                  <div className="cardTitle">Foundation Completion</div>
+                  <div className="bigMetric">{progressPercent}%</div>
+                  <span>{currentStep} / {foundationPath.length} signals verified</span>
+                </div>
+              </div>
+
+              <div className="card sectionPad greenPanel">
+                <div className="cardTitle">Create Member Preview</div>
+
+                <input className="reflectionInput" value={memberName} onChange={(e) => setMemberName(e.target.value)} placeholder="MEMBER NAME" />
+                <input className="reflectionInput" value={memberVoidName} onChange={(e) => setMemberVoidName(e.target.value)} placeholder="VOID NAME / UNIVERSE NAME" />
+                <input className="reflectionInput" value={memberEmail} onChange={(e) => setMemberEmail(e.target.value)} placeholder="EMAIL ADDRESS" />
+
+                <button className="actionButton" onClick={handleMemberSignup}>Create / Preview Login</button>
+
+                {memberSignedIn && (
+                  <button className="secondaryButton" onClick={handleMemberLogout}>Sign Out Preview</button>
+                )}
+              </div>
+
+              <div className={`card gateResult ${memberSignedIn ? "granted" : "denied"}`}>
+                {memberMessage}
+              </div>
+
+              <div className="card grid3">
+                <div className="universeCard greenCard">
+                  <strong>Member Identity</strong>
+                  <span>Name: {memberName || "Not entered"}</span>
+                  <span>Void Name: {memberVoidName || "Not chosen"}</span>
+                  <span>Email: {memberEmail || "Not entered"}</span>
+                  <div className="statusGreen">Preview</div>
+                </div>
+
+                <div className="universeCard greenCard">
+                  <strong>Saved Progress</strong>
+                  <span>{currentStep} / {foundationPath.length} signals verified.</span>
+                  <span>{progressSaved ? "Saved locally on this device." : "Not saved yet."}</span>
+                  <div className="statusGreen">Local Save</div>
+                </div>
+
+                <div className={foundationComplete ? "universeCard greenCard" : "universeCard redCard"}>
+                  <strong>Entry Access Eligibility</strong>
+                  <span>{foundationComplete ? "Eligible after final review layer." : "Locked until Foundation completion."}</span>
+                  <span>Future: account-based access unlock.</span>
+                  <div className={foundationComplete ? "statusGreen" : "statusRed"}>
+                    {foundationComplete ? "Eligible" : "Locked"}
+                  </div>
+                </div>
+              </div>
+
+              <div className="card grid3">
+                <div className="universeCard greenCard">
+                  <strong>Waitlist Status</strong>
+                  <span>{memberWaitlist.length ? memberWaitlist.join(", ") : "No waitlist items yet."}</span>
+                  <div className="statusGreen">Saved Locally</div>
+                </div>
+
+                <div className="universeCard redCard">
+                  <strong>Order History</strong>
+                  <span>No real orders yet. Payment systems are not active.</span>
+                  <span>Future: receipts, shipment state, pre-orders, rental history.</span>
+                  <div className="statusRed">Future</div>
+                </div>
+
+                <div className="universeCard redCard">
+                  <strong>Security State</strong>
+                  <span>Current: local preview only.</span>
+                  <span>Future: real auth, private database rules, protected files.</span>
+                  <div className="statusRed">Backend Needed</div>
+                </div>
+              </div>
+
+              <div className="card sectionPad greenPanel">
+                <div className="cardTitle">Waitlist Preview</div>
+                <p>
+                  This prepares future item waitlists. Later, this will connect to real
+                  member accounts, limited drops, collector records, and order history.
+                </p>
+
+                <select className="selectInput" value={memberSelectedItem} onChange={(e) => setMemberSelectedItem(e.target.value)}>
+                  {artifacts.map((artifact) => (
+                    <option key={artifact.code} value={artifact.name}>{artifact.name}</option>
+                  ))}
+                </select>
+
+                <button className="actionButton" onClick={joinWaitlist}>Join Waitlist Preview</button>
+              </div>
+
+              <div className="card sectionPad redPanel">
+                <div className="cardTitle restrictedTitle">Local Data Control</div>
+                <p>
+                  This reset clears only the preview progress saved inside this browser.
+                  It does not affect GitHub, Vercel, PDFs, or any real database.
+                </p>
+                <button className="dangerButton" onClick={resetLocalProgress}>
+                  Reset Local Preview Progress
+                </button>
+              </div>
+            </>
+          )}
+
+          {activeChamber === "access" && (
+            <>
+              <div className="card sectionPad greenPanel">
+                <div className="cardTitle">Access Tier Chamber</div>
+                <p>
+                  This chamber displays the future Ricochet Void Universe access model.
+                  Payments are intentionally inactive until real authentication, protected
+                  content delivery, refund terms, backend storage, tax/shipping logic, and
+                  payment security are ready.
+                </p>
+              </div>
+
+              <div className="card grid3">
+                {accessTiers.map((tier) => (
+                  <div className={tier.name === "Entry Access" && foundationComplete ? "universeCard greenCard" : "universeCard redCard"} key={tier.name}>
+                    <strong>{tier.name}</strong>
+                    <div className="tierPrice">{tier.price}</div>
+                    <span>{tier.state}</span>
+                    <span>{tier.access}</span>
+                    <div className={tier.name === "Entry Access" && foundationComplete ? "statusGreen" : "statusRed"}>
+                      {tier.name === "Entry Access" && foundationComplete ? "Eligible" : "Locked / Future"}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="card sectionPad redPanel">
+                <div className="cardTitle restrictedTitle">Payment Security Hold</div>
+                <p>
+                  No live payment processor is connected in this prototype. This protects
+                  the project from collecting money before member accounts, delivery rules,
+                  product terms, and backend security are ready.
+                </p>
+              </div>
+            </>
+          )}
+
+          {activeChamber === "roadmap" && (
+            <>
+              <div className="card sectionPad greenPanel">
+                <div className="cardTitle">Protected Roadmap Chamber</div>
+                <p>
+                  This roadmap protects the build order without exposing hidden answers,
+                  archive order, private product designs, creator-only secrets, or unreleased
+                  blueprints. It shows direction without leaking the vault.
+                </p>
+              </div>
+
+              <div className="card sectionPad greenPanel">
+                {roadmapPhases.map((item) => (
+                  <div className="roadmapLine" key={item.title}>
+                    <div className="cardTitle">{item.phase}</div>
+                    <p><strong>{item.title}</strong></p>
+                    <p>{item.detail}</p>
+                    <div className="statusGreen">{item.status}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="card sectionPad redPanel">
+                <div className="cardTitle restrictedTitle">Private Details Withheld</div>
+                <p>
+                  Product specifications, exact factory concepts, hidden answers, creator-only
+                  criteria, private electronic or accessory designs, and unreleased manuscript
+                  content are intentionally not displayed here.
+                </p>
+              </div>
+            </>
+          )}
+
+          {activeChamber === "artifacts" && (
+            <>
+              <div className="card sectionPad greenPanel">
+                <div className="cardTitle">Artifact Registry</div>
+                <p>
+                  The Artifact Registry records future limited editions without revealing
+                  protected designs. Mint limits can be public. Blueprints, renders, and
+                  manufacturing details stay private.
+                </p>
+              </div>
+
+              <div className="card grid3">
+                {artifacts.map((artifact) => (
+                  <div className="universeCard greenCard" key={artifact.code}>
+                    <strong>{artifact.name}</strong>
+                    <span>Registry Code: {artifact.code}</span>
+                    <span>Minted: {artifact.minted} / {artifact.limit}</span>
+                    <span>Remaining: {artifact.limit - artifact.minted}</span>
+                    <div className="counterBar">
+                      <div className="counterFill" style={{ width: `${(artifact.minted / artifact.limit) * 100}%` }}></div>
+                    </div>
+                    <div className="statusGreen">{artifact.status}</div>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {activeChamber === "commerce" && (
+            <>
+              <div className="card sectionPad redPanel">
+                <div className="cardTitle restrictedTitle">Protected Commerce Layer</div>
+                <p>
+                  Pre-order and crowdfunding systems are planned, but no payments are
+                  collected on this public version. Payment collection should only be
+                  activated after refund terms, delivery timelines, taxes, shipping,
+                  factory requirements, and legal review are ready.
+                </p>
+              </div>
+
+              <div className="card grid3">
+                <div className="universeCard greenCard"><div className="countNumber">{countdown.days}</div><strong>Days</strong><span>Until protected release window</span></div>
+                <div className="universeCard greenCard"><div className="countNumber">{countdown.hours}</div><strong>Hours</strong><span>Countdown display active</span></div>
+                <div className="universeCard greenCard"><div className="countNumber">{countdown.minutes}:{countdown.seconds}</div><strong>Minutes : Seconds</strong><span>Release timing placeholder</span></div>
+              </div>
+
+              <div className="card grid3">
+                <div className="universeCard redCard"><strong>Pre-Order Chamber</strong><span>Coming soon. No customer funds collected yet.</span><div className="statusRed">Inactive</div></div>
+                <div className="universeCard redCard"><strong>Crowdfund Chamber</strong><span>Campaign structure pending. Manufacturing order not placed.</span><div className="statusRed">Planning</div></div>
+                <div className="universeCard redCard"><strong>Universe Currency</strong><span>Research phase only. No token, sale, or crypto offering active.</span><div className="statusRed">Research</div></div>
+              </div>
+
+              <div className="card sectionPad greenPanel">
+                <div className="cardTitle">Collector Interest Chamber</div>
+                <p>
+                  This form records interest only inside this temporary interface. It is
+                  not connected to payment processing, email storage, or live ordering yet.
+                </p>
+
+                <input className="reflectionInput" value={collectorName} onChange={(e) => setCollectorName(e.target.value)} placeholder="COLLECTOR NAME OR VOID NAME" />
+                <input className="reflectionInput" value={collectorEmail} onChange={(e) => setCollectorEmail(e.target.value)} placeholder="EMAIL FOR FUTURE NOTIFICATION" />
+
+                <select className="selectInput" value={selectedArtifact} onChange={(e) => setSelectedArtifact(e.target.value)}>
+                  {artifacts.map((artifact) => (
+                    <option key={artifact.code} value={artifact.name}>{artifact.name}</option>
+                  ))}
+                </select>
+
+                <button className="actionButton" onClick={() => setInterestSubmitted(true)}>Register Interest</button>
+              </div>
+
+              {interestSubmitted && (
+                <div className="card gateResult granted">
+                  Interest recorded for {cleanInput(collectorName) || "Unknown Collector"} — {selectedArtifact}. No payment has been collected.
+                </div>
+              )}
+            </>
+          )}
+
+          {activeChamber === "family" && (
+            <>
+              <div className="card sectionPad greenPanel">
+                <div className="cardTitle">Family Collection Protected Preview</div>
+                <p>
+                  The Family Collection is a future branch of the Ricochet Void Universe
+                  created for parents, children, and younger learners. Full manuscripts,
+                  unfinished story text, illustration directions, character designs, and
+                  unreleased book concepts are not publicly displayed.
+                </p>
+              </div>
+
+              <div className="card grid3">
+                {familyCollection.map((item) => (
+                  <div className="universeCard greenCard" key={item.title}>
+                    <strong>{item.title}</strong>
+                    <span>{item.note}</span>
+                    <div className="statusGreen">{item.status}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="card sectionPad redPanel">
+                <div className="cardTitle restrictedTitle">Public Manuscript Warning</div>
+                <p>
+                  Children’s book manuscripts, unpublished storylines, characters,
+                  illustration prompts, cover concepts, and rental-platform details remain
+                  restricted until the creator decides they are ready for release.
+                </p>
+              </div>
+            </>
+          )}
+
+          {activeChamber === "vault" && (
+            <>
+              <div className="card sectionPad redPanel">
+                <div className="cardTitle restrictedTitle">Creator Vault Gateway</div>
+                <p>
+                  Restricted creator materials are not published publicly. Trusted eyes
+                  only. NDA review required before private design disclosure.
+                </p>
+
+                <div className="accessChamber">
+                  <input className="accessInput" value={vaultInput} onChange={(e) => setVaultInput(e.target.value)} placeholder="CREATOR VAULT ACCESS CODE" />
+                  <button className="actionButton" onClick={verifyVaultAccess}>Verify Vault Access</button>
+                </div>
+              </div>
+
+              {vaultStatus === "granted" && (
+                <div className="card gateResult granted">
+                  Creator Vault access recognized. Private materials remain withheld from public deployment until NDA-controlled review.
+                </div>
+              )}
+
+              {vaultStatus === "denied" && (
+                <div className="card gateResult denied">
+                  Vault access denied. Restricted creator materials remain sealed.
+                </div>
+              )}
+
+              <div className="card grid3">
+                <div className="universeCard redCard"><strong>Future Gear Transmission</strong><span>Design files remain restricted until official release.</span><div className="statusRed">Restricted</div></div>
+                <div className="universeCard redCard"><strong>Prototype Electronics</strong><span>Private creator vault access only. NDA required.</span><div className="statusRed">Hidden</div></div>
+                <div className="universeCard redCard"><strong>Accessory Concepts</strong><span>No public render, blueprint, or specification available.</span><div className="statusRed">Protected</div></div>
+              </div>
+            </>
+          )}
+
+          {activeChamber === "reflection" && (
+            <>
+              <div className="card sectionPad greenPanel">
+                <div className="cardTitle">Foundation Reflection Chamber</div>
+                <p>
+                  You may remain anonymous, or create your own Ricochet Void Universe
+                  name so your realization cannot be claimed by someone else.
+                </p>
+              </div>
+
+              <div className="card sectionPad greenPanel">
+                <div className="cardTitle">Optional Ricochet Void Name</div>
+                <p>
+                  Use your real name, remain anonymous, or create a Void Name tied to
+                  your completed Foundation path.
+                </p>
+
+                <input className="reflectionInput" value={voidName} onChange={(e) => setVoidName(e.target.value)} placeholder="VOID NAME, OR LEAVE BLANK FOR UNKNOWN SIGNAL" />
+              </div>
+
+              <div className="card sectionPad greenPanel">
+                <div className="cardTitle">Foundation Realization Submission</div>
+                <p>
+                  What did you come to realize about yourself after completing the
+                  Foundation Archives?
+                </p>
+
+                <textarea className="reflectionText" value={reflection} onChange={(e) => setReflection(e.target.value)} placeholder="WRITE YOUR REALIZATION HERE..." />
+
+                <button className="actionButton" onClick={() => setReflectionSubmitted(true)}>Submit Reflection</button>
+              </div>
+
+              {reflectionSubmitted && (
+                <div className="card gateResult granted">
+                  Reflection received from {cleanInput(voidName) || "Unknown Signal"}.
+                  Your realization has been recorded inside the Foundation Chamber.
+                </div>
+              )}
+
+              <div className="card grid3">
+                <div className="universeCard greenCard"><strong>Anonymous Allowed</strong><span>Users can protect their identity while still submitting truth.</span></div>
+                <div className="universeCard greenCard"><strong>Void Name Optional</strong><span>A user may claim their journey without revealing their real name.</span></div>
+                <div className="universeCard greenCard"><strong>Credit Protected</strong><span>Their chosen name becomes attached to their realization.</span></div>
+              </div>
+            </>
+          )}
+
+          <div className="card sectionPad greenPanel">
+            <div className="cardTitle">Intellectual Property Notice</div>
+            <p>
+              Ricochet Void Universe™, its names, archives, writings, progression
+              systems, family stories, children’s books, visual language, creator
+              materials, chamber concepts, artwork, design concepts, and related
+              universe elements are protected creator materials.
+            </p>
+            <p>© Oakley Cheuvront. All Rights Reserved.</p>
+          </div>
+
+          <div className="footerNotice">
+            Ricochet Void Universe™ — All writings, archives, systems, designs,
+            artwork, visual identity, progression structures, creator concepts,
+            product concepts, artifact registry concepts, children’s stories,
+            manuscripts, family collection materials, and related intellectual
+            property are owned by Oakley Cheuvront unless otherwise stated.
+            Unauthorized reproduction, redistribution, public disclosure, commercial
+            use, imitation, reverse engineering, or derivative use is prohibited.
+            This public website does not disclose unreleased manuscripts, prototype
+            designs, technical specifications, manufacturing information, private
+            creator vault materials, hidden answers, or protected product blueprints.
+          </div>
+
+          <div className="hiddenSignal">
+            creator preview is unlocked, but public launch remains protected.
+          </div>
+        </section>
+      )}
     </main>
   );
 }
