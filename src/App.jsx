@@ -39,6 +39,21 @@ const accessTiers = [
   { name: "Universe Architect", price: "$99.99/mo", state: "Highest future tier", access: "Highest public access tier before creator-only systems." },
 ];
 
+const roadmapPhases = [
+  { phase: "Phase One", title: "Foundation Path", status: "Active Prototype", detail: "Archive progression, hidden signals, ordered completion, and reflection chamber." },
+  { phase: "Phase Two", title: "Volume 4 Archive Rebuild", status: "Next Content Build", detail: "Long-form public archives with no visible numbering and stronger truth standards." },
+  { phase: "Phase Three", title: "Member Accounts", status: "Prototype Started", detail: "Sign up, login, member identity, saved progress, and private member dashboard." },
+  { phase: "Phase Four", title: "Cloud Progress", status: "Future Backend", detail: "Progress saved securely to real accounts instead of only browser storage." },
+  { phase: "Phase Five", title: "Protected Content Delivery", status: "Future Security", detail: "Private archive access, protected PDFs, tokenized file delivery, and backend validation." },
+  { phase: "Phase Six", title: "Waitlists and Collector Interest", status: "Preview Started", detail: "Future item waitlists, collector records, limited drops, and interest tracking." },
+  { phase: "Phase Seven", title: "Pre-Order Infrastructure", status: "Future Commerce", detail: "Crowdfunding and pre-order systems after terms, delivery, and payment security are ready." },
+  { phase: "Phase Eight", title: "Subscription Access", status: "Future Payment Layer", detail: "Access tiers connected to secure checkout, account status, and content permissions." },
+  { phase: "Phase Nine", title: "Future Gear Protection", status: "Restricted", detail: "Designs stay private until trusted review, NDA control, and release readiness." },
+  { phase: "Phase Ten", title: "Family Collection", status: "Protected Preview", detail: "Children’s books, parent read-along rentals, illustrations, and younger learning paths." },
+  { phase: "Phase Eleven", title: "Creator Vault", status: "Restricted", detail: "Creator-only material, private blueprints, protected access, and final approval control." },
+  { phase: "Phase Twelve", title: "Universe Currency Research", status: "Research Only", detail: "Future currency concept remains research only. No token, sale, or crypto offering active." },
+];
+
 const familyCollection = [
   { title: "Children’s Story Vault", status: "Manuscripts Protected", note: "Full story text withheld until release." },
   { title: "Parent Read-Along Rentals", status: "Future Platform", note: "Designed for parents to rent and read with children." },
@@ -412,9 +427,9 @@ export default function App() {
 
         .chamberNav {
           margin: 28px auto 0;
-          max-width: 1240px;
+          max-width: 1280px;
           display: grid;
-          grid-template-columns: repeat(8, 1fr);
+          grid-template-columns: repeat(9, 1fr);
           gap: 10px;
           position: sticky;
           top: 12px;
@@ -728,6 +743,12 @@ export default function App() {
           text-shadow: 0 0 18px rgba(0,255,190,0.25);
         }
 
+        .roadmapLine {
+          border-left: 2px solid rgba(0,255,190,0.35);
+          padding-left: 18px;
+          margin: 16px 0;
+        }
+
         .footerNotice {
           position: relative;
           z-index: 10;
@@ -776,23 +797,23 @@ export default function App() {
       <div className="voidSymbol"></div>
       <div className="voidCore"></div>
 
-      <div className="dataStream streamOne">access tiers chamber active • payment still locked •</div>
-      <div className="dataStream streamTwo">foundation • member • access • artifacts • commerce • family • vault • reflection •</div>
-      <div className="dataStream streamThree">firewall headers remain in vercel json • backend security comes later •</div>
+      <div className="dataStream streamOne">protected roadmap chamber active • private designs remain hidden •</div>
+      <div className="dataStream streamTwo">foundation • member • access • roadmap • artifacts • commerce • family • vault • reflection •</div>
+      <div className="dataStream streamThree">security grows with the universe •</div>
 
       <section className="panel">
-        <div className="signalTag">Access Tier Chamber Active</div>
+        <div className="signalTag">Protected Roadmap Chamber Active</div>
 
         <h1>Ricochet Void Universe</h1>
 
         <p className="subtitle">
-          The universe now displays its future access structure while keeping payments
-          inactive until the backend, security, refund terms, and protected content
-          delivery are ready.
+          The universe now includes a protected roadmap chamber showing the build path
+          without revealing private product designs, hidden answers, creator secrets, or
+          unreleased blueprints.
         </p>
 
         <div className="chamberNav">
-          {["foundation", "member", "access", "artifacts", "commerce", "family", "vault", "reflection"].map((chamber) => (
+          {["foundation", "member", "access", "roadmap", "artifacts", "commerce", "family", "vault", "reflection"].map((chamber) => (
             <button
               key={chamber}
               className={`navButton ${activeChamber === chamber ? "active" : ""}`}
@@ -1054,9 +1075,38 @@ export default function App() {
                 the project from collecting money before member accounts, delivery rules,
                 product terms, and backend security are ready.
               </p>
+            </div>
+          </>
+        )}
+
+        {activeChamber === "roadmap" && (
+          <>
+            <div className="card sectionPad greenPanel">
+              <div className="cardTitle">Protected Roadmap Chamber</div>
               <p>
-                Future payment layer: subscription checkout, order records, refund
-                policy, tax/shipping settings, protected fulfillment, and fraud controls.
+                This roadmap protects the build order without exposing hidden answers,
+                archive order, private product designs, creator-only secrets, or unreleased
+                blueprints. It shows direction without leaking the vault.
+              </p>
+            </div>
+
+            <div className="card sectionPad greenPanel">
+              {roadmapPhases.map((item) => (
+                <div className="roadmapLine" key={item.title}>
+                  <div className="cardTitle">{item.phase}</div>
+                  <p><strong>{item.title}</strong></p>
+                  <p>{item.detail}</p>
+                  <div className="statusGreen">{item.status}</div>
+                </div>
+              ))}
+            </div>
+
+            <div className="card sectionPad redPanel">
+              <div className="cardTitle restrictedTitle">Private Details Withheld</div>
+              <p>
+                Product specifications, exact factory concepts, hidden answers, creator-only
+                criteria, private electronic or accessory designs, and unreleased manuscript
+                content are intentionally not displayed here.
               </p>
             </div>
           </>
@@ -1276,14 +1326,12 @@ export default function App() {
           Unauthorized reproduction, redistribution, public disclosure, commercial
           use, imitation, reverse engineering, or derivative use is prohibited.
           This public website does not disclose unreleased manuscripts, prototype
-          designs, technical specifications, manufacturing information, or private
-          creator vault materials. Member login, waitlists, orders, subscriptions,
-          payment systems, and saved progress are currently preview systems only
-          until connected to a real backend and protected by account-level security.
+          designs, technical specifications, manufacturing information, private
+          creator vault materials, hidden answers, or protected product blueprints.
         </div>
 
         <div className="hiddenSignal">
-          access can be priced, but trust and truth still have to be earned.
+          the roadmap shows direction, not the secrets behind the door.
         </div>
       </section>
     </main>
