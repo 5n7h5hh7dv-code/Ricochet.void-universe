@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /
+
+# Ricochet Void Universe is not open for public indexing yet.
+# Unreleased archives, hidden signals, creator systems, product concepts,
+# member systems, and protected materials are not available for search indexing.
