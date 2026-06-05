@@ -2,7 +2,13 @@ import { useEffect, useState } from "react";
 import FoundationChamber from "./components/FoundationChamber";
 import MemberChamber from "./components/MemberChamber";
 import BackendChamber from "./components/BackendChamber";
-
+import AccessChamber from "./components/AccessChamber";
+import CreatorControlChamber from "./components/CreatorControlChamber";
+import ArtifactRegistry from "./components/ArtifactRegistry";
+import CommerceChamber from "./components/CommerceChamber";
+import FamilyCollection from "./components/FamilyCollection";
+import CreatorVault from "./components/CreatorVault";
+import ReflectionChamber from "./components/ReflectionChamber";
 const CREATOR_PREVIEW_CODE = "CREATOR-PREVIEW";
 
 export default function App() {
