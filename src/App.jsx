@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 import FoundationChamber from "./components/FoundationChamber";
 import MemberChamber from "./components/MemberChamber";
 import BackendChamber from "./components/BackendChamber";
@@ -10,6 +9,7 @@ import CommerceChamber from "./components/CommerceChamber";
 import FamilyCollection from "./components/FamilyCollection";
 import CreatorVault from "./components/CreatorVault";
 import ReflectionChamber from "./components/ReflectionChamber";
+
 const CREATOR_PREVIEW_CODE = "CREATOR-PREVIEW";
 
 export default function App() {
@@ -56,6 +56,30 @@ export default function App() {
     "vault",
     "reflection",
   ];
+
+  function renderChamber() {
+    if (activeChamber === "foundation") return <FoundationChamber />;
+    if (activeChamber === "member") return <MemberChamber />;
+    if (activeChamber === "backend") return <BackendChamber />;
+    if (activeChamber === "access") return <AccessChamber />;
+    if (activeChamber === "control") return <CreatorControlChamber />;
+    if (activeChamber === "artifacts") return <ArtifactRegistry />;
+    if (activeChamber === "commerce") return <CommerceChamber />;
+    if (activeChamber === "family") return <FamilyCollection />;
+    if (activeChamber === "vault") return <CreatorVault />;
+    if (activeChamber === "reflection") return <ReflectionChamber />;
+
+    return (
+      <section className="card sectionPad greenPanel">
+        <div className="cardTitle">Protected Roadmap Chamber</div>
+        <p>
+          This chamber will show safe build direction without revealing private
+          answers, designs, order, or creator-only systems.
+        </p>
+        <div className="statusGreen">Component Pending</div>
+      </section>
+    );
+  }
 
   return (
     <main className="pageShell">
@@ -695,99 +719,8 @@ export default function App() {
             ))}
           </div>
 
-          {activeChamber === "foundation" && <FoundationChamber />}
+          {renderChamber()}
 
-          {activeChamber === "member" && <MemberChamber />}
-
-          {activeChamber === "backend" && <BackendChamber />}
-
-          {activeChamber === "access" && (
-            <section className="card sectionPad greenPanel">
-              <div className="cardTitle">Access Chamber</div>
-              <p>
-                This chamber will contain Entry Access, Signal Access,
-                Sub-Creator Access, Architect Circle, and Universe Architect tiers.
-              </p>
-              <div className="statusGreen">Component Pending</div>
-            </section>
-          )}
-
-          {activeChamber === "roadmap" && (
-            <section className="card sectionPad greenPanel">
-              <div className="cardTitle">Protected Roadmap Chamber</div>
-              <p>
-                This chamber will show safe build direction without revealing private
-                answers, designs, order, or creator-only systems.
-              </p>
-              <div className="statusGreen">Component Pending</div>
-            </section>
-          )}
-
-          {activeChamber === "control" && (
-            <section className="card sectionPad greenPanel">
-              <div className="cardTitle">Creator Control Chamber</div>
-              <p>
-                This chamber will contain launch readiness, security readiness,
-                content readiness, backend readiness, and final creator approval.
-              </p>
-              <div className="statusGreen">Component Pending</div>
-            </section>
-          )}
-
-          {activeChamber === "artifacts" && (
-            <section className="card sectionPad greenPanel">
-              <div className="cardTitle">Artifact Registry</div>
-              <p>
-                This chamber will track future limited artifacts, coins, serialized
-                counters, drop status, and protected collector systems.
-              </p>
-              <div className="statusGreen">Component Pending</div>
-            </section>
-          )}
-
-          {activeChamber === "commerce" && (
-            <section className="card sectionPad greenPanel">
-              <div className="cardTitle">Commerce Chamber</div>
-              <p>
-                This chamber will prepare pre-orders, crowdfunding, subscriptions,
-                receipts, rentals, and future protected payment systems.
-              </p>
-              <div className="statusGreen">Component Pending</div>
-            </section>
-          )}
-
-          {activeChamber === "family" && (
-            <section className="card sectionPad greenPanel">
-              <div className="cardTitle">Family Collection Chamber</div>
-              <p>
-                This chamber will protect children’s books, illustrations,
-                parent read-along rentals, and younger learning paths.
-              </p>
-              <div className="statusGreen">Component Pending</div>
-            </section>
-          )}
-
-          {activeChamber === "vault" && (
-            <section className="card sectionPad redPanel">
-              <div className="cardTitle restrictedTitle">Creator Vault Chamber</div>
-              <p>
-                This chamber will hold the future creator-only vault controls.
-                Private materials remain withheld from public deployment.
-              </p>
-              <div className="statusGreen">Component Pending</div>
-            </section>
-          )}
-
-          {activeChamber === "reflection" && (
-            <section className="card sectionPad greenPanel">
-              <div className="cardTitle">Reflection Chamber</div>
-              <p>
-                This chamber will contain anonymous reflection submission,
-                Void Name identity, and Foundation realization records.
-              </p>
-              <div className="statusGreen">Component Pending</div>
-            </section>
-          )}
 
           <div className="card sectionPad greenPanel">
             <div className="cardTitle">Intellectual Property Notice</div>
@@ -813,7 +746,7 @@ export default function App() {
           </div>
 
           <div className="hiddenSignal">
-            component architecture started — the universe is becoming scalable.
+            all chamber components connected — the universe structure is scalable.
           </div>
         </section>
       )}
