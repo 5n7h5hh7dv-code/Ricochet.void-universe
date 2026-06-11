@@ -1,0 +1,21 @@
+# Ricochet Void Universe redirect shield
+
+# Force unknown routes back to the protected app shell
+/* /index.html 200
+
+# Block common sensitive paths from being exposed
+/.env /index.html 404
+/.env.local /index.html 404
+/.env.production /index.html 404
+/.git /index.html 404
+/.git/* /index.html 404
+/config /index.html 404
+/config/* /index.html 404
+/admin /index.html 404
+/admin/* /index.html 404
+/private /index.html 404
+/private/* /index.html 404
+/creator-vault /index.html 404
+/creator-vault/* /index.html 404
+/blueprints /index.html 404
+/blueprints/* /index.html 404
