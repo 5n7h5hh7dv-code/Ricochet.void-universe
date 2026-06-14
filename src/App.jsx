@@ -1,14 +1,4 @@
 import { useEffect, useState } from "react";
-import FoundationChamber from "./components/FoundationChamber";
-import MemberChamber from "./components/MemberChamber";
-import BackendChamber from "./components/BackendChamber";
-import AccessChamber from "./components/AccessChamber";
-import CreatorControlChamber from "./components/CreatorControlChamber";
-import ArtifactRegistry from "./components/ArtifactRegistry";
-import CommerceChamber from "./components/CommerceChamber";
-import FamilyCollection from "./components/FamilyCollection";
-import CreatorVault from "./components/CreatorVault";
-import ReflectionChamber from "./components/ReflectionChamber";
 
 const CREATOR_PREVIEW_CODE = "CREATOR-PREVIEW";
 
@@ -56,29 +46,17 @@ export default function App() {
     setCreatorPreviewMessage("Creator preview locked.");
   }
 
-  function renderChamber() {
-    if (activeChamber === "foundation") return <FoundationChamber />;
-    if (activeChamber === "member") return <MemberChamber />;
-    if (activeChamber === "backend") return <BackendChamber />;
-    if (activeChamber === "access") return <AccessChamber />;
-    if (activeChamber === "control") return <CreatorControlChamber />;
-    if (activeChamber === "artifacts") return <ArtifactRegistry />;
-    if (activeChamber === "commerce") return <CommerceChamber />;
-    if (activeChamber === "family") return <FamilyCollection />;
-    if (activeChamber === "vault") return <CreatorVault />;
-    if (activeChamber === "reflection") return <ReflectionChamber />;
-
+  function ChamberContent() {
     return (
       <section className="card greenPanel">
-        <div className="cardTitle">Protected Roadmap Chamber</div>
-        <h2>ROADMAP CHAMBER</h2>
+        <div className="cardTitle">{activeChamber} chamber</div>
+        <h2>{activeChamber.toUpperCase()} CHAMBER</h2>
+        <p>This chamber is stabilized and ready for its next full upgrade.</p>
         <p>
-          The Roadmap Chamber will become the protected build-order map for the
-          Ricochet Void Universe. It will show safe direction without exposing
-          private answers, creator-only systems, vault logic, or unreleased
-          protected plans.
+          The cinematic universe shell has been restored. Next we rebuild each
+          chamber safely, one complete file at a time.
         </p>
-        <div className="statusGreen">Roadmap Placeholder Active</div>
+        <div className="statusGreen">Chamber Stable</div>
       </section>
     );
   }
@@ -300,11 +278,6 @@ export default function App() {
           text-shadow: 0 0 12px rgba(125,0,255,.9), 0 0 28px rgba(0,212,255,.7), 0 0 50px rgba(255,0,136,.5);
         }
 
-        h2 {
-          color: white;
-          letter-spacing: 2px;
-        }
-
         .signalTag {
           display: inline-block;
           margin-bottom: 14px;
@@ -395,8 +368,7 @@ export default function App() {
           box-shadow: 0 0 22px rgba(0,255,190,.22);
         }
 
-        input,
-        textarea {
+        input {
           width: 100%;
           box-sizing: border-box;
           padding: 14px;
@@ -406,14 +378,7 @@ export default function App() {
           color: white;
           background: rgba(255,255,255,.1);
           outline: none;
-          letter-spacing: 1px;
-        }
-
-        textarea,
-        .reflectionText {
-          min-height: 130px;
-          resize: vertical;
-          line-height: 1.5;
+          letter-spacing: 2px;
         }
 
         .actionButton {
@@ -431,37 +396,6 @@ export default function App() {
           text-transform: uppercase;
           background: rgba(0,255,190,.12);
           color: rgba(0,255,190,.92);
-        }
-
-        .placeholderGrid {
-          max-width: 1050px;
-          margin: 24px auto;
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 12px;
-        }
-
-        .placeholderCard {
-          border-radius: 16px;
-          border: 1px solid rgba(255,255,255,.16);
-          background: rgba(255,255,255,.06);
-          padding: 14px;
-          text-align: left;
-          min-height: 120px;
-        }
-
-        .placeholderCard strong {
-          display: block;
-          color: white;
-          margin-bottom: 8px;
-        }
-
-        .placeholderCard span {
-          display: block;
-          color: rgba(255,255,255,.68);
-          font-size: 12px;
-          line-height: 1.5;
-          margin-bottom: 6px;
         }
 
         .footer {
@@ -552,8 +486,7 @@ export default function App() {
         }
 
         @media (max-width: 900px) {
-          .nav,
-          .placeholderGrid {
+          .nav {
             grid-template-columns: 1fr;
           }
 
@@ -618,8 +551,8 @@ export default function App() {
             <h1>Ricochet Void Universe</h1>
 
             <p className="subtitle">
-              The cinematic shell is restored and every upgraded chamber is now
-              connected through the main universe shell.
+              The cinematic shell is restored. The universe is stabilized and
+              ready for chamber-by-chamber upgrades.
             </p>
 
             <section className="card redPanel">
@@ -640,7 +573,7 @@ export default function App() {
               ))}
             </div>
 
-            {renderChamber()}
+            <ChamberContent />
 
             <section className="card greenPanel">
               <div className="cardTitle">Intellectual Property Notice</div>
