@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import FoundationChamber from "./components/FoundationChamber";
 
 const CREATOR_PREVIEW_CODE = "CREATOR-PREVIEW";
 
@@ -48,22 +47,16 @@ export default function App() {
   }
 
   function ChamberContent() {
-    if (activeChamber === "foundation") {
-      return <FoundationChamber />;
-    }
-
     return (
       <section className="card greenPanel">
         <div className="cardTitle">{activeChamber} chamber</div>
         <h2>{activeChamber.toUpperCase()} CHAMBER</h2>
+        <p>This chamber is stabilized and ready for its next full upgrade.</p>
         <p>
-          This chamber is still protected behind a future connection step.
+          The cinematic universe shell has been restored. Next we rebuild each
+          chamber safely, one complete file at a time.
         </p>
-        <p>
-          Checkpoint 1 connects only the Foundation Chamber so we can confirm
-          the site stays stable before connecting the next chamber.
-        </p>
-        <div className="statusGreen">Waiting for Next Checkpoint</div>
+        <div className="statusGreen">Chamber Stable</div>
       </section>
     );
   }
@@ -403,38 +396,6 @@ export default function App() {
           text-transform: uppercase;
           background: rgba(0,255,190,.12);
           color: rgba(0,255,190,.92);
-        }
-
-
-        .placeholderGrid {
-          max-width: 1050px;
-          margin: 24px auto;
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 12px;
-        }
-
-        .placeholderCard {
-          border-radius: 16px;
-          border: 1px solid rgba(255,255,255,.16);
-          background: rgba(255,255,255,.06);
-          padding: 14px;
-          text-align: left;
-          min-height: 120px;
-        }
-
-        .placeholderCard strong {
-          display: block;
-          color: white;
-          margin-bottom: 8px;
-        }
-
-        .placeholderCard span {
-          display: block;
-          color: rgba(255,255,255,.68);
-          font-size: 12px;
-          line-height: 1.5;
-          margin-bottom: 6px;
         }
 
         .footer {
