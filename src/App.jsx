@@ -1,5 +1,16 @@
 import { useEffect, useState } from "react";
 
+import FoundationChamber from "./components/FoundationChamber";
+import MemberChamber from "./components/MemberChamber";
+import BackendChamber from "./components/BackendChamber";
+import AccessChamber from "./components/AccessChamber";
+import CreatorControlChamber from "./components/CreatorControlChamber";
+import ArtifactRegistry from "./components/ArtifactRegistry";
+import CommerceChamber from "./components/CommerceChamber";
+import FamilyCollection from "./components/FamilyCollection";
+import CreatorVault from "./components/CreatorVault";
+import ReflectionChamber from "./components/ReflectionChamber";
+
 const CREATOR_PREVIEW_CODE = "CREATOR-PREVIEW";
 
 const chambers = [
@@ -46,17 +57,27 @@ export default function App() {
     setCreatorPreviewMessage("Creator preview locked.");
   }
 
-  function ChamberContent() {
+  function renderChamber() {
+    if (activeChamber === "foundation") return <FoundationChamber />;
+    if (activeChamber === "member") return <MemberChamber />;
+    if (activeChamber === "backend") return <BackendChamber />;
+    if (activeChamber === "access") return <AccessChamber />;
+    if (activeChamber === "control") return <CreatorControlChamber />;
+    if (activeChamber === "artifacts") return <ArtifactRegistry />;
+    if (activeChamber === "commerce") return <CommerceChamber />;
+    if (activeChamber === "family") return <FamilyCollection />;
+    if (activeChamber === "vault") return <CreatorVault />;
+    if (activeChamber === "reflection") return <ReflectionChamber />;
+
     return (
       <section className="card greenPanel">
-        <div className="cardTitle">{activeChamber} chamber</div>
-        <h2>{activeChamber.toUpperCase()} CHAMBER</h2>
-        <p>This chamber is stabilized and ready for its next full upgrade.</p>
+        <div className="cardTitle">Roadmap Chamber</div>
+        <h2>ROADMAP CHAMBER</h2>
         <p>
-          The cinematic universe shell has been restored. Next we rebuild each
-          chamber safely, one complete file at a time.
+          This chamber will become the protected build-order map for the
+          Ricochet Void Universe.
         </p>
-        <div className="statusGreen">Chamber Stable</div>
+        <div className="statusGreen">Roadmap Placeholder Active</div>
       </section>
     );
   }
@@ -398,6 +419,55 @@ export default function App() {
           color: rgba(0,255,190,.92);
         }
 
+
+        .placeholderGrid {
+          max-width: 1050px;
+          margin: 24px auto;
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 12px;
+        }
+
+        .placeholderCard {
+          border-radius: 16px;
+          border: 1px solid rgba(255,255,255,.16);
+          background: rgba(255,255,255,.06);
+          padding: 14px;
+          text-align: left;
+          min-height: 120px;
+        }
+
+        .placeholderCard strong {
+          display: block;
+          color: white;
+          margin-bottom: 8px;
+        }
+
+        .placeholderCard span {
+          display: block;
+          color: rgba(255,255,255,.68);
+          font-size: 12px;
+          line-height: 1.5;
+          margin-bottom: 6px;
+        }
+
+        textarea,
+        .reflectionText {
+          width: 100%;
+          box-sizing: border-box;
+          padding: 14px;
+          border-radius: 12px;
+          border: none;
+          margin: 10px 0;
+          color: white;
+          background: rgba(255,255,255,.1);
+          outline: none;
+          letter-spacing: 1px;
+          min-height: 130px;
+          resize: vertical;
+          line-height: 1.5;
+        }
+
         .footer {
           max-width: 1000px;
           margin: 30px auto 0;
@@ -551,8 +621,8 @@ export default function App() {
             <h1>Ricochet Void Universe</h1>
 
             <p className="subtitle">
-              The cinematic shell is restored. The universe is stabilized and
-              ready for chamber-by-chamber upgrades.
+              The cinematic shell is restored and every upgraded chamber is now
+              connected through the main universe shell.
             </p>
 
             <section className="card redPanel">
@@ -573,7 +643,7 @@ export default function App() {
               ))}
             </div>
 
-            <ChamberContent />
+            {renderChamber()}
 
             <section className="card greenPanel">
               <div className="cardTitle">Intellectual Property Notice</div>
