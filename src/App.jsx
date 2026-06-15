@@ -1212,6 +1212,281 @@ export default function App() {
     );
   }
 
+
+  const subscriptionTiers = [
+    { name: "Entry Access", price: "$0", status: "Earned", purpose: "Unlocked through Foundation completion, Reflection, and eligibility." },
+    { name: "Signal Access", price: "$9.99/month", status: "Future", purpose: "Ongoing member updates and core expansion." },
+    { name: "Sub-Creator Access", price: "$24.99/month", status: "Future", purpose: "Guided creation tools and submission systems." },
+    { name: "Architect Circle", price: "$49.99/month", status: "Future", purpose: "Advanced private rooms, previews, and drop access." },
+    { name: "Universe Architect", price: "$99.99/month", status: "Future", purpose: "Highest future public member tier before creator-only systems." },
+  ];
+
+  const subscriptionRules = [
+    "Entry Access remains earned, not bought.",
+    "Paid access must be verified server-side later.",
+    "No payment secret keys belong in frontend code.",
+    "Subscriptions require refund, cancellation, and support terms.",
+    "Creator-only systems are not included in paid public tiers.",
+  ];
+
+  const [selectedSubscriptionTier, setSelectedSubscriptionTier] = useState(subscriptionTiers[0]);
+  const [showSubscriptionRules, setShowSubscriptionRules] = useState(false);
+
+  function SubscriptionManagementFramework() {
+    return (
+      <section className="card greenPanel" id="subscription-framework">
+        <div className="cardTitle">Checkpoint 25 Subscription Management Framework</div>
+        <h2>SUBSCRIPTION MANAGEMENT FRAMEWORK</h2>
+        <p>
+          This system prepares the future access-tier and subscription structure
+          while protecting the Foundation-first rule and future payment verification.
+        </p>
+
+        <div className="placeholderGrid">
+          {subscriptionTiers.map((tier) => (
+            <button className="placeholderCard" key={tier.name} onClick={() => setSelectedSubscriptionTier(tier)}>
+              <strong>{tier.name}</strong>
+              <span>{tier.price}</span>
+              <span>{tier.status}</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="card greenPanel">
+          <div className="cardTitle">Selected Subscription Tier</div>
+          <h2>{selectedSubscriptionTier.name}</h2>
+          <p><strong>Price:</strong> {selectedSubscriptionTier.price}</p>
+          <p><strong>Status:</strong> {selectedSubscriptionTier.status}</p>
+          <p>{selectedSubscriptionTier.purpose}</p>
+        </div>
+
+        <div className="card redPanel">
+          <div className="cardTitle restrictedTitle">Subscription Rules</div>
+          <button className="actionButton" onClick={() => setShowSubscriptionRules(!showSubscriptionRules)}>
+            {showSubscriptionRules ? "Hide Rules" : "Show Rules"}
+          </button>
+          {showSubscriptionRules && subscriptionRules.map((rule) => <p key={rule}>• {rule}</p>)}
+        </div>
+      </section>
+    );
+  }
+
+
+  const publishingSystems = [
+    { title: "Manuscript Library", status: "Protected", purpose: "Stores future children's stories, family books, and educational drafts." },
+    { title: "Illustration Pipeline", status: "Future", purpose: "Tracks artwork direction, illustration needs, covers, and visual releases." },
+    { title: "Parent Reading Access", status: "Future", purpose: "Creates read-along and family access paths." },
+    { title: "Rental / Lending System", status: "Future", purpose: "Plans limited-time family access and protected digital reading." },
+    { title: "Publishing Approval", status: "Creator Approval", purpose: "Ensures quality and readiness before release." },
+  ];
+
+  const [selectedPublishingSystem, setSelectedPublishingSystem] = useState(publishingSystems[0]);
+
+  function FamilyPublishingNetwork() {
+    return (
+      <section className="card greenPanel" id="family-publishing-network">
+        <div className="cardTitle">Checkpoint 26 Family Collection Publishing Network</div>
+        <h2>FAMILY PUBLISHING NETWORK</h2>
+        <p>
+          This system prepares the Family Collection for children's books,
+          illustrations, reading access, rentals, educational materials, and
+          creator-approved publishing.
+        </p>
+
+        <div className="placeholderGrid">
+          {publishingSystems.map((system) => (
+            <button className="placeholderCard" key={system.title} onClick={() => setSelectedPublishingSystem(system)}>
+              <strong>{system.title}</strong>
+              <span>{system.status}</span>
+              <span>{system.purpose}</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="card greenPanel">
+          <div className="cardTitle">Selected Publishing System</div>
+          <h2>{selectedPublishingSystem.title}</h2>
+          <p><strong>Status:</strong> {selectedPublishingSystem.status}</p>
+          <p>{selectedPublishingSystem.purpose}</p>
+        </div>
+      </section>
+    );
+  }
+
+
+  const analyticsPanels = [
+    { title: "Progression Metrics", purpose: "Future tracking for Foundation, Reflection, and Entry Access progress." },
+    { title: "Interest Metrics", purpose: "Future tracking for waitlist interest and launch demand." },
+    { title: "Commerce Metrics", purpose: "Future tracking for subscriptions, orders, drops, and rentals." },
+    { title: "Security Metrics", purpose: "Future tracking for suspicious actions and admin review." },
+    { title: "Creator Decisions", purpose: "Tracks creator approvals and launch readiness choices." },
+  ];
+
+  const [selectedAnalyticsPanel, setSelectedAnalyticsPanel] = useState(analyticsPanels[0]);
+
+  function CreatorAnalyticsDashboard() {
+    return (
+      <section className="card redPanel" id="creator-analytics-dashboard">
+        <div className="cardTitle restrictedTitle">Checkpoint 27 Creator Analytics Dashboard</div>
+        <h2>CREATOR ANALYTICS DASHBOARD</h2>
+        <p>
+          This system prepares the creator-facing analytics layer for progress,
+          interest, commerce, security, launch readiness, and future operations.
+        </p>
+
+        <div className="placeholderGrid">
+          {analyticsPanels.map((panel) => (
+            <button className="placeholderCard" key={panel.title} onClick={() => setSelectedAnalyticsPanel(panel)}>
+              <strong>{panel.title}</strong>
+              <span>{panel.purpose}</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="card greenPanel">
+          <div className="cardTitle">Selected Analytics Panel</div>
+          <h2>{selectedAnalyticsPanel.title}</h2>
+          <p>{selectedAnalyticsPanel.purpose}</p>
+        </div>
+      </section>
+    );
+  }
+
+
+  const activityTypes = [
+    "Foundation started",
+    "Signal submitted",
+    "Reflection completed",
+    "Entry eligibility reached",
+    "Interest saved",
+    "Creator approval updated",
+    "Security layer reviewed",
+    "Future Gear interest recorded",
+  ];
+
+  function UniverseActivityFeed() {
+    return (
+      <section className="card greenPanel" id="universe-activity-feed">
+        <div className="cardTitle">Checkpoint 28 Universe Activity Feed</div>
+        <h2>UNIVERSE ACTIVITY FEED</h2>
+        <p>
+          This feed prepares the future live activity layer for member actions,
+          progression events, creator approvals, waitlists, security reviews,
+          and launch operations.
+        </p>
+
+        <div className="placeholderGrid">
+          {activityTypes.map((activity) => (
+            <div className="placeholderCard" key={activity}>
+              <strong>{activity}</strong>
+              <span>Future activity event type</span>
+            </div>
+          ))}
+        </div>
+
+        <div className="card redPanel">
+          <div className="cardTitle restrictedTitle">Privacy Rule</div>
+          <p>
+            Future activity should respect member privacy and never expose
+            personal details, private reflections, protected answers, or creator
+            vault systems without permission.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
+
+  const operationsSystems = [
+    { title: "Launch Timeline", purpose: "Tracks phases from protected build to public entry to backend rollout." },
+    { title: "Issue Review", purpose: "Future system for bugs, feedback, and launch problems." },
+    { title: "Release Notes", purpose: "Records what changed between checkpoints and releases." },
+    { title: "Support Plan", purpose: "Prepares member help, refunds, access questions, and creator responses." },
+    { title: "Go-Live Control", purpose: "Final decision layer before public indexing, payments, and backend release." },
+  ];
+
+  const [selectedOperationsSystem, setSelectedOperationsSystem] = useState(operationsSystems[0]);
+
+  function LaunchOperationsCenter() {
+    return (
+      <section className="card redPanel" id="launch-operations-center">
+        <div className="cardTitle restrictedTitle">Checkpoint 29 Launch Operations Center</div>
+        <h2>LAUNCH OPERATIONS CENTER</h2>
+        <p>
+          This center prepares the operating layer for go-live decisions, release
+          notes, support planning, issue review, and future public launch control.
+        </p>
+
+        <div className="placeholderGrid">
+          {operationsSystems.map((system) => (
+            <button className="placeholderCard" key={system.title} onClick={() => setSelectedOperationsSystem(system)}>
+              <strong>{system.title}</strong>
+              <span>{system.purpose}</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="card greenPanel">
+          <div className="cardTitle">Selected Operations System</div>
+          <h2>{selectedOperationsSystem.title}</h2>
+          <p>{selectedOperationsSystem.purpose}</p>
+        </div>
+      </section>
+    );
+  }
+
+
+  const productionSystems = [
+    "Public Entry",
+    "Foundation Path",
+    "Progression Engine",
+    "Member Dashboard",
+    "Archive Unlocks",
+    "PDF Delivery Blueprint",
+    "Launch Shield",
+    "Creator Admin",
+    "Security Dashboard",
+    "Subscriptions Framework",
+    "Marketplace Framework",
+    "Future Gear Framework",
+    "Family Publishing",
+    "Analytics Dashboard",
+    "Activity Feed",
+    "Operations Center",
+  ];
+
+  function Volume4ProductionControlCenter() {
+    return (
+      <section className="card greenPanel" id="volume4-production-control">
+        <div className="cardTitle">Checkpoint 30 Volume 4 Production Control</div>
+        <h2>VOLUME 4 PRODUCTION CONTROL CENTER</h2>
+        <p>
+          This checkpoint brings the major frontend architecture together into
+          one production control view before the project moves into real backend
+          infrastructure.
+        </p>
+
+        <div className="placeholderGrid">
+          {productionSystems.map((system) => (
+            <div className="placeholderCard" key={system}>
+              <strong>{system}</strong>
+              <span>Connected in Volume 4 frontend architecture</span>
+            </div>
+          ))}
+        </div>
+
+        <div className="card redPanel">
+          <div className="cardTitle restrictedTitle">Next Real Phase</div>
+          <p>
+            After this checkpoint, the highest-value move is backend integration:
+            authentication, database, private file storage, email capture, and
+            payment verification.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
   function SecurityStatusDashboard() {
     return (
       <section className="card redPanel" id="security-dashboard">
@@ -3208,6 +3483,18 @@ export default function App() {
             <ArtifactMarketplaceFramework />
 
             <FutureGearStoreFramework />
+
+            <SubscriptionManagementFramework />
+
+            <FamilyPublishingNetwork />
+
+            <CreatorAnalyticsDashboard />
+
+            <UniverseActivityFeed />
+
+            <LaunchOperationsCenter />
+
+            <Volume4ProductionControlCenter />
 
             <ChamberContent />
 
