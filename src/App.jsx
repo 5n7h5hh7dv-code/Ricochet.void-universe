@@ -398,6 +398,67 @@ export default function App() {
   const [showPdfRules, setShowPdfRules] = useState(false);
   const [showPdfHooks, setShowPdfHooks] = useState(false);
 
+
+  const launchShieldSystems = [
+    "Public Launch Shield",
+    "Creator Preview Protection",
+    "Entry Access Gateway",
+    "Member Verification Layer",
+    "Protected Chamber Routing",
+    "Future Backend Authentication",
+  ];
+
+  const launchChecklist = [
+    "Foundation complete",
+    "Member dashboard connected",
+    "Archive unlock engine connected",
+    "PDF delivery blueprint connected",
+    "Creator vault connected",
+    "Access chamber connected",
+    "Backend plan established",
+    "Launch approval pending",
+  ];
+
+  function LaunchShieldSystem() {
+    return (
+      <section className="card greenPanel">
+        <div className="cardTitle">Volume 4 Launch Shield</div>
+
+        <h2>PUBLIC LAUNCH PROTECTION SYSTEM</h2>
+
+        <p>
+          The Launch Shield controls the transition between development,
+          creator-preview operation, and public release.
+        </p>
+
+        <div className="placeholderGrid">
+          {launchShieldSystems.map((item) => (
+            <div className="placeholderCard" key={item}>
+              <strong>{item}</strong>
+              <span>Protected launch layer</span>
+            </div>
+          ))}
+        </div>
+
+        <div className="card redPanel">
+          <div className="cardTitle restrictedTitle">Launch Readiness</div>
+          {launchChecklist.map((item) => (
+            <p key={item}>☐ {item}</p>
+          ))}
+        </div>
+
+        <div className="card greenPanel">
+          <div className="cardTitle">Checkpoint 8 Objective</div>
+          <p>
+            The site now has chamber architecture, progression tracking,
+            member dashboard systems, archive unlock planning, PDF delivery
+            planning, and a launch shield structure.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
   function PdfDeliveryBlueprint() {
     return (
       <section className="card greenPanel">
@@ -1402,6 +1463,8 @@ export default function App() {
             <ArchiveUnlockSystem />
 
             <PdfDeliveryBlueprint />
+
+            <LaunchShieldSystem />
 
             <ChamberContent />
 
