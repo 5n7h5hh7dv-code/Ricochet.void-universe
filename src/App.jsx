@@ -837,6 +837,100 @@ export default function App() {
   const [selectedSecurityLayer, setSelectedSecurityLayer] = useState(securityShieldLayers[0]);
   const [showHardeningPlan, setShowHardeningPlan] = useState(false);
 
+
+  const accountArchitectureLayers = [
+    {
+      title: "Member Signup",
+      status: "Future Backend",
+      purpose:
+        "Creates real member accounts tied to email, passwordless login, or provider authentication.",
+    },
+    {
+      title: "Creator Login",
+      status: "Future Backend",
+      purpose:
+        "Protects creator-only tools, release controls, vault systems, and admin decisions behind real authentication.",
+    },
+    {
+      title: "Profile Records",
+      status: "Future Database",
+      purpose:
+        "Stores Void Name, Signal Rank, member intent, progress, waitlists, and account preferences.",
+    },
+    {
+      title: "Session Protection",
+      status: "Future Security",
+      purpose:
+        "Keeps users signed in safely while protecting accounts from unauthorized access.",
+    },
+    {
+      title: "Account Recovery",
+      status: "Future Security",
+      purpose:
+        "Provides secure recovery for lost access without exposing private member records.",
+    },
+  ];
+
+  const accountSecurityRules = [
+    "Do not store passwords in frontend code.",
+    "Do not store member records only in local storage for real launch.",
+    "Use an authentication provider before real accounts go public.",
+    "Use backend database rules for private member data.",
+    "Use creator-only authentication for creator admin systems.",
+    "Use session protection before protected PDFs or paid content go live.",
+  ];
+
+  const [selectedAccountLayer, setSelectedAccountLayer] = useState(accountArchitectureLayers[0]);
+  const [showAccountRules, setShowAccountRules] = useState(false);
+
+  function MemberAccountArchitecture() {
+    return (
+      <section className="card greenPanel" id="member-account-architecture">
+        <div className="cardTitle">Checkpoint 21 Member Account Architecture</div>
+
+        <h2>REAL ACCOUNT BLUEPRINT</h2>
+
+        <p>
+          This upgrade prepares the Ricochet Void Universe for real member
+          accounts and creator login without exposing passwords, private
+          records, or protected access logic inside the frontend.
+        </p>
+
+        <div className="placeholderGrid">
+          {accountArchitectureLayers.map((layer) => (
+            <button
+              className="placeholderCard"
+              key={layer.title}
+              onClick={() => setSelectedAccountLayer(layer)}
+            >
+              <strong>{layer.title}</strong>
+              <span>{layer.status}</span>
+              <span>{layer.purpose}</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="card greenPanel">
+          <div className="cardTitle">Selected Account Layer</div>
+          <h2>{selectedAccountLayer.title}</h2>
+          <p><strong>Status:</strong> {selectedAccountLayer.status}</p>
+          <p>{selectedAccountLayer.purpose}</p>
+        </div>
+
+        <div className="card redPanel">
+          <div className="cardTitle restrictedTitle">Account Security Rules</div>
+
+          <button className="actionButton" onClick={() => setShowAccountRules(!showAccountRules)}>
+            {showAccountRules ? "Hide Account Rules" : "Show Account Rules"}
+          </button>
+
+          {showAccountRules &&
+            accountSecurityRules.map((rule) => <p key={rule}>• {rule}</p>)}
+        </div>
+      </section>
+    );
+  }
+
   function SecurityStatusDashboard() {
     return (
       <section className="card redPanel" id="security-dashboard">
@@ -2825,6 +2919,8 @@ export default function App() {
             <BackendConnectionBlueprint />
 
             <SecurityStatusDashboard />
+
+            <MemberAccountArchitecture />
 
             <ChamberContent />
 
