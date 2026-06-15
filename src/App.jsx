@@ -223,6 +223,204 @@ export default function App() {
     return "Foundation In Progress";
   }
 
+  const archiveUnlocks = [
+    {
+      id: "coded-mirror",
+      name: "The Coded Mirror",
+      publicSignal: "Reflection Signal",
+      status: "Opening Archive",
+      unlockRequirement: "Available at Foundation start",
+      unlocked: true,
+    },
+    {
+      id: "void-protocol",
+      name: "Void Protocol 7",
+      publicSignal: "Silence Signal",
+      status: "Locked Path",
+      unlockRequirement: "Complete the first archive signal",
+      unlocked: progression.foundationComplete,
+    },
+    {
+      id: "neural-wealth",
+      name: "Neural Wealth Mapping",
+      publicSignal: "Void Signal",
+      status: "Locked Path",
+      unlockRequirement: "Progress through the hidden Foundation order",
+      unlocked: progression.foundationComplete,
+    },
+    {
+      id: "dopamine-collapse",
+      name: "The Dopamine Collapse Manual",
+      publicSignal: "Ascension Signal",
+      status: "Locked Path",
+      unlockRequirement: "Progress through the hidden Foundation order",
+      unlocked: progression.foundationComplete,
+    },
+    {
+      id: "project-ascension",
+      name: "Project Ascension",
+      publicSignal: "Truth Signal",
+      status: "Locked Path",
+      unlockRequirement: "Progress through the hidden Foundation order",
+      unlocked: progression.foundationComplete,
+    },
+    {
+      id: "human-glitch",
+      name: "The Human Glitch",
+      publicSignal: "Accountability Signal",
+      status: "Locked Path",
+      unlockRequirement: "Progress through the hidden Foundation order",
+      unlocked: progression.foundationComplete,
+    },
+    {
+      id: "psychological-warfare",
+      name: "Psychological Warfare Against Yourself",
+      publicSignal: "Architect Signal",
+      status: "Locked Path",
+      unlockRequirement: "Progress through the hidden Foundation order",
+      unlocked: progression.foundationComplete,
+    },
+    {
+      id: "internal-empire",
+      name: "The Internal Empire Blueprint",
+      publicSignal: "Foundation Completion Signal",
+      status: "Final Gate",
+      unlockRequirement: "Complete Foundation progression",
+      unlocked: progression.foundationComplete,
+    },
+  ];
+
+  const [selectedArchiveUnlock, setSelectedArchiveUnlock] = useState(
+    archiveUnlocks[0]
+  );
+  const [archiveAnswerInput, setArchiveAnswerInput] = useState("");
+  const [archiveMessage, setArchiveMessage] = useState(
+    "Archive unlock engine is ready."
+  );
+
+  function handleArchiveSignalSubmit() {
+    const value = archiveAnswerInput.trim();
+
+    if (!value) {
+      setArchiveMessage("Enter a signal response before submitting.");
+      return;
+    }
+
+    setArchiveMessage(
+      "Signal response received locally. Future launch logic will verify this server-side."
+    );
+
+    setProgression((current) => ({
+      ...current,
+      foundationStarted: true,
+    }));
+
+    setMemberDashboard((current) => ({
+      ...current,
+      lastMilestone: "Archive signal submitted locally",
+      activityLog: [
+        "Archive signal submitted locally",
+        ...current.activityLog.slice(0, 5),
+      ],
+    }));
+
+    setArchiveAnswerInput("");
+  }
+
+  function ArchiveUnlockSystem() {
+    return (
+      <section className="card greenPanel">
+        <div className="cardTitle">Volume 4 Archive Unlock System</div>
+
+        <h2>FOUNDATION ARCHIVE UNLOCK ENGINE</h2>
+
+        <p>
+          This system begins connecting the Foundation Archives to the member
+          journey. It displays archive access states without exposing archive
+          numbers, final answer chains, creator blueprints, or protected PDF
+          paths.
+        </p>
+
+        <p>
+          Current mode: frontend unlock preview. Future mode: server-side signal
+          verification, account-linked archive progress, protected PDF delivery,
+          and anti-sharing controls.
+        </p>
+
+        <div className="placeholderGrid">
+          {archiveUnlocks.map((archive) => (
+            <button
+              className="placeholderCard"
+              key={archive.id}
+              onClick={() => setSelectedArchiveUnlock(archive)}
+            >
+              <strong>{archive.name}</strong>
+              <span>{archive.publicSignal}</span>
+              <span>{archive.unlocked ? "Unlocked / Visible" : "Locked / Hidden Path"}</span>
+              <span>{archive.status}</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="card greenPanel">
+          <div className="cardTitle">Selected Archive Access</div>
+
+          <h2>{selectedArchiveUnlock.name}</h2>
+
+          <p>
+            <strong>Signal:</strong> {selectedArchiveUnlock.publicSignal}
+          </p>
+
+          <p>
+            <strong>Status:</strong>{" "}
+            {selectedArchiveUnlock.unlocked ? "Unlocked" : "Locked"}
+          </p>
+
+          <p>
+            <strong>Requirement:</strong>{" "}
+            {selectedArchiveUnlock.unlockRequirement}
+          </p>
+
+          <p>
+            The public system shows archive identity and signal theme, but it
+            does not reveal numbered order or final solution logic.
+          </p>
+        </div>
+
+        <div className="card greenPanel">
+          <div className="cardTitle">Signal Submission Preview</div>
+
+          <p>
+            This input is a safe preview of the future answer system. It does
+            not contain or verify final hidden answers in the frontend.
+          </p>
+
+          <input
+            value={archiveAnswerInput}
+            onChange={(event) => setArchiveAnswerInput(event.target.value)}
+            placeholder="ENTER SIGNAL RESPONSE"
+          />
+
+          <button className="actionButton" onClick={handleArchiveSignalSubmit}>
+            Submit Signal Preview
+          </button>
+
+          <p>{archiveMessage}</p>
+        </div>
+
+        <div className="card redPanel">
+          <div className="cardTitle restrictedTitle">Archive Security Rule</div>
+
+          <p>
+            Final archive answers, correct order, private PDF file paths, and
+            creator blueprint logic must not be stored inside this frontend
+            file. Real unlocks must later be verified by backend systems.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
   function MemberDashboardNetwork() {
     const rank = getSignalRank();
     const accessStatus = getAccessStatus();
@@ -1013,8 +1211,8 @@ export default function App() {
             <h1>Ricochet Void Universe</h1>
 
             <p className="subtitle">
-              Checkpoint 5 is active. The chamber network, progression engine, and
-              Volume 4 Member Dashboard Network are now connected.
+              Checkpoint 6 is active. The chamber network, progression engine,
+              member dashboard, and Archive Unlock System are connected.
             </p>
 
             <section className="card redPanel">
@@ -1038,6 +1236,8 @@ export default function App() {
             <ProgressionEngine />
 
             <MemberDashboardNetwork />
+
+            <ArchiveUnlockSystem />
 
             <ChamberContent />
 
