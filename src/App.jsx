@@ -73,8 +73,167 @@ export default function App() {
       <section className="card greenPanel">
         <div className="cardTitle">Roadmap Chamber</div>
         <h2>ROADMAP CHAMBER</h2>
-        <p>This chamber will become the protected build-order map for the Ricochet Void Universe.</p>
+        <p>
+          This chamber will become the protected build-order map for the
+          Ricochet Void Universe.
+        </p>
         <div className="statusGreen">Roadmap Placeholder Active</div>
+      </section>
+    );
+  }
+
+  const defaultProgression = {
+    foundationStarted: true,
+    foundationComplete: false,
+    reflectionComplete: false,
+    entryEligible: false,
+    entryAccessUnlocked: false,
+    memberDashboardUnlocked: true,
+  };
+
+  const [progression, setProgression] = useState(defaultProgression);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("rvuProgressionEngine");
+      if (stored) {
+        setProgression({ ...defaultProgression, ...JSON.parse(stored) });
+      }
+    } catch {
+      setProgression(defaultProgression);
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("rvuProgressionEngine", JSON.stringify(progression));
+    } catch {
+      // Local storage may be unavailable in some browsers. The interface still works.
+    }
+  }, [progression]);
+
+  function updateProgression(key, value) {
+    setProgression((current) => {
+      const next = { ...current, [key]: value };
+
+      if (key === "foundationComplete" && !value) {
+        next.reflectionComplete = false;
+        next.entryEligible = false;
+        next.entryAccessUnlocked = false;
+      }
+
+      if (key === "reflectionComplete" && !value) {
+        next.entryEligible = false;
+        next.entryAccessUnlocked = false;
+      }
+
+      if (next.foundationComplete && next.reflectionComplete) {
+        next.entryEligible = true;
+      }
+
+      if (!next.entryEligible) {
+        next.entryAccessUnlocked = false;
+      }
+
+      return next;
+    });
+  }
+
+  function resetProgression() {
+    setProgression(defaultProgression);
+  }
+
+  function getProgressPercent() {
+    const steps = [
+      progression.foundationStarted,
+      progression.foundationComplete,
+      progression.reflectionComplete,
+      progression.entryEligible,
+      progression.entryAccessUnlocked,
+    ];
+
+    const completed = steps.filter(Boolean).length;
+    return Math.round((completed / steps.length) * 100);
+  }
+
+  function ProgressionEngine() {
+    const percent = getProgressPercent();
+
+    return (
+      <section className="card greenPanel">
+        <div className="cardTitle">Volume 4 Progression Engine</div>
+
+        <h2>PROGRESSION ENGINE</h2>
+
+        <p>
+          This system connects the major Ricochet Void Universe milestones:
+          Foundation completion, Reflection completion, Entry eligibility,
+          Entry Access, and member dashboard readiness.
+        </p>
+
+        <p>
+          Current mode: local browser save. Future mode: account-linked cloud
+          progress, backend verification, and protected access rules.
+        </p>
+
+        <div className="progressTrack">
+          <div className="progressFill" style={{ width: `${percent}%` }}></div>
+        </div>
+
+        <p>
+          <strong>Progress:</strong> {percent}%
+        </p>
+
+        <div className="placeholderGrid">
+          <button
+            className="placeholderCard"
+            onClick={() =>
+              updateProgression("foundationComplete", !progression.foundationComplete)
+            }
+          >
+            <strong>Foundation</strong>
+            <span>{progression.foundationComplete ? "Complete" : "Incomplete"}</span>
+            <span>Click to toggle Foundation completion.</span>
+          </button>
+
+          <button
+            className="placeholderCard"
+            onClick={() =>
+              updateProgression("reflectionComplete", !progression.reflectionComplete)
+            }
+          >
+            <strong>Reflection</strong>
+            <span>{progression.reflectionComplete ? "Complete" : "Incomplete"}</span>
+            <span>Requires Foundation completion for real launch logic later.</span>
+          </button>
+
+          <button
+            className="placeholderCard"
+            onClick={() =>
+              progression.entryEligible &&
+              updateProgression("entryAccessUnlocked", !progression.entryAccessUnlocked)
+            }
+          >
+            <strong>Entry Access</strong>
+            <span>{progression.entryEligible ? "Eligible" : "Locked"}</span>
+            <span>{progression.entryAccessUnlocked ? "Unlocked" : "Not Unlocked"}</span>
+          </button>
+        </div>
+
+        <div className="card redPanel">
+          <div className="cardTitle restrictedTitle">Progression Security Notice</div>
+
+          <p>
+            This local save system is for launch structure and prototype flow.
+            Real members should not receive final protected access from browser
+            storage alone. Final access must later be verified by backend
+            accounts, database records, protected storage, and server-side rules.
+          </p>
+        </div>
+
+        <button className="actionButton" onClick={resetProgression}>
+          Reset Local Progress
+        </button>
       </section>
     );
   }
@@ -465,6 +624,25 @@ export default function App() {
           line-height: 1.5;
         }
 
+
+        .progressTrack {
+          width: 100%;
+          height: 16px;
+          border-radius: 999px;
+          overflow: hidden;
+          background: rgba(255,255,255,.1);
+          border: 1px solid rgba(0,255,190,.25);
+          margin: 18px 0;
+        }
+
+        .progressFill {
+          height: 100%;
+          border-radius: 999px;
+          background: linear-gradient(90deg, rgba(125,0,255,.9), rgba(0,212,255,.9), rgba(0,255,190,.9));
+          box-shadow: 0 0 18px rgba(0,255,190,.35);
+          transition: width .35s ease;
+        }
+
         .footer {
           max-width: 1000px;
           margin: 30px auto 0;
@@ -618,8 +796,8 @@ export default function App() {
             <h1>Ricochet Void Universe</h1>
 
             <p className="subtitle">
-              The cinematic shell is restored and every upgraded chamber is now
-              connected through the main universe shell.
+              Checkpoint 4 is active. The chamber network is connected and the
+              Volume 4 Progression Engine is now tracking the journey.
             </p>
 
             <section className="card redPanel">
@@ -639,6 +817,8 @@ export default function App() {
                 </button>
               ))}
             </div>
+
+            <ProgressionEngine />
 
             <ChamberContent />
 
