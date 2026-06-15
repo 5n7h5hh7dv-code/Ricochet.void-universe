@@ -2,99 +2,94 @@ import { useState } from "react";
 
 const familyProjects = [
   {
-    title: "Children's Story Library",
-    phase: "Concept Phase",
+    title: "Children's Story Collection",
+    status: "Future Publishing",
+    audience: "Children & Families",
     purpose:
-      "A future collection of children's books designed to encourage imagination, learning, kindness, responsibility, and family participation.",
-    protection:
-      "Stories, manuscripts, illustrations, and final publishing files remain protected until release readiness.",
+      "A collection of creator-approved stories designed to encourage imagination, learning, family bonding, and positive values.",
   },
   {
-    title: "Parent Read-Along Series",
-    phase: "Planning",
+    title: "Family Reading Nights",
+    status: "Planned",
+    audience: "Parents & Children",
     purpose:
-      "Guided reading experiences where parents and children explore stories together.",
-    protection:
-      "Access should eventually support rentals, subscriptions, or approved purchases through protected delivery.",
+      "Guided reading experiences connected to future Family Collection releases.",
   },
   {
-    title: "Family Adventure Collection",
-    phase: "Future Development",
+    title: "Interactive Family Adventures",
+    status: "Concept Phase",
+    audience: "All Ages",
     purpose:
-      "Interactive stories and experiences designed for family participation.",
-    protection:
-      "Future content should remain separated from creator-only materials and private universe systems.",
+      "Shared activities designed to encourage participation between children, parents, and guardians.",
   },
   {
-    title: "Learning Collection",
-    phase: "Research",
+    title: "Educational Collection",
+    status: "Research",
+    audience: "Young Learners",
     purpose:
-      "Educational books and experiences tied to curiosity, creativity, critical thinking, and personal growth.",
-    protection:
-      "Educational content should be reviewed carefully before publication.",
+      "Future books and materials focused on learning, curiosity, creativity, and personal development.",
   },
   {
-    title: "Family Membership Layer",
-    phase: "Future System",
+    title: "Family Library Access",
+    status: "Future System",
+    audience: "Members",
     purpose:
-      "Allows families to manage rentals, reading progress, and family collection access.",
-    protection:
-      "Requires secure accounts and protected family records.",
+      "Protected access system for family-friendly content, reading collections, and approved educational materials.",
   },
 ];
 
-const familyStandards = [
-  "Family content should remain separate from creator-only systems.",
-  "Children's content should prioritize safety and clarity.",
-  "Educational material should encourage learning, not dependency.",
-  "Family rentals should respect creators and readers equally.",
-  "Parents should remain in control of family access.",
-  "Private family data should never be stored in frontend code.",
-  "Family collections should remain free from unnecessary complexity.",
+const familyPrinciples = [
+  "Family content should be positive and constructive.",
+  "Parents remain responsible for family decisions.",
+  "Content should encourage imagination and learning.",
+  "Safety and age-appropriateness come before expansion.",
+  "Creator approval is required before public release.",
+  "Publishing quality matters more than speed.",
 ];
 
-const futureFamilySystems = [
-  "Family dashboards",
+const futureSystems = [
+  "Book publishing workflow",
+  "Illustration management",
+  "Family library access",
   "Reading progress tracking",
-  "Rental expiration controls",
-  "Protected digital delivery",
-  "Family account management",
-  "Parent approval controls",
-  "Illustration library",
+  "Parent account controls",
+  "Rental and lending system",
+  "Release notifications",
   "Family waitlists",
-  "Reading achievement system",
+  "Print-on-demand integration",
 ];
 
 export default function FamilyCollection() {
   const [selectedProject, setSelectedProject] = useState(familyProjects[0]);
+  const [showPrinciples, setShowPrinciples] = useState(false);
   const [showSystems, setShowSystems] = useState(false);
 
   return (
     <section>
       <div className="card greenPanel">
-        <div className="cardTitle">Family Collection Chamber</div>
+        <div className="cardTitle">Volume 4 Family Collection</div>
 
-        <h2>FAMILY COLLECTION SYSTEM</h2>
+        <h2>FAMILY CONTENT SYSTEM</h2>
 
         <p>
-          The Family Collection Chamber prepares the family-focused side of the
-          Ricochet Void Universe. It serves as the future home for children's
-          books, parent reading experiences, educational collections, and family
-          participation systems.
+          The Family Collection is the family-friendly branch of the Ricochet
+          Void Universe. It prepares books, stories, reading experiences,
+          educational content, and future family-focused releases.
         </p>
 
-        <div className="statusGreen">Family Collection Blueprint Active</div>
+        <div className="statusGreen">Volume 4 Family Collection Active</div>
       </div>
 
       <div className="placeholderGrid">
         {familyProjects.map((project) => (
           <button
-            className="placeholderCard"
             key={project.title}
+            className="placeholderCard"
             onClick={() => setSelectedProject(project)}
           >
             <strong>{project.title}</strong>
-            <span>{project.phase}</span>
+            <span>{project.status}</span>
+            <span>{project.audience}</span>
           </button>
         ))}
       </div>
@@ -105,24 +100,30 @@ export default function FamilyCollection() {
         <h2>{selectedProject.title}</h2>
 
         <p>
-          <strong>Phase:</strong> {selectedProject.phase}
+          <strong>Status:</strong> {selectedProject.status}
+        </p>
+
+        <p>
+          <strong>Audience:</strong> {selectedProject.audience}
         </p>
 
         <p>{selectedProject.purpose}</p>
       </div>
 
       <div className="card redPanel">
-        <div className="cardTitle restrictedTitle">Content Protection</div>
+        <div className="cardTitle restrictedTitle">Family Principles</div>
 
-        <p>{selectedProject.protection}</p>
-      </div>
+        <button
+          className="actionButton"
+          onClick={() => setShowPrinciples(!showPrinciples)}
+        >
+          {showPrinciples ? "Hide Principles" : "Show Principles"}
+        </button>
 
-      <div className="card greenPanel">
-        <div className="cardTitle">Family Standards</div>
-
-        {familyStandards.map((standard) => (
-          <p key={standard}>• {standard}</p>
-        ))}
+        {showPrinciples &&
+          familyPrinciples.map((principle) => (
+            <p key={principle}>• {principle}</p>
+          ))}
       </div>
 
       <div className="card greenPanel">
@@ -135,33 +136,19 @@ export default function FamilyCollection() {
           {showSystems ? "Hide Systems" : "Show Systems"}
         </button>
 
-        {showSystems && (
-          <div>
-            {futureFamilySystems.map((system) => (
-              <p key={system}>⬜ {system}</p>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <div className="card redPanel">
-        <div className="cardTitle restrictedTitle">Family Security Standard</div>
-
-        <p>
-          Family accounts, rental records, reading progress, and personal
-          information should never be stored directly inside frontend code.
-          Future family systems should use protected authentication, database
-          permissions, and secure delivery methods.
-        </p>
+        {showSystems &&
+          futureSystems.map((system) => (
+            <p key={system}>⬜ {system}</p>
+          ))}
       </div>
 
       <div className="card greenPanel">
-        <div className="cardTitle">Creator Family Standard</div>
+        <div className="cardTitle">Volume 4 Family Standard</div>
 
         <p>
-          Family content should remain positive, educational, imaginative, and
-          valuable. The goal is to create material that parents feel comfortable
-          sharing and children genuinely enjoy exploring.
+          The Family Collection should provide meaningful experiences that
+          parents can confidently share with their children while preserving
+          quality, imagination, education, and creator oversight.
         </p>
       </div>
     </section>
