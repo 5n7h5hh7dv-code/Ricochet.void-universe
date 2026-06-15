@@ -518,6 +518,195 @@ export default function App() {
     return releaseDecisions.filter((decision) => approvedDecisions[decision]).length;
   }
 
+
+  const interestOptions = [
+    "Foundation Updates",
+    "Entry Access",
+    "Signal Access",
+    "Future Gear",
+    "Artifact Drops",
+    "Family Collection",
+    "Creator Announcements",
+  ];
+
+  const defaultInterestCapture = {
+    name: "",
+    email: "",
+    voidName: "",
+    selectedInterest: "Foundation Updates",
+    message: "",
+    submitted: false,
+  };
+
+  const [interestCapture, setInterestCapture] = useState(defaultInterestCapture);
+  const [interestLog, setInterestLog] = useState([]);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("rvuInterestCapture");
+      if (stored) setInterestLog(JSON.parse(stored));
+    } catch {
+      setInterestLog([]);
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("rvuInterestCapture", JSON.stringify(interestLog));
+    } catch {
+      // Local save unavailable. Future backend will handle real records.
+    }
+  }, [interestLog]);
+
+  function updateInterestCapture(key, value) {
+    setInterestCapture((current) => ({
+      ...current,
+      [key]: value,
+    }));
+  }
+
+  function submitInterestCapture() {
+    if (!interestCapture.email.trim() && !interestCapture.voidName.trim()) {
+      setInterestCapture((current) => ({
+        ...current,
+        submitted: true,
+        message: "Add an email or Void Name before joining the preview list.",
+      }));
+      return;
+    }
+
+    const record = {
+      interest: interestCapture.selectedInterest,
+      name: interestCapture.name.trim() || "Unnamed Visitor",
+      voidName: interestCapture.voidName.trim() || "No Void Name",
+      email: interestCapture.email.trim() || "No Email",
+      time: new Date().toLocaleString(),
+    };
+
+    setInterestLog((current) => [record, ...current.slice(0, 8)]);
+
+    setInterestCapture({
+      ...defaultInterestCapture,
+      submitted: true,
+      message:
+        "Interest saved locally. Future launch version will connect this to a secure backend or email system.",
+    });
+  }
+
+  function clearInterestLog() {
+    setInterestLog([]);
+  }
+
+  function WaitlistInterestCapture() {
+    return (
+      <section className="card greenPanel" id="waitlist-interest">
+        <div className="cardTitle">Volume 4 Waitlist + Interest Capture</div>
+
+        <h2>JOIN THE SIGNAL LIST</h2>
+
+        <p>
+          This system prepares the future waitlist and interest capture layer for
+          Foundation updates, Entry Access, Future Gear, artifact drops, family
+          releases, and creator announcements.
+        </p>
+
+        <p>
+          Current mode: local preview list. Future mode: secure backend records,
+          verified email capture, account-linked waitlists, and creator-approved
+          release notifications.
+        </p>
+
+        <div className="placeholderGrid">
+          {interestOptions.map((option) => (
+            <button
+              className="placeholderCard"
+              key={option}
+              onClick={() => updateInterestCapture("selectedInterest", option)}
+            >
+              <strong>{option}</strong>
+              <span>
+                {interestCapture.selectedInterest === option
+                  ? "Selected interest"
+                  : "Select this interest"}
+              </span>
+            </button>
+          ))}
+        </div>
+
+        <div className="card greenPanel">
+          <div className="cardTitle">Interest Form</div>
+
+          <input
+            value={interestCapture.name}
+            onChange={(event) =>
+              updateInterestCapture("name", event.target.value)
+            }
+            placeholder="NAME OR LEAVE BLANK"
+          />
+
+          <input
+            value={interestCapture.voidName}
+            onChange={(event) =>
+              updateInterestCapture("voidName", event.target.value)
+            }
+            placeholder="VOID NAME"
+          />
+
+          <input
+            value={interestCapture.email}
+            onChange={(event) =>
+              updateInterestCapture("email", event.target.value)
+            }
+            placeholder="EMAIL FOR FUTURE UPDATES"
+          />
+
+          <p>
+            <strong>Selected Interest:</strong>{" "}
+            {interestCapture.selectedInterest}
+          </p>
+
+          <button className="actionButton" onClick={submitInterestCapture}>
+            Save Interest Preview
+          </button>
+
+          {interestCapture.submitted && <p>{interestCapture.message}</p>}
+        </div>
+
+        <div className="card greenPanel">
+          <div className="cardTitle">Local Interest Preview Log</div>
+
+          {interestLog.length === 0 ? (
+            <p>No preview interests saved yet.</p>
+          ) : (
+            interestLog.map((item) => (
+              <p key={`${item.time}-${item.email}`}>
+                • {item.interest} — {item.voidName} — {item.time}
+              </p>
+            ))
+          )}
+
+          {interestLog.length > 0 && (
+            <button className="actionButton" onClick={clearInterestLog}>
+              Clear Local Interest Log
+            </button>
+          )}
+        </div>
+
+        <div className="card redPanel">
+          <div className="cardTitle restrictedTitle">Interest Capture Security</div>
+
+          <p>
+            This preview does not send emails, create real accounts, or store
+            records in a secure database. Before public launch with real
+            visitors, interest capture should connect to backend storage, email
+            consent, privacy terms, spam protection, and creator-controlled
+            export/review tools.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
   function CreatorAdminInfrastructure() {
     const approvedCount = getApprovedCount();
     const releasePercent = Math.round(
@@ -1493,7 +1682,7 @@ export default function App() {
           max-width: 1100px;
           margin: 28px auto;
           display: grid;
-          grid-template-columns: repeat(6, 1fr);
+          grid-template-columns: repeat(7, 1fr);
           gap: 10px;
           position: relative;
           z-index: 12;
@@ -1812,6 +2001,7 @@ export default function App() {
               <a href="#access-path">Access Path</a>
               <a href="#future-systems">Future Systems</a>
               <a href="#trust-protection">Trust</a>
+              <a href="#waitlist-interest">Waitlist</a>
               <a href="#creator-preview">Creator Preview</a>
             </div>
 
@@ -2096,6 +2286,8 @@ export default function App() {
             <LaunchShieldSystem />
 
             <CreatorAdminInfrastructure />
+
+            <WaitlistInterestCapture />
 
             <ChamberContent />
 
