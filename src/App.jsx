@@ -1488,6 +1488,38 @@ export default function App() {
           transition: width .35s ease;
         }
 
+
+        .publicNav {
+          max-width: 1100px;
+          margin: 28px auto;
+          display: grid;
+          grid-template-columns: repeat(5, 1fr);
+          gap: 10px;
+          position: relative;
+          z-index: 12;
+        }
+
+        .publicNav a {
+          color: white;
+          text-decoration: none;
+          border: 1px solid rgba(255,255,255,.2);
+          border-radius: 14px;
+          padding: 12px 10px;
+          background: rgba(0,0,0,.38);
+          box-shadow: 0 0 14px rgba(0,212,255,.15);
+          letter-spacing: 1px;
+          font-size: 11px;
+          text-transform: uppercase;
+          backdrop-filter: blur(10px);
+        }
+
+        .publicNav a:hover {
+          transform: translateY(-2px);
+          border-color: rgba(0,255,190,.6);
+          background: rgba(0,255,190,.15);
+          box-shadow: 0 0 22px rgba(0,255,190,.22);
+        }
+
         .footer {
           max-width: 1000px;
           margin: 30px auto 0;
@@ -1619,7 +1651,15 @@ export default function App() {
               reflection, and earn your way toward Entry Access.
             </p>
 
-            <section className="card greenPanel">
+            <div className="publicNav">
+              <a href="#foundation-entry">Begin Foundation</a>
+              <a href="#how-entry-works">How Entry Works</a>
+              <a href="#access-path">Access Path</a>
+              <a href="#future-systems">Future Systems</a>
+              <a href="#creator-preview">Creator Preview</a>
+            </div>
+
+            <section className="card greenPanel" id="foundation-entry">
               <div className="cardTitle">Public Entry</div>
 
               <h2>THE FOUNDATION IS THE FIRST DOOR</h2>
@@ -1645,11 +1685,11 @@ export default function App() {
                   setActiveChamber("foundation");
                 }}
               >
-                Begin Foundation Preview
+                Begin Foundation
               </button>
             </section>
 
-            <section className="card greenPanel">
+            <section className="card greenPanel" id="how-entry-works">
               <div className="cardTitle">How Entry Works</div>
 
               <div className="placeholderGrid">
@@ -1685,7 +1725,95 @@ export default function App() {
               </div>
             </section>
 
-            <section className="card redPanel">
+            <section className="card greenPanel" id="access-path">
+              <div className="cardTitle">Access Path</div>
+
+              <h2>ENTRY IS EARNED</h2>
+
+              <p>
+                The public path is designed so a visitor knows where to begin
+                without exposing the private archive order, final answers,
+                creator blueprint logic, protected PDF paths, or paid-tier
+                systems before they are ready.
+              </p>
+
+              <div className="placeholderGrid">
+                <div className="placeholderCard">
+                  <strong>Entry Access</strong>
+                  <span>$0 after Foundation completion and Reflection review.</span>
+                </div>
+
+                <div className="placeholderCard">
+                  <strong>Signal Access</strong>
+                  <span>$9.99/month future expansion tier.</span>
+                </div>
+
+                <div className="placeholderCard">
+                  <strong>Sub-Creator Access</strong>
+                  <span>$24.99/month future guided creation tier.</span>
+                </div>
+
+                <div className="placeholderCard">
+                  <strong>Architect Circle</strong>
+                  <span>$49.99/month future advanced private access.</span>
+                </div>
+
+                <div className="placeholderCard">
+                  <strong>Universe Architect</strong>
+                  <span>$99.99/month highest future public member tier.</span>
+                </div>
+
+                <div className="placeholderCard">
+                  <strong>Creator Vault</strong>
+                  <span>Creator-only. Not included in public or paid tiers.</span>
+                </div>
+              </div>
+            </section>
+
+            <section className="card greenPanel" id="future-systems">
+              <div className="cardTitle">Future Systems</div>
+
+              <h2>COMING SOON WITHOUT BREAKING THE PATH</h2>
+
+              <p>
+                These systems are part of the long-term universe, but the public
+                entry path remains focused on the Foundation first.
+              </p>
+
+              <div className="placeholderGrid">
+                <div className="placeholderCard">
+                  <strong>Future Gear</strong>
+                  <span>Clothing, watches, coins, shoes, jewelry, and artifacts.</span>
+                </div>
+
+                <div className="placeholderCard">
+                  <strong>Family Collection</strong>
+                  <span>Children’s books, family reading, and educational content.</span>
+                </div>
+
+                <div className="placeholderCard">
+                  <strong>Protected PDFs</strong>
+                  <span>Future backend delivery for archive files and earned access.</span>
+                </div>
+
+                <div className="placeholderCard">
+                  <strong>Member Accounts</strong>
+                  <span>Future login, saved progress, waitlists, and order history.</span>
+                </div>
+
+                <div className="placeholderCard">
+                  <strong>Artifact Registry</strong>
+                  <span>Future serialized limited releases and collector tracking.</span>
+                </div>
+
+                <div className="placeholderCard">
+                  <strong>Creator Admin</strong>
+                  <span>Protected release controls and creator approval systems.</span>
+                </div>
+              </div>
+            </section>
+
+            <section className="card redPanel" id="creator-preview">
               <div className="cardTitle restrictedTitle">Protected Creator Preview</div>
 
               <p>
