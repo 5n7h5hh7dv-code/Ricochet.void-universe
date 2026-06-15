@@ -1,6 +1,16 @@
+# Ricochet Void Universe — Checkpoint 19 Robots Protection
+# File location: public/robots.txt
+# Purpose: keep the protected development universe out of search engines until official launch.
+
 User-agent: *
 Disallow: /
 
+# Extra crawl delay request for bots that respect it
+Crawl-delay: 10
+
+# Protected development phase
+# Do not crawl, index, cache, archive, preview, scrape, or image-index this site.
+# Public indexing remains disabled until Oak approves official public launch.
+
 # Ricochet Void Universe
-# Development Phase Protection
-# Public indexing disabled until official launch
+# Signal grows where noise falls.
