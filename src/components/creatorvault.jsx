@@ -1,152 +1,217 @@
 import { useState } from "react";
 
-const vaultSystems = [
+const vaultSections = [
   {
     title: "Creator Blueprint Vault",
-    status: "Protected",
-    description:
-      "Stores future creator-only planning documents, roadmap decisions, private architecture notes, and unpublished universe systems.",
+    status: "Creator Only",
+    priority: "Critical",
+    purpose:
+      "Protects private universe plans, archive logic, hidden progression systems, release strategy, and creator-only notes.",
   },
   {
-    title: "Archive Master Records",
+    title: "Archive Master System",
     status: "Protected",
-    description:
-      "Contains creator-side archive ordering, progression structure, answer validation strategy, and release planning.",
+    priority: "Critical",
+    purpose:
+      "Stores the future creator-side structure for archive order, hidden answer logic, signal rules, and Volume 4 standards.",
   },
   {
-    title: "Release Control Center",
+    title: "Release Control Vault",
     status: "Protected",
-    description:
-      "Used for approving releases, launches, updates, products, family collections, and future universe expansions.",
+    priority: "High",
+    purpose:
+      "Tracks what is ready, what is hidden, what is coming soon, and what requires creator approval before launch.",
   },
   {
     title: "Security Review Vault",
     status: "Protected",
-    description:
-      "Tracks future security audits, deployment readiness, access reviews, and infrastructure protection plans.",
+    priority: "Critical",
+    purpose:
+      "Tracks future security needs, backend requirements, account protection, payment safety, and private file delivery.",
   },
   {
-    title: "Future Universe Expansion",
+    title: "Future Gear Vault",
+    status: "Private Concept Storage",
+    priority: "High",
+    purpose:
+      "Protects product concepts, apparel ideas, artifact designs, watches, coins, jewelry, shoes, and future merchandise planning.",
+  },
+  {
+    title: "Family Manuscript Vault",
     status: "Protected",
-    description:
-      "Stores concepts, future volumes, expansion plans, and unreleased universe pathways.",
+    priority: "High",
+    purpose:
+      "Protects children’s stories, family collection ideas, manuscripts, illustrations, publishing notes, and future family releases.",
   },
 ];
 
 const vaultRules = [
-  "Creator-only materials remain separated from member content.",
-  "Frontend files should never contain vault secrets.",
-  "Vault access should require backend authentication.",
-  "Private creator records should remain outside public repositories.",
-  "Creator credentials should never be stored in React files.",
-  "Protected blueprints should remain inaccessible to public users.",
-  "Release authority remains with the creator.",
-  "Vault content should remain independent from paid membership tiers.",
+  "Creator-only systems must remain separate from public member systems.",
+  "No private keys, passwords, or payment secrets belong in frontend code.",
+  "No final hidden archive answers belong in frontend code.",
+  "No private PDF paths belong in frontend code.",
+  "No creator blueprints should be exposed in public chambers.",
+  "Paid member tiers should never automatically access the Creator Vault.",
+  "Vault release decisions require Oak’s approval.",
+  "Real vault protection requires backend authentication and private storage.",
 ];
 
-const protectedCategories = [
-  "Creator blueprints",
-  "Future volume planning",
-  "Archive answer chains",
-  "Private roadmap notes",
-  "Security planning",
-  "Product manufacturing details",
-  "Family manuscript drafts",
-  "Unreleased artwork",
-  "Future business planning",
+const futureVaultHooks = [
+  "Creator authentication",
+  "Creator-only dashboard",
+  "Private database records",
+  "Protected file storage",
+  "Release approval workflow",
+  "Archive master controls",
+  "Security audit logs",
+  "Vault access history",
+  "Private product planning",
+  "Family manuscript management",
+  "Future Gear development records",
+];
+
+const vaultAccessLayers = [
+  {
+    layer: "Public",
+    access:
+      "No access to creator vault systems, private blueprints, archive answers, or unreleased materials.",
+  },
+  {
+    layer: "Member",
+    access:
+      "May see approved public-facing content, earned progression, and member systems, but not creator-only logic.",
+  },
+  {
+    layer: "Paid Member",
+    access:
+      "May access paid member content after verification, but still does not access creator vault systems.",
+  },
+  {
+    layer: "Creator",
+    access:
+      "Controls release decisions, private plans, roadmap direction, protected records, and creator-only systems.",
+  },
 ];
 
 export default function CreatorVault() {
-  const [showProtectedCategories, setShowProtectedCategories] = useState(false);
-  const [selectedSystem, setSelectedSystem] = useState(vaultSystems[0]);
+  const [selectedSection, setSelectedSection] = useState(vaultSections[0]);
+  const [selectedLayer, setSelectedLayer] = useState(vaultAccessLayers[0]);
+  const [showRules, setShowRules] = useState(false);
+  const [showHooks, setShowHooks] = useState(false);
 
   return (
     <section>
       <div className="card redPanel">
-        <div className="cardTitle restrictedTitle">Creator Vault</div>
+        <div className="cardTitle restrictedTitle">Volume 4 Creator Vault</div>
 
-        <h2>CREATOR AUTHORITY VAULT</h2>
+        <h2>CREATOR VAULT SYSTEM</h2>
 
         <p>
-          The Creator Vault exists to separate creator-only systems from public
-          systems. It is the final protected layer above public visitors,
-          Foundation participants, members, and subscription tiers.
+          The Creator Vault is the protected command layer of the Ricochet Void
+          Universe. It separates creator-only architecture from public systems,
+          member systems, access tiers, commerce, family content, and future
+          backend infrastructure.
         </p>
 
         <p>
-          This chamber defines what belongs exclusively to creator control and
-          what should never be exposed through public frontend systems.
+          This chamber is a frontend blueprint only. Real vault protection must
+          later be enforced through authentication, private storage, database
+          permissions, audit logs, and creator-only backend controls.
         </p>
 
-        <div className="statusGreen">Vault Blueprint Active</div>
+        <div className="statusGreen">Volume 4 Vault Blueprint Active</div>
       </div>
 
       <div className="placeholderGrid">
-        {vaultSystems.map((system) => (
+        {vaultSections.map((section) => (
           <button
+            key={section.title}
             className="placeholderCard"
-            key={system.title}
-            onClick={() => setSelectedSystem(system)}
+            onClick={() => setSelectedSection(section)}
           >
-            <strong>{system.title}</strong>
-            <span>{system.status}</span>
+            <strong>{section.title}</strong>
+            <span>{section.status}</span>
+            <span>Priority: {section.priority}</span>
           </button>
         ))}
       </div>
 
       <div className="card greenPanel">
-        <div className="cardTitle">Selected Vault System</div>
+        <div className="cardTitle">Selected Vault Section</div>
 
-        <h2>{selectedSystem.title}</h2>
+        <h2>{selectedSection.title}</h2>
 
-        <p>{selectedSystem.description}</p>
+        <p>
+          <strong>Status:</strong> {selectedSection.status}
+        </p>
+
+        <p>
+          <strong>Priority:</strong> {selectedSection.priority}
+        </p>
+
+        <p>{selectedSection.purpose}</p>
       </div>
 
       <div className="card redPanel">
-        <div className="cardTitle restrictedTitle">Vault Protection Rules</div>
+        <div className="cardTitle restrictedTitle">Vault Access Layers</div>
 
-        {vaultRules.map((rule) => (
-          <p key={rule}>• {rule}</p>
+        <p>
+          The vault must remain separate from public visibility and paid member
+          access. Higher subscription levels do not equal creator authority.
+        </p>
+      </div>
+
+      <div className="placeholderGrid">
+        {vaultAccessLayers.map((layer) => (
+          <button
+            key={layer.layer}
+            className="placeholderCard"
+            onClick={() => setSelectedLayer(layer)}
+          >
+            <strong>{layer.layer}</strong>
+            <span>View access rule</span>
+          </button>
         ))}
       </div>
 
       <div className="card greenPanel">
-        <div className="cardTitle">Protected Categories</div>
+        <div className="cardTitle">Selected Access Layer</div>
 
-        <button
-          className="actionButton"
-          onClick={() =>
-            setShowProtectedCategories(!showProtectedCategories)
-          }
-        >
-          {showProtectedCategories
-            ? "Hide Categories"
-            : "Show Categories"}
-        </button>
+        <h2>{selectedLayer.layer}</h2>
 
-        {showProtectedCategories && (
-          <div>
-            {protectedCategories.map((category) => (
-              <p key={category}>⬜ {category}</p>
-            ))}
-          </div>
-        )}
+        <p>{selectedLayer.access}</p>
       </div>
 
       <div className="card redPanel">
-        <div className="cardTitle restrictedTitle">
-          Frontend Security Warning
-        </div>
+        <div className="cardTitle restrictedTitle">Vault Rules</div>
+
+        <button className="actionButton" onClick={() => setShowRules(!showRules)}>
+          {showRules ? "Hide Vault Rules" : "Show Vault Rules"}
+        </button>
+
+        {showRules &&
+          vaultRules.map((rule) => <p key={rule}>• {rule}</p>)}
+      </div>
+
+      <div className="card greenPanel">
+        <div className="cardTitle">Future Vault Hooks</div>
+
+        <button className="actionButton" onClick={() => setShowHooks(!showHooks)}>
+          {showHooks ? "Hide Future Hooks" : "Show Future Hooks"}
+        </button>
+
+        {showHooks &&
+          futureVaultHooks.map((hook) => <p key={hook}>⬜ {hook}</p>)}
+      </div>
+
+      <div className="card redPanel">
+        <div className="cardTitle restrictedTitle">Frontend Security Limit</div>
 
         <p>
-          This chamber represents creator authority. It does not provide real
-          protection by itself.
-        </p>
-
-        <p>
-          Real vault protection requires backend authentication, private
-          databases, secure storage, access control, audit logs, permission
-          systems, and creator-only infrastructure.
+          This chamber can describe the Creator Vault, but it cannot secure
+          private creator materials by itself. Do not place real vault content,
+          final answers, credentials, private PDFs, blueprints, or unreleased
+          files inside frontend code.
         </p>
       </div>
 
@@ -154,25 +219,10 @@ export default function CreatorVault() {
         <div className="cardTitle">Creator Authority Standard</div>
 
         <p>
-          Creator authority is not based on subscription level, purchase
-          history, or progression rank. Creator authority exists separately from
-          member access and remains the final approval layer of the universe.
-        </p>
-
-        <p>
-          No paid tier should automatically gain access to creator vault
-          systems.
-        </p>
-      </div>
-
-      <div className="card greenPanel">
-        <div className="cardTitle">Volume 4 Vault Standard</div>
-
-        <p>
-          Volume 4 requires strong separation between public experience,
-          progression systems, business systems, and creator-only architecture.
-          The vault exists to preserve that separation while allowing the public
-          universe to continue expanding.
+          Oak remains the final creative authority over the Ricochet Void
+          Universe. The Creator Vault protects that authority by keeping private
+          plans, protected systems, unreleased content, and future controls
+          separate from public and member-facing layers.
         </p>
       </div>
     </section>
