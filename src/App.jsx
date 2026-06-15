@@ -419,6 +419,213 @@ export default function App() {
     "Launch approval pending",
   ];
 
+
+  const creatorAdminPanels = [
+    {
+      title: "Release Control",
+      status: "Creator Approval Required",
+      purpose:
+        "Tracks which systems are ready, which systems remain protected, and what can move toward public launch.",
+    },
+    {
+      title: "Member Review",
+      status: "Future Backend Required",
+      purpose:
+        "Future queue for Reflection review, Entry Access eligibility, member standing, and moderation decisions.",
+    },
+    {
+      title: "Archive Control",
+      status: "Protected",
+      purpose:
+        "Manages public archive visibility, protected order rules, PDF delivery readiness, and hidden signal protection.",
+    },
+    {
+      title: "Commerce Approval",
+      status: "Protected",
+      purpose:
+        "Controls when subscriptions, pre-orders, artifact drops, rentals, and Future Gear can become active.",
+    },
+    {
+      title: "Vault Protection",
+      status: "Creator Only",
+      purpose:
+        "Protects creator blueprints, future volumes, unreleased materials, manuscripts, designs, and roadmap systems.",
+    },
+    {
+      title: "Security Review",
+      status: "Critical",
+      purpose:
+        "Tracks backend readiness, access control, payment safety, private storage, and launch protection requirements.",
+    },
+  ];
+
+  const releaseDecisions = [
+    "Keep Public Launch Shield active",
+    "Approve Foundation public release",
+    "Approve Reflection gateway release",
+    "Approve Entry Access flow",
+    "Approve member dashboard preview",
+    "Approve artifact registry preview",
+    "Approve commerce preview",
+    "Approve family collection preview",
+    "Approve creator vault visibility rules",
+  ];
+
+  const adminSecurityRules = [
+    "Creator admin controls should not expose real secrets in frontend code.",
+    "Real creator login must use backend authentication later.",
+    "Release approvals should eventually save to a secure database.",
+    "Creator-only decisions should not be editable by public members.",
+    "Private archive logic should remain outside public frontend code.",
+    "Payment activation should require backend and creator approval.",
+    "Protected files should require private storage and permission checks.",
+  ];
+
+  const [selectedAdminPanel, setSelectedAdminPanel] = useState(creatorAdminPanels[0]);
+  const [approvedDecisions, setApprovedDecisions] = useState({});
+  const [showAdminRules, setShowAdminRules] = useState(false);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("rvuCreatorAdminDecisions");
+      if (stored) {
+        setApprovedDecisions(JSON.parse(stored));
+      }
+    } catch {
+      setApprovedDecisions({});
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(
+        "rvuCreatorAdminDecisions",
+        JSON.stringify(approvedDecisions)
+      );
+    } catch {
+      // Local save unavailable. The interface still displays.
+    }
+  }, [approvedDecisions]);
+
+  function toggleCreatorDecision(decision) {
+    setApprovedDecisions((current) => ({
+      ...current,
+      [decision]: !current[decision],
+    }));
+  }
+
+  function getApprovedCount() {
+    return releaseDecisions.filter((decision) => approvedDecisions[decision]).length;
+  }
+
+  function CreatorAdminInfrastructure() {
+    const approvedCount = getApprovedCount();
+    const releasePercent = Math.round(
+      (approvedCount / releaseDecisions.length) * 100
+    );
+
+    return (
+      <section className="card redPanel">
+        <div className="cardTitle restrictedTitle">
+          Volume 4 Creator Admin Infrastructure
+        </div>
+
+        <h2>CREATOR ADMIN NETWORK</h2>
+
+        <p>
+          This system turns Creator Control and Creator Vault into a working
+          management layer. It gives the creator a visible structure for release
+          decisions, member review planning, archive control, commerce approval,
+          vault protection, and security readiness.
+        </p>
+
+        <p>
+          Current mode: local creator-preview management. Future mode: secure
+          creator login, backend permissions, audit logs, database-backed
+          release controls, and protected admin routing.
+        </p>
+
+        <div className="progressTrack">
+          <div
+            className="progressFill"
+            style={{ width: `${releasePercent}%` }}
+          ></div>
+        </div>
+
+        <p>
+          <strong>Creator Approval Progress:</strong> {releasePercent}%
+        </p>
+
+        <div className="placeholderGrid">
+          {creatorAdminPanels.map((panel) => (
+            <button
+              className="placeholderCard"
+              key={panel.title}
+              onClick={() => setSelectedAdminPanel(panel)}
+            >
+              <strong>{panel.title}</strong>
+              <span>{panel.status}</span>
+              <span>{panel.purpose}</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="card greenPanel">
+          <div className="cardTitle">Selected Admin Panel</div>
+
+          <h2>{selectedAdminPanel.title}</h2>
+
+          <p>
+            <strong>Status:</strong> {selectedAdminPanel.status}
+          </p>
+
+          <p>{selectedAdminPanel.purpose}</p>
+        </div>
+
+        <div className="card greenPanel">
+          <div className="cardTitle">Creator Release Decisions</div>
+
+          {releaseDecisions.map((decision) => (
+            <button
+              className="placeholderCard"
+              key={decision}
+              onClick={() => toggleCreatorDecision(decision)}
+            >
+              <strong>{approvedDecisions[decision] ? "✓ Approved" : "☐ Pending"}</strong>
+              <span>{decision}</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="card redPanel">
+          <div className="cardTitle restrictedTitle">
+            Creator Admin Security Rules
+          </div>
+
+          <button
+            className="actionButton"
+            onClick={() => setShowAdminRules(!showAdminRules)}
+          >
+            {showAdminRules ? "Hide Admin Rules" : "Show Admin Rules"}
+          </button>
+
+          {showAdminRules &&
+            adminSecurityRules.map((rule) => <p key={rule}>• {rule}</p>)}
+        </div>
+
+        <div className="card greenPanel">
+          <div className="cardTitle">Checkpoint 9 Objective</div>
+
+          <p>
+            The site now includes the chamber network, progression engine,
+            member dashboard, archive unlock system, PDF delivery blueprint,
+            launch shield, and creator admin infrastructure.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
   function LaunchShieldSystem() {
     return (
       <section className="card greenPanel">
@@ -1465,6 +1672,8 @@ export default function App() {
             <PdfDeliveryBlueprint />
 
             <LaunchShieldSystem />
+
+            <CreatorAdminInfrastructure />
 
             <ChamberContent />
 
