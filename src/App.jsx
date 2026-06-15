@@ -684,6 +684,234 @@ export default function App() {
     }));
   }
 
+
+  const backendConnectionSystems = [
+    {
+      title: "Authentication Provider",
+      status: "Not Connected Yet",
+      purpose:
+        "Creates real member accounts, creator login, password recovery, session security, and future account protection.",
+      futureOptions: "Clerk, Supabase Auth, Firebase Auth, or Auth0",
+    },
+    {
+      title: "Database",
+      status: "Not Connected Yet",
+      purpose:
+        "Stores member profiles, Foundation progress, Reflection records, Entry eligibility, waitlists, and creator decisions.",
+      futureOptions: "Supabase, Firebase, Neon/Postgres, or MongoDB Atlas",
+    },
+    {
+      title: "Private File Storage",
+      status: "Not Connected Yet",
+      purpose:
+        "Protects archive PDFs, creator blueprints, family manuscripts, unreleased art, and paid files outside the public folder.",
+      futureOptions: "Supabase Storage, Firebase Storage, S3, or Cloudflare R2",
+    },
+    {
+      title: "Payment Verification",
+      status: "Not Connected Yet",
+      purpose:
+        "Confirms subscriptions, product purchases, rentals, refunds, cancellations, and order status through backend webhooks.",
+      futureOptions: "Stripe, PayPal, or both",
+    },
+    {
+      title: "Email / Waitlist Backend",
+      status: "Not Connected Yet",
+      purpose:
+        "Turns the local interest form into real update lists, launch notices, artifact waitlists, and family collection updates.",
+      futureOptions: "Resend, Mailchimp, ConvertKit, Brevo, or database-backed email lists",
+    },
+    {
+      title: "Server-Side Verification",
+      status: "Not Connected Yet",
+      purpose:
+        "Verifies signals, archive completion, Reflection eligibility, Entry Access, and protected content permissions.",
+      futureOptions: "Vercel Functions, Supabase Edge Functions, Firebase Functions, or API routes",
+    },
+  ];
+
+  const deploymentReadinessItems = [
+    "Vercel project connected",
+    "GitHub repository connected",
+    "Correct lowercase import paths",
+    "Working App.jsx checkpoint",
+    "Security headers added",
+    "Redirect protection added",
+    "Robots protection added",
+    "No final secrets in frontend code",
+    "No private PDF paths in frontend code",
+    "No live payment keys in frontend code",
+    "Backend provider not selected yet",
+    "Database not connected yet",
+    "Authentication not connected yet",
+    "Private storage not connected yet",
+  ];
+
+  const environmentVariablePlan = [
+    "AUTH_PROVIDER_PUBLIC_KEY",
+    "AUTH_PROVIDER_SECRET_KEY",
+    "DATABASE_URL",
+    "PRIVATE_STORAGE_KEY",
+    "PAYMENT_PUBLIC_KEY",
+    "PAYMENT_SECRET_KEY",
+    "PAYMENT_WEBHOOK_SECRET",
+    "EMAIL_SERVICE_KEY",
+    "CREATOR_ADMIN_EMAIL",
+  ];
+
+  const backendSafetyRules = [
+    "Frontend files may use public keys only when required by a provider.",
+    "Secret keys must go in Vercel environment variables, not React files.",
+    "Payment webhooks must be verified server-side.",
+    "Archive answers must be checked server-side.",
+    "Protected PDFs must be delivered from private storage.",
+    "Creator admin tools must require real authentication.",
+    "Member progress must be stored in a database before relying on it for real access.",
+    "Local storage is useful for launch flow previews, but not real security.",
+  ];
+
+  const [selectedBackendSystem, setSelectedBackendSystem] = useState(
+    backendConnectionSystems[0]
+  );
+  const [backendReviewed, setBackendReviewed] = useState({});
+  const [showEnvPlan, setShowEnvPlan] = useState(false);
+  const [showBackendRules, setShowBackendRules] = useState(false);
+
+  function toggleBackendReviewed(item) {
+    setBackendReviewed((current) => ({
+      ...current,
+      [item]: !current[item],
+    }));
+  }
+
+  function BackendConnectionBlueprint() {
+    const reviewedCount = deploymentReadinessItems.filter(
+      (item) => backendReviewed[item]
+    ).length;
+
+    const reviewedPercent = Math.round(
+      (reviewedCount / deploymentReadinessItems.length) * 100
+    );
+
+    return (
+      <section className="card greenPanel" id="backend-connection">
+        <div className="cardTitle">Checkpoint 16 Backend Connection Blueprint</div>
+
+        <h2>BACKEND + DEPLOYMENT READINESS</h2>
+
+        <p>
+          This panel prepares the Ricochet Void Universe for the next major
+          infrastructure phase: real accounts, cloud progress, protected files,
+          payment verification, email capture, and server-side access rules.
+        </p>
+
+        <p>
+          Current mode: frontend launch architecture. Future mode: authenticated
+          backend platform connected to private storage, database records,
+          payments, and creator admin controls.
+        </p>
+
+        <div className="progressTrack">
+          <div
+            className="progressFill"
+            style={{ width: `${reviewedPercent}%` }}
+          ></div>
+        </div>
+
+        <p>
+          <strong>Backend Preparation Review:</strong> {reviewedPercent}%
+        </p>
+
+        <div className="placeholderGrid">
+          {backendConnectionSystems.map((system) => (
+            <button
+              className="placeholderCard"
+              key={system.title}
+              onClick={() => setSelectedBackendSystem(system)}
+            >
+              <strong>{system.title}</strong>
+              <span>{system.status}</span>
+              <span>{system.purpose}</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="card greenPanel">
+          <div className="cardTitle">Selected Backend System</div>
+
+          <h2>{selectedBackendSystem.title}</h2>
+
+          <p>
+            <strong>Status:</strong> {selectedBackendSystem.status}
+          </p>
+
+          <p>{selectedBackendSystem.purpose}</p>
+
+          <p>
+            <strong>Possible Options:</strong>{" "}
+            {selectedBackendSystem.futureOptions}
+          </p>
+        </div>
+
+        <div className="card greenPanel">
+          <div className="cardTitle">Deployment Readiness Review</div>
+
+          {deploymentReadinessItems.map((item) => (
+            <button
+              className="placeholderCard"
+              key={item}
+              onClick={() => toggleBackendReviewed(item)}
+            >
+              <strong>{backendReviewed[item] ? "✓ Reviewed" : "☐ Review"}</strong>
+              <span>{item}</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="card redPanel">
+          <div className="cardTitle restrictedTitle">Environment Variable Plan</div>
+
+          <button
+            className="actionButton"
+            onClick={() => setShowEnvPlan(!showEnvPlan)}
+          >
+            {showEnvPlan ? "Hide Environment Plan" : "Show Environment Plan"}
+          </button>
+
+          {showEnvPlan &&
+            environmentVariablePlan.map((item) => (
+              <p key={item}>• {item}</p>
+            ))}
+        </div>
+
+        <div className="card redPanel">
+          <div className="cardTitle restrictedTitle">Backend Safety Rules</div>
+
+          <button
+            className="actionButton"
+            onClick={() => setShowBackendRules(!showBackendRules)}
+          >
+            {showBackendRules ? "Hide Backend Rules" : "Show Backend Rules"}
+          </button>
+
+          {showBackendRules &&
+            backendSafetyRules.map((rule) => <p key={rule}>⚠ {rule}</p>)}
+        </div>
+
+        <div className="card greenPanel">
+          <div className="cardTitle">Checkpoint 16 Objective</div>
+
+          <p>
+            The project now has a clear front-to-back build path: public entry,
+            progression, member dashboard, archive unlocks, protected file
+            planning, creator admin, launch readiness, and backend connection
+            planning.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
   function FinalLaunchReadinessControl() {
     const allItems = launchReadinessGroups.flatMap((group) => group.items);
     const approved = allItems.filter((item) => launchApprovals[item]).length;
@@ -1860,7 +2088,7 @@ export default function App() {
           max-width: 1100px;
           margin: 28px auto;
           display: grid;
-          grid-template-columns: repeat(8, 1fr);
+          grid-template-columns: repeat(9, 1fr);
           gap: 10px;
           position: relative;
           z-index: 12;
@@ -2181,6 +2409,7 @@ export default function App() {
               <a href="#trust-protection">Trust</a>
               <a href="#waitlist-interest">Waitlist</a>
               <a href="#launch-readiness">Launch</a>
+              <a href="#backend-connection">Backend</a>
               <a href="#creator-preview">Creator Preview</a>
             </div>
 
@@ -2469,6 +2698,8 @@ export default function App() {
             <WaitlistInterestCapture />
 
             <FinalLaunchReadinessControl />
+
+            <BackendConnectionBlueprint />
 
             <ChamberContent />
 
