@@ -597,6 +597,184 @@ export default function App() {
     setInterestLog([]);
   }
 
+
+  const launchReadinessGroups = [
+    {
+      group: "Frontend Launch",
+      status: "Strong",
+      items: [
+        "Cinematic universe shell",
+        "Public entry page",
+        "Foundation chamber",
+        "Reflection chamber",
+        "Member dashboard preview",
+        "Access structure",
+        "Public navigation",
+        "Mobile polish",
+      ],
+    },
+    {
+      group: "Progression System",
+      status: "Working Local Preview",
+      items: [
+        "Progression Engine",
+        "Foundation completion toggle",
+        "Reflection completion toggle",
+        "Entry eligibility tracking",
+        "Entry Access unlock preview",
+        "Local saved progress",
+      ],
+    },
+    {
+      group: "Creator Systems",
+      status: "Working Local Preview",
+      items: [
+        "Creator Preview",
+        "Creator Admin Infrastructure",
+        "Creator Vault chamber",
+        "Creator Control chamber",
+        "Release decision tracker",
+        "Launch Shield",
+      ],
+    },
+    {
+      group: "Protected Content",
+      status: "Blueprint Ready",
+      items: [
+        "Archive unlock system",
+        "PDF delivery blueprint",
+        "Protected path warnings",
+        "Creator blueprint separation",
+        "Private file delivery plan",
+      ],
+    },
+    {
+      group: "Future Backend Needed",
+      status: "Not Live Yet",
+      items: [
+        "Real accounts",
+        "Cloud database",
+        "Protected PDF storage",
+        "Payment verification",
+        "Email capture backend",
+        "Server-side signal verification",
+      ],
+    },
+  ];
+
+  const finalLaunchWarnings = [
+    "Do not collect real payments until payment terms and backend verification exist.",
+    "Do not expose final hidden answers in frontend code.",
+    "Do not place creator blueprint files in public folders.",
+    "Do not promise physical products before fulfillment plans exist.",
+    "Do not treat local storage as secure member authentication.",
+    "Do not launch protected PDFs without private delivery rules.",
+  ];
+
+  const [selectedReadinessGroup, setSelectedReadinessGroup] = useState(
+    launchReadinessGroups[0]
+  );
+  const [launchApprovals, setLaunchApprovals] = useState({});
+  const [showLaunchWarnings, setShowLaunchWarnings] = useState(false);
+
+  function toggleLaunchApproval(item) {
+    setLaunchApprovals((current) => ({
+      ...current,
+      [item]: !current[item],
+    }));
+  }
+
+  function FinalLaunchReadinessControl() {
+    const allItems = launchReadinessGroups.flatMap((group) => group.items);
+    const approved = allItems.filter((item) => launchApprovals[item]).length;
+    const percent = Math.round((approved / allItems.length) * 100);
+
+    return (
+      <section className="card greenPanel" id="launch-readiness">
+        <div className="cardTitle">Checkpoint 15 Launch Readiness Control</div>
+
+        <h2>FINAL LAUNCH READINESS</h2>
+
+        <p>
+          This panel organizes what is already working in the frontend, what is
+          safe for public preview, and what still requires backend
+          infrastructure before real accounts, payments, protected files, and
+          permanent member records go live.
+        </p>
+
+        <div className="progressTrack">
+          <div className="progressFill" style={{ width: `${percent}%` }}></div>
+        </div>
+
+        <p>
+          <strong>Readiness Review:</strong> {percent}%
+        </p>
+
+        <div className="placeholderGrid">
+          {launchReadinessGroups.map((group) => (
+            <button
+              className="placeholderCard"
+              key={group.group}
+              onClick={() => setSelectedReadinessGroup(group)}
+            >
+              <strong>{group.group}</strong>
+              <span>{group.status}</span>
+              <span>{group.items.length} tracked items</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="card greenPanel">
+          <div className="cardTitle">Selected Readiness Group</div>
+
+          <h2>{selectedReadinessGroup.group}</h2>
+
+          <p>
+            <strong>Status:</strong> {selectedReadinessGroup.status}
+          </p>
+
+          {selectedReadinessGroup.items.map((item) => (
+            <button
+              className="placeholderCard"
+              key={item}
+              onClick={() => toggleLaunchApproval(item)}
+            >
+              <strong>{launchApprovals[item] ? "✓ Reviewed" : "☐ Review"}</strong>
+              <span>{item}</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="card redPanel">
+          <div className="cardTitle restrictedTitle">Final Launch Warnings</div>
+
+          <button
+            className="actionButton"
+            onClick={() => setShowLaunchWarnings(!showLaunchWarnings)}
+          >
+            {showLaunchWarnings ? "Hide Warnings" : "Show Warnings"}
+          </button>
+
+          {showLaunchWarnings &&
+            finalLaunchWarnings.map((warning) => (
+              <p key={warning}>⚠ {warning}</p>
+            ))}
+        </div>
+
+        <div className="card greenPanel">
+          <div className="cardTitle">Launch Position</div>
+
+          <p>
+            The Ricochet Void Universe frontend is becoming launch-ready as a
+            public entry and progression preview. The deeper platform systems
+            are clearly marked for future backend connection instead of being
+            falsely presented as finished.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
   function WaitlistInterestCapture() {
     return (
       <section className="card greenPanel" id="waitlist-interest">
@@ -1682,7 +1860,7 @@ export default function App() {
           max-width: 1100px;
           margin: 28px auto;
           display: grid;
-          grid-template-columns: repeat(7, 1fr);
+          grid-template-columns: repeat(8, 1fr);
           gap: 10px;
           position: relative;
           z-index: 12;
@@ -2002,6 +2180,7 @@ export default function App() {
               <a href="#future-systems">Future Systems</a>
               <a href="#trust-protection">Trust</a>
               <a href="#waitlist-interest">Waitlist</a>
+              <a href="#launch-readiness">Launch</a>
               <a href="#creator-preview">Creator Preview</a>
             </div>
 
@@ -2288,6 +2467,8 @@ export default function App() {
             <CreatorAdminInfrastructure />
 
             <WaitlistInterestCapture />
+
+            <FinalLaunchReadinessControl />
 
             <ChamberContent />
 
