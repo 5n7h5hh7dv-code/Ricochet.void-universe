@@ -1,15 +1,26 @@
 /*
+  Ricochet Void Universe — Checkpoint 17 Firewall Headers
+  Purpose: Browser-level security hardening for the Vercel/static frontend.
+  Keep this file inside: public/_headers
+*/
+
+/*
   X-Robots-Tag: noindex, nofollow, noarchive, nosnippet, noimageindex
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: no-referrer
-  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=(), magnetometer=(), gyroscope=(), accelerometer=()
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=(), magnetometer=(), gyroscope=(), accelerometer=(), midi=(), encrypted-media=(), fullscreen=(self), clipboard-read=(), clipboard-write=(self)
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  Cross-Origin-Embedder-Policy: credentialless
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; media-src 'self'; frame-src 'none'; frame-ancestors 'none'; worker-src 'self' blob:; manifest-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests
 
-# Ricochet Void Universe security shield.
-# Public indexing blocked.
-# Framing blocked.
-# Browser permissions restricted.
-# External scripts blocked unless intentionally added later.
-# Creator-only systems and unreleased content remain protected.
+# Security notes:
+# - Blocks indexing while the universe is still protected.
+# - Blocks framing/clickjacking.
+# - Restricts browser permissions.
+# - Forces HTTPS.
+# - Restricts scripts, images, fonts, media, forms, frames, objects, and connections.
+# - Keeps external services blocked until we intentionally add backend/payment/email providers later.
+# - When Stripe, PayPal, Supabase, Firebase, Clerk, or email services are added, this file may need safe CSP updates.
