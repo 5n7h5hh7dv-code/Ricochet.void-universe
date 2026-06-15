@@ -327,6 +327,168 @@ export default function App() {
     setArchiveAnswerInput("");
   }
 
+  const pdfDeliveryItems = [
+    {
+      title: "Foundation Archive PDFs",
+      status: "Protected Delivery Needed",
+      purpose:
+        "Public-facing Foundation archive files that members read as part of the progression path.",
+      deliveryRule:
+        "Do not expose final protected files through permanent public paths once backend delivery exists.",
+    },
+    {
+      title: "Creator Blueprint PDFs",
+      status: "Creator Vault Only",
+      purpose:
+        "Private creator-side files for archive logic, hidden order, answer strategy, and future expansion.",
+      deliveryRule:
+        "Never place creator blueprint PDFs in public folders or public download links.",
+    },
+    {
+      title: "Entry Access PDF",
+      status: "Earned Access",
+      purpose:
+        "A future file or experience unlocked after Foundation completion, Reflection, and eligibility review.",
+      deliveryRule:
+        "Should be delivered only after backend confirms Entry Access eligibility.",
+    },
+    {
+      title: "Paid Tier Materials",
+      status: "Future Subscription Delivery",
+      purpose:
+        "Future member-only releases tied to Signal Access and higher access tiers.",
+      deliveryRule:
+        "Should require verified account, subscription status, and server-side permission checks.",
+    },
+    {
+      title: "Family Collection Files",
+      status: "Future Publishing Delivery",
+      purpose:
+        "Family books, read-along files, educational materials, and approved family releases.",
+      deliveryRule:
+        "Should protect manuscripts and final publishing files until approved release.",
+    },
+  ];
+
+  const pdfSecurityRules = [
+    "Do not store final private PDF paths in frontend code.",
+    "Do not store creator blueprint PDFs inside public folders.",
+    "Do not rely on hidden frontend buttons for real protection.",
+    "Do not expose paid files before account and payment verification exist.",
+    "Use private storage for protected archive files later.",
+    "Use expiring download links or backend file streaming later.",
+    "Use member account permissions before delivering protected files.",
+    "Use creator approval before releasing any final archive or blueprint material.",
+  ];
+
+  const futurePdfHooks = [
+    "Private file storage",
+    "Signed download URLs",
+    "Server-side permission checks",
+    "Account-linked archive access",
+    "Entry Access file delivery",
+    "Subscription-based file delivery",
+    "Creator-only blueprint storage",
+    "Download audit logs",
+    "Anti-sharing access controls",
+    "File version management",
+  ];
+
+  const [selectedPdfItem, setSelectedPdfItem] = useState(pdfDeliveryItems[0]);
+  const [showPdfRules, setShowPdfRules] = useState(false);
+  const [showPdfHooks, setShowPdfHooks] = useState(false);
+
+  function PdfDeliveryBlueprint() {
+    return (
+      <section className="card greenPanel">
+        <div className="cardTitle">Volume 4 PDF Delivery Blueprint</div>
+
+        <h2>PROTECTED FILE DELIVERY SYSTEM</h2>
+
+        <p>
+          This system prepares the structure for Foundation PDFs, Entry Access
+          materials, creator blueprints, paid tier files, and family collection
+          releases without exposing protected paths or private files.
+        </p>
+
+        <p>
+          Current mode: delivery blueprint only. Future mode: private storage,
+          signed download links, backend permission checks, member account
+          records, and creator-approved release controls.
+        </p>
+
+        <div className="placeholderGrid">
+          {pdfDeliveryItems.map((item) => (
+            <button
+              className="placeholderCard"
+              key={item.title}
+              onClick={() => setSelectedPdfItem(item)}
+            >
+              <strong>{item.title}</strong>
+              <span>{item.status}</span>
+              <span>{item.purpose}</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="card greenPanel">
+          <div className="cardTitle">Selected Delivery Item</div>
+
+          <h2>{selectedPdfItem.title}</h2>
+
+          <p>
+            <strong>Status:</strong> {selectedPdfItem.status}
+          </p>
+
+          <p>{selectedPdfItem.purpose}</p>
+
+          <p>
+            <strong>Delivery Rule:</strong> {selectedPdfItem.deliveryRule}
+          </p>
+        </div>
+
+        <div className="card redPanel">
+          <div className="cardTitle restrictedTitle">PDF Security Rules</div>
+
+          <button
+            className="actionButton"
+            onClick={() => setShowPdfRules(!showPdfRules)}
+          >
+            {showPdfRules ? "Hide PDF Rules" : "Show PDF Rules"}
+          </button>
+
+          {showPdfRules &&
+            pdfSecurityRules.map((rule) => <p key={rule}>• {rule}</p>)}
+        </div>
+
+        <div className="card greenPanel">
+          <div className="cardTitle">Future PDF Delivery Hooks</div>
+
+          <button
+            className="actionButton"
+            onClick={() => setShowPdfHooks(!showPdfHooks)}
+          >
+            {showPdfHooks ? "Hide Delivery Hooks" : "Show Delivery Hooks"}
+          </button>
+
+          {showPdfHooks &&
+            futurePdfHooks.map((hook) => <p key={hook}>⬜ {hook}</p>)}
+        </div>
+
+        <div className="card redPanel">
+          <div className="cardTitle restrictedTitle">Launch Protection</div>
+
+          <p>
+            During the current frontend phase, archive files can be organized
+            for testing, but final protected content should not rely on public
+            folder privacy. The launch-ready version should move protected files
+            behind backend access rules.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
   function ArchiveUnlockSystem() {
     return (
       <section className="card greenPanel">
@@ -1211,8 +1373,8 @@ export default function App() {
             <h1>Ricochet Void Universe</h1>
 
             <p className="subtitle">
-              Checkpoint 6 is active. The chamber network, progression engine,
-              member dashboard, and Archive Unlock System are connected.
+              Checkpoint 7 is active. Progression, member dashboard, archive unlocks,
+              and protected PDF delivery planning are now connected.
             </p>
 
             <section className="card redPanel">
@@ -1238,6 +1400,8 @@ export default function App() {
             <MemberDashboardNetwork />
 
             <ArchiveUnlockSystem />
+
+            <PdfDeliveryBlueprint />
 
             <ChamberContent />
 
