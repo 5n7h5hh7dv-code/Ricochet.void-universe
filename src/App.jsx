@@ -931,6 +931,287 @@ export default function App() {
     );
   }
 
+
+  const protectedFileSystems = [
+    {
+      title: "Private Archive Storage",
+      status: "Future Backend",
+      purpose:
+        "Stores final archive PDFs outside the public folder so access can be controlled by account permissions.",
+    },
+    {
+      title: "Signed Download Links",
+      status: "Future Backend",
+      purpose:
+        "Creates expiring file links so protected materials cannot be shared permanently.",
+    },
+    {
+      title: "Entry Access Delivery",
+      status: "Future Backend",
+      purpose:
+        "Delivers Entry Access materials only after Foundation, Reflection, and eligibility checks are complete.",
+    },
+    {
+      title: "Creator Blueprint Storage",
+      status: "Creator Only",
+      purpose:
+        "Keeps private creator blueprints, hidden logic, and future volume planning outside public systems.",
+    },
+    {
+      title: "Download Audit Logs",
+      status: "Future Security",
+      purpose:
+        "Tracks when protected files are delivered, by whom, and under what permission state.",
+    },
+  ];
+
+  const protectedFileRules = [
+    "Do not put final protected PDFs in the public folder.",
+    "Do not hard-code private PDF URLs in React files.",
+    "Use signed URLs or backend file streaming later.",
+    "Use member permissions before file delivery.",
+    "Keep creator blueprints separate from public archive files.",
+    "Log protected delivery events in future backend systems.",
+  ];
+
+  const [selectedProtectedFile, setSelectedProtectedFile] = useState(protectedFileSystems[0]);
+  const [showProtectedFileRules, setShowProtectedFileRules] = useState(false);
+
+  function ProtectedPDFDeliveryNetwork() {
+    return (
+      <section className="card greenPanel" id="protected-pdf-network">
+        <div className="cardTitle">Checkpoint 22 Protected PDF Delivery Network</div>
+
+        <h2>PROTECTED FILE DELIVERY NETWORK</h2>
+
+        <p>
+          This upgrade defines the real future delivery system for archive PDFs,
+          Entry Access materials, creator blueprints, paid files, and family
+          collection releases.
+        </p>
+
+        <div className="placeholderGrid">
+          {protectedFileSystems.map((system) => (
+            <button
+              className="placeholderCard"
+              key={system.title}
+              onClick={() => setSelectedProtectedFile(system)}
+            >
+              <strong>{system.title}</strong>
+              <span>{system.status}</span>
+              <span>{system.purpose}</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="card greenPanel">
+          <div className="cardTitle">Selected Protected File System</div>
+          <h2>{selectedProtectedFile.title}</h2>
+          <p><strong>Status:</strong> {selectedProtectedFile.status}</p>
+          <p>{selectedProtectedFile.purpose}</p>
+        </div>
+
+        <div className="card redPanel">
+          <div className="cardTitle restrictedTitle">Protected File Rules</div>
+
+          <button className="actionButton" onClick={() => setShowProtectedFileRules(!showProtectedFileRules)}>
+            {showProtectedFileRules ? "Hide File Rules" : "Show File Rules"}
+          </button>
+
+          {showProtectedFileRules &&
+            protectedFileRules.map((rule) => <p key={rule}>• {rule}</p>)}
+        </div>
+      </section>
+    );
+  }
+
+
+  const marketplaceSystems = [
+    {
+      title: "Artifact Listings",
+      status: "Frontend Framework",
+      purpose:
+        "Displays future limited artifacts, coins, relics, rings, and collector items.",
+    },
+    {
+      title: "Collector Eligibility",
+      status: "Future Backend",
+      purpose:
+        "Checks member standing, access tier, waitlist status, and drop permissions before purchase.",
+    },
+    {
+      title: "Serialized Ownership",
+      status: "Future Database",
+      purpose:
+        "Tracks item numbers, proof-of-purchase records, collector history, and delivery status.",
+    },
+    {
+      title: "Drop Windows",
+      status: "Future Release Control",
+      purpose:
+        "Controls when limited artifacts open, close, sell out, or move into archive status.",
+    },
+    {
+      title: "Fulfillment Rules",
+      status: "Future Commerce",
+      purpose:
+        "Connects production, shipping, refunds, replacement rules, and delivery expectations.",
+    },
+  ];
+
+  const marketplaceWarnings = [
+    "Do not sell artifacts before production and fulfillment rules exist.",
+    "Do not promise collector ownership before database records exist.",
+    "Do not collect money without refund and delivery terms.",
+    "Do not expose supplier or manufacturing details publicly.",
+    "Do not describe tokens or currency as investments without legal review.",
+  ];
+
+  const [selectedMarketplaceSystem, setSelectedMarketplaceSystem] = useState(marketplaceSystems[0]);
+  const [showMarketplaceWarnings, setShowMarketplaceWarnings] = useState(false);
+
+  function ArtifactMarketplaceFramework() {
+    return (
+      <section className="card greenPanel" id="artifact-marketplace">
+        <div className="cardTitle">Checkpoint 23 Artifact Marketplace Framework</div>
+
+        <h2>ARTIFACT MARKETPLACE FRAMEWORK</h2>
+
+        <p>
+          This upgrade prepares the future marketplace for coins, relics,
+          artifact drops, serialized collector records, and creator-approved
+          limited releases.
+        </p>
+
+        <div className="placeholderGrid">
+          {marketplaceSystems.map((system) => (
+            <button
+              className="placeholderCard"
+              key={system.title}
+              onClick={() => setSelectedMarketplaceSystem(system)}
+            >
+              <strong>{system.title}</strong>
+              <span>{system.status}</span>
+              <span>{system.purpose}</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="card greenPanel">
+          <div className="cardTitle">Selected Marketplace System</div>
+          <h2>{selectedMarketplaceSystem.title}</h2>
+          <p><strong>Status:</strong> {selectedMarketplaceSystem.status}</p>
+          <p>{selectedMarketplaceSystem.purpose}</p>
+        </div>
+
+        <div className="card redPanel">
+          <div className="cardTitle restrictedTitle">Marketplace Warnings</div>
+
+          <button className="actionButton" onClick={() => setShowMarketplaceWarnings(!showMarketplaceWarnings)}>
+            {showMarketplaceWarnings ? "Hide Warnings" : "Show Warnings"}
+          </button>
+
+          {showMarketplaceWarnings &&
+            marketplaceWarnings.map((warning) => <p key={warning}>⚠ {warning}</p>)}
+        </div>
+      </section>
+    );
+  }
+
+
+  const futureGearSystems = [
+    {
+      title: "Void Runner Shoes",
+      status: "Concept Framework",
+      purpose:
+        "Future footwear line tied to movement, performance, and Ricochet Void identity.",
+    },
+    {
+      title: "Universe Apparel",
+      status: "Concept Framework",
+      purpose:
+        "Shirts, hoodies, workout clothes, underwear, socks, and themed clothing systems.",
+    },
+    {
+      title: "Watches and Clocks",
+      status: "Concept Framework",
+      purpose:
+        "Time-based products connected to portals, signals, void cycles, and universe design.",
+    },
+    {
+      title: "Jewelry and Relics",
+      status: "Concept Framework",
+      purpose:
+        "Wearable rings, necklaces, bracelets, and limited relic-style designs.",
+    },
+    {
+      title: "Sunglasses and Accessories",
+      status: "Concept Framework",
+      purpose:
+        "Future lifestyle accessories tied to the Ricochet Void Universe visual language.",
+    },
+  ];
+
+  const gearReleaseRules = [
+    "Do not open orders before product designs are finalized.",
+    "Do not collect money before supplier, pricing, refund, and shipping plans exist.",
+    "Use waitlists before large production orders.",
+    "Use limited drops for high-value early items.",
+    "Protect design files and manufacturing details until release approval.",
+    "Connect Future Gear to member accounts and collector interest later.",
+  ];
+
+  const [selectedGearSystem, setSelectedGearSystem] = useState(futureGearSystems[0]);
+  const [showGearRules, setShowGearRules] = useState(false);
+
+  function FutureGearStoreFramework() {
+    return (
+      <section className="card greenPanel" id="future-gear-store">
+        <div className="cardTitle">Checkpoint 24 Future Gear Store Framework</div>
+
+        <h2>FUTURE GEAR STORE FRAMEWORK</h2>
+
+        <p>
+          This upgrade prepares the Future Gear branch for apparel, shoes,
+          watches, clocks, sunglasses, jewelry, accessories, and future physical
+          product systems.
+        </p>
+
+        <div className="placeholderGrid">
+          {futureGearSystems.map((system) => (
+            <button
+              className="placeholderCard"
+              key={system.title}
+              onClick={() => setSelectedGearSystem(system)}
+            >
+              <strong>{system.title}</strong>
+              <span>{system.status}</span>
+              <span>{system.purpose}</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="card greenPanel">
+          <div className="cardTitle">Selected Gear System</div>
+          <h2>{selectedGearSystem.title}</h2>
+          <p><strong>Status:</strong> {selectedGearSystem.status}</p>
+          <p>{selectedGearSystem.purpose}</p>
+        </div>
+
+        <div className="card redPanel">
+          <div className="cardTitle restrictedTitle">Future Gear Release Rules</div>
+
+          <button className="actionButton" onClick={() => setShowGearRules(!showGearRules)}>
+            {showGearRules ? "Hide Gear Rules" : "Show Gear Rules"}
+          </button>
+
+          {showGearRules &&
+            gearReleaseRules.map((rule) => <p key={rule}>• {rule}</p>)}
+        </div>
+      </section>
+    );
+  }
+
   function SecurityStatusDashboard() {
     return (
       <section className="card redPanel" id="security-dashboard">
@@ -2921,6 +3202,12 @@ export default function App() {
             <SecurityStatusDashboard />
 
             <MemberAccountArchitecture />
+
+            <ProtectedPDFDeliveryNetwork />
+
+            <ArtifactMarketplaceFramework />
+
+            <FutureGearStoreFramework />
 
             <ChamberContent />
 
