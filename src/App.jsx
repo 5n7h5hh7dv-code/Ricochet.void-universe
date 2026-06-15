@@ -1520,6 +1520,152 @@ export default function App() {
           box-shadow: 0 0 22px rgba(0,255,190,.22);
         }
 
+
+        .launchDivider {
+          max-width: 1000px;
+          height: 1px;
+          margin: 34px auto;
+          background: linear-gradient(90deg, transparent, rgba(0,255,190,.55), transparent);
+          box-shadow: 0 0 18px rgba(0,255,190,.25);
+        }
+
+        .sectionEyebrow {
+          color: rgba(0,255,190,.92);
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          font-size: 11px;
+          margin-bottom: 8px;
+        }
+
+        .safeText {
+          overflow-wrap: anywhere;
+        }
+
+        .pageShell * {
+          box-sizing: border-box;
+        }
+
+        .card,
+        .placeholderCard,
+        .publicNav a,
+        button {
+          -webkit-tap-highlight-color: transparent;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .pageShell,
+          .stars,
+          .signalParticles,
+          .scanLines,
+          .orbitRing,
+          .voidSymbol,
+          .voidCore,
+          .crashIntro,
+          .crashStarfield,
+          .crashRing,
+          .crashCore,
+          .crashFlash,
+          .crashTitle,
+          .contentShell {
+            animation: none !important;
+          }
+
+          .crashIntro {
+            display: none;
+          }
+        }
+
+        @media (max-width: 1200px) {
+          .pageShell {
+            padding: 32px 22px;
+          }
+
+          .nav {
+            grid-template-columns: repeat(4, 1fr);
+          }
+
+          .placeholderGrid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+
+          .publicNav {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+
+        @media (max-width: 700px) {
+          .pageShell {
+            padding: 24px 14px;
+            overflow-x: hidden;
+          }
+
+          h1 {
+            font-size: clamp(38px, 13vw, 58px);
+            letter-spacing: 1px;
+          }
+
+          h2 {
+            font-size: 22px;
+            line-height: 1.2;
+          }
+
+          .subtitle {
+            font-size: 15px;
+            line-height: 1.55;
+          }
+
+          .card {
+            padding: 16px;
+            border-radius: 16px;
+            margin: 18px auto;
+          }
+
+          .nav,
+          .placeholderGrid,
+          .publicNav {
+            grid-template-columns: 1fr;
+            gap: 10px;
+          }
+
+          .nav {
+            position: relative;
+            top: auto;
+          }
+
+          .placeholderCard {
+            min-height: auto;
+          }
+
+          button,
+          .publicNav a {
+            width: 100%;
+            min-height: 44px;
+            font-size: 11px;
+          }
+
+          input,
+          textarea {
+            font-size: 16px;
+          }
+
+          .orbitRing {
+            width: 420px;
+            height: 420px;
+          }
+
+          .voidSymbol {
+            width: 360px;
+            height: 360px;
+          }
+
+          .voidCore {
+            width: 90px;
+            height: 90px;
+            left: calc(50% - 45px);
+            top: calc(50% - 45px);
+          }
+        }
+
         .footer {
           max-width: 1000px;
           margin: 30px auto 0;
@@ -1689,6 +1835,8 @@ export default function App() {
               </button>
             </section>
 
+            <div className="launchDivider"></div>
+
             <section className="card greenPanel" id="how-entry-works">
               <div className="cardTitle">How Entry Works</div>
 
@@ -1724,6 +1872,8 @@ export default function App() {
                 </div>
               </div>
             </section>
+
+            <div className="launchDivider"></div>
 
             <section className="card greenPanel" id="access-path">
               <div className="cardTitle">Access Path</div>
@@ -1770,6 +1920,8 @@ export default function App() {
               </div>
             </section>
 
+            <div className="launchDivider"></div>
+
             <section className="card greenPanel" id="future-systems">
               <div className="cardTitle">Future Systems</div>
 
@@ -1812,6 +1964,8 @@ export default function App() {
                 </div>
               </div>
             </section>
+
+            <div className="launchDivider"></div>
 
             <section className="card redPanel" id="creator-preview">
               <div className="cardTitle restrictedTitle">Protected Creator Preview</div>
