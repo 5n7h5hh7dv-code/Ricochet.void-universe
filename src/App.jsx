@@ -784,6 +784,128 @@ export default function App() {
     }));
   }
 
+
+  const securityShieldLayers = [
+    {
+      title: "Firewall Headers",
+      status: "Installed",
+      purpose:
+        "Adds browser-level security headers, CSP restrictions, framing protection, HTTPS enforcement, and permission limits.",
+      file: "public/_headers",
+    },
+    {
+      title: "Redirect Shield",
+      status: "Installed",
+      purpose:
+        "Blocks common sensitive paths and keeps unknown routes safely handled by the app shell.",
+      file: "public/_redirects",
+    },
+    {
+      title: "Robots Protection",
+      status: "Installed",
+      purpose:
+        "Keeps crawlers and search engines away during the protected development and pre-launch phase.",
+      file: "public/robots.txt",
+    },
+    {
+      title: "Frontend Secret Protection",
+      status: "Active Rule",
+      purpose:
+        "Prevents passwords, payment keys, final hidden answers, private PDF paths, and creator blueprints from being stored in React files.",
+      file: "All frontend files",
+    },
+    {
+      title: "Future Backend Firewall",
+      status: "Future Phase",
+      purpose:
+        "Will add rate limiting, authentication, server-side permissions, private storage rules, and audit logs.",
+      file: "Backend infrastructure",
+    },
+  ];
+
+  const securityHardeningPlan = [
+    "Keep CSP strict until a real provider must be added.",
+    "Add only trusted domains to CSP when backend, payments, or email tools are connected.",
+    "Use Vercel environment variables for secret keys.",
+    "Use backend functions for payment webhooks.",
+    "Use private storage for protected PDFs.",
+    "Use authentication before member data becomes real.",
+    "Use database rules before saving private records.",
+    "Use audit logs for creator admin actions later.",
+  ];
+
+  const [selectedSecurityLayer, setSelectedSecurityLayer] = useState(securityShieldLayers[0]);
+  const [showHardeningPlan, setShowHardeningPlan] = useState(false);
+
+  function SecurityStatusDashboard() {
+    return (
+      <section className="card redPanel" id="security-dashboard">
+        <div className="cardTitle restrictedTitle">Checkpoint 20 Security Dashboard</div>
+
+        <h2>FIREWALL + SECURITY STATUS</h2>
+
+        <p>
+          This dashboard tracks the Ricochet Void Universe protection layers:
+          firewall headers, redirect shielding, robots protection, frontend
+          secret rules, and future backend hardening.
+        </p>
+
+        <div className="placeholderGrid">
+          {securityShieldLayers.map((layer) => (
+            <button
+              className="placeholderCard"
+              key={layer.title}
+              onClick={() => setSelectedSecurityLayer(layer)}
+            >
+              <strong>{layer.title}</strong>
+              <span>{layer.status}</span>
+              <span>{layer.file}</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="card greenPanel">
+          <div className="cardTitle">Selected Security Layer</div>
+
+          <h2>{selectedSecurityLayer.title}</h2>
+
+          <p>
+            <strong>Status:</strong> {selectedSecurityLayer.status}
+          </p>
+
+          <p>
+            <strong>File / Area:</strong> {selectedSecurityLayer.file}
+          </p>
+
+          <p>{selectedSecurityLayer.purpose}</p>
+        </div>
+
+        <div className="card redPanel">
+          <div className="cardTitle restrictedTitle">Hardening Plan</div>
+
+          <button
+            className="actionButton"
+            onClick={() => setShowHardeningPlan(!showHardeningPlan)}
+          >
+            {showHardeningPlan ? "Hide Hardening Plan" : "Show Hardening Plan"}
+          </button>
+
+          {showHardeningPlan &&
+            securityHardeningPlan.map((item) => <p key={item}>• {item}</p>)}
+        </div>
+
+        <div className="card greenPanel">
+          <div className="cardTitle">Checkpoint 20 Objective</div>
+
+          <p>
+            Firewall protections are now tracked both in the project files and
+            inside the creator-facing universe dashboard.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
   function BackendConnectionBlueprint() {
     const reviewedCount = deploymentReadinessItems.filter(
       (item) => backendReviewed[item]
@@ -2088,7 +2210,7 @@ export default function App() {
           max-width: 1100px;
           margin: 28px auto;
           display: grid;
-          grid-template-columns: repeat(9, 1fr);
+          grid-template-columns: repeat(10, 1fr);
           gap: 10px;
           position: relative;
           z-index: 12;
@@ -2410,6 +2532,7 @@ export default function App() {
               <a href="#waitlist-interest">Waitlist</a>
               <a href="#launch-readiness">Launch</a>
               <a href="#backend-connection">Backend</a>
+              <a href="#security-dashboard">Security</a>
               <a href="#creator-preview">Creator Preview</a>
             </div>
 
@@ -2700,6 +2823,8 @@ export default function App() {
             <FinalLaunchReadinessControl />
 
             <BackendConnectionBlueprint />
+
+            <SecurityStatusDashboard />
 
             <ChamberContent />
 
