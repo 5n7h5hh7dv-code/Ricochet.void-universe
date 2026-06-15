@@ -143,6 +143,223 @@ export default function App() {
     setProgression(defaultProgression);
   }
 
+  const defaultMemberDashboard = {
+    voidName: "",
+    signalName: "",
+    memberIntent: "",
+    profileSaved: false,
+    lastMilestone: "Foundation network entered",
+    activityLog: [
+      "Checkpoint 4 activated",
+      "Progression Engine connected",
+      "Member Dashboard Network initialized",
+    ],
+  };
+
+  const [memberDashboard, setMemberDashboard] = useState(defaultMemberDashboard);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("rvuMemberDashboard");
+      if (stored) {
+        setMemberDashboard({
+          ...defaultMemberDashboard,
+          ...JSON.parse(stored),
+        });
+      }
+    } catch {
+      setMemberDashboard(defaultMemberDashboard);
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(
+        "rvuMemberDashboard",
+        JSON.stringify(memberDashboard)
+      );
+    } catch {
+      // The dashboard still works if local storage is unavailable.
+    }
+  }, [memberDashboard]);
+
+  function updateMemberDashboard(key, value) {
+    setMemberDashboard((current) => ({
+      ...current,
+      [key]: value,
+    }));
+  }
+
+  function saveMemberProfile() {
+    setMemberDashboard((current) => ({
+      ...current,
+      profileSaved: true,
+      lastMilestone: "Member identity saved locally",
+      activityLog: [
+        "Member identity saved locally",
+        ...current.activityLog.slice(0, 5),
+      ],
+    }));
+  }
+
+  function resetMemberDashboard() {
+    setMemberDashboard(defaultMemberDashboard);
+  }
+
+  function getSignalRank() {
+    if (progression.entryAccessUnlocked) return "Entry Signal";
+    if (progression.entryEligible) return "Foundation Architect";
+    if (progression.reflectionComplete) return "Reflection Carrier";
+    if (progression.foundationComplete) return "Signal Builder";
+    if (progression.foundationStarted) return "Path Initiate";
+    return "Unawakened Signal";
+  }
+
+  function getAccessStatus() {
+    if (progression.entryAccessUnlocked) return "Entry Access Unlocked";
+    if (progression.entryEligible) return "Entry Eligible";
+    if (progression.reflectionComplete) return "Reflection Complete";
+    if (progression.foundationComplete) return "Foundation Complete";
+    return "Foundation In Progress";
+  }
+
+  function MemberDashboardNetwork() {
+    const rank = getSignalRank();
+    const accessStatus = getAccessStatus();
+
+    return (
+      <section className="card greenPanel">
+        <div className="cardTitle">Volume 4 Member Dashboard Network</div>
+
+        <h2>MEMBER DASHBOARD</h2>
+
+        <p>
+          This dashboard connects member identity, saved local profile data,
+          signal rank, progression status, entry eligibility, and future account
+          hooks into one visible member system.
+        </p>
+
+        <p>
+          Current mode: local browser dashboard. Future mode: authenticated
+          member account connected to cloud progress, protected files,
+          subscriptions, waitlists, orders, and creator-approved records.
+        </p>
+
+        <div className="placeholderGrid">
+          <div className="placeholderCard">
+            <strong>Signal Rank</strong>
+            <span>{rank}</span>
+            <span>Calculated from current progression state.</span>
+          </div>
+
+          <div className="placeholderCard">
+            <strong>Access Status</strong>
+            <span>{accessStatus}</span>
+            <span>Updates as Foundation, Reflection, and Entry status change.</span>
+          </div>
+
+          <div className="placeholderCard">
+            <strong>Profile Status</strong>
+            <span>{memberDashboard.profileSaved ? "Saved Locally" : "Not Saved"}</span>
+            <span>Future version connects to real authentication.</span>
+          </div>
+        </div>
+
+        <div className="card greenPanel">
+          <div className="cardTitle">Member Identity</div>
+
+          <input
+            value={memberDashboard.voidName}
+            onChange={(event) =>
+              updateMemberDashboard("voidName", event.target.value)
+            }
+            placeholder="VOID NAME"
+          />
+
+          <input
+            value={memberDashboard.signalName}
+            onChange={(event) =>
+              updateMemberDashboard("signalName", event.target.value)
+            }
+            placeholder="SIGNAL NAME OR PUBLIC MEMBER TITLE"
+          />
+
+          <textarea
+            className="reflectionText"
+            value={memberDashboard.memberIntent}
+            onChange={(event) =>
+              updateMemberDashboard("memberIntent", event.target.value)
+            }
+            placeholder="What is this member trying to build inside the Ricochet Void Universe?"
+          />
+
+          <button className="actionButton" onClick={saveMemberProfile}>
+            Save Local Member Profile
+          </button>
+
+          <button className="actionButton" onClick={resetMemberDashboard}>
+            Reset Member Dashboard
+          </button>
+        </div>
+
+        <div className="card greenPanel">
+          <div className="cardTitle">Member Snapshot</div>
+
+          <p>
+            <strong>Void Name:</strong>{" "}
+            {memberDashboard.voidName.trim() || "Not chosen yet"}
+          </p>
+
+          <p>
+            <strong>Signal Name:</strong>{" "}
+            {memberDashboard.signalName.trim() || "Not chosen yet"}
+          </p>
+
+          <p>
+            <strong>Current Rank:</strong> {rank}
+          </p>
+
+          <p>
+            <strong>Current Access:</strong> {accessStatus}
+          </p>
+
+          <p>
+            <strong>Last Milestone:</strong> {memberDashboard.lastMilestone}
+          </p>
+        </div>
+
+        <div className="card greenPanel">
+          <div className="cardTitle">Progression Timeline</div>
+
+          <p>{progression.foundationStarted ? "✓" : "☐"} Foundation Started</p>
+          <p>{progression.foundationComplete ? "✓" : "☐"} Foundation Complete</p>
+          <p>{progression.reflectionComplete ? "✓" : "☐"} Reflection Complete</p>
+          <p>{progression.entryEligible ? "✓" : "☐"} Entry Eligible</p>
+          <p>{progression.entryAccessUnlocked ? "✓" : "☐"} Entry Access Unlocked</p>
+        </div>
+
+        <div className="card greenPanel">
+          <div className="cardTitle">Activity Feed</div>
+
+          {memberDashboard.activityLog.map((activity) => (
+            <p key={activity}>• {activity}</p>
+          ))}
+        </div>
+
+        <div className="card redPanel">
+          <div className="cardTitle restrictedTitle">Dashboard Security Notice</div>
+
+          <p>
+            This dashboard does not create a real account yet. Do not store
+            passwords, payment details, private records, final answers, or
+            protected PDF paths here. Real dashboard data must later move into
+            authenticated backend records.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
   function getProgressPercent() {
     const steps = [
       progression.foundationStarted,
@@ -796,8 +1013,8 @@ export default function App() {
             <h1>Ricochet Void Universe</h1>
 
             <p className="subtitle">
-              Checkpoint 4 is active. The chamber network is connected and the
-              Volume 4 Progression Engine is now tracking the journey.
+              Checkpoint 5 is active. The chamber network, progression engine, and
+              Volume 4 Member Dashboard Network are now connected.
             </p>
 
             <section className="card redPanel">
@@ -819,6 +1036,8 @@ export default function App() {
             </div>
 
             <ProgressionEngine />
+
+            <MemberDashboardNetwork />
 
             <ChamberContent />
 
