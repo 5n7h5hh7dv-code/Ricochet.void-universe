@@ -1,16 +1,36 @@
-# Ricochet Void Universe redirect shield
+# Ricochet Void Universe — Checkpoint 18 Redirect Shield
+# File location: public/_redirects
+# Purpose: protect common sensitive routes and keep the React app stable on Vercel/Netlify-style routing.
 
-# Force unknown routes back to the protected app shell
-/* /index.html 200
-
-# Block common sensitive paths from being exposed
+# Block common environment/config files
 /.env /index.html 404
 /.env.local /index.html 404
+/.env.development /index.html 404
 /.env.production /index.html 404
+/.env.* /index.html 404
+
+# Block Git/system paths
 /.git /index.html 404
 /.git/* /index.html 404
+/.github /index.html 404
+/.github/* /index.html 404
+/.vscode /index.html 404
+/.vscode/* /index.html 404
+/.idea /index.html 404
+/.idea/* /index.html 404
+
+# Block dependency/build internals
+/node_modules /index.html 404
+/node_modules/* /index.html 404
+/src /index.html 404
+/src/* /index.html 404
 /config /index.html 404
 /config/* /index.html 404
+/package-lock.json /index.html 404
+/pnpm-lock.yaml /index.html 404
+/yarn.lock /index.html 404
+
+# Block private/protected universe paths until backend permissions exist
 /admin /index.html 404
 /admin/* /index.html 404
 /private /index.html 404
@@ -19,3 +39,23 @@
 /creator-vault/* /index.html 404
 /blueprints /index.html 404
 /blueprints/* /index.html 404
+/archive-master /index.html 404
+/archive-master/* /index.html 404
+/hidden-answers /index.html 404
+/hidden-answers/* /index.html 404
+/protected-pdfs /index.html 404
+/protected-pdfs/* /index.html 404
+/creator-admin /index.html 404
+/creator-admin/* /index.html 404
+
+# Block common probing paths
+/wp-admin /index.html 404
+/wp-admin/* /index.html 404
+/wp-login.php /index.html 404
+/xmlrpc.php /index.html 404
+/phpmyadmin /index.html 404
+/phpmyadmin/* /index.html 404
+/server-status /index.html 404
+
+# React/Vite single-page app fallback
+/* /index.html 200
