@@ -1611,16 +1611,88 @@ export default function App() {
         {!creatorPreview ? (
           <>
             <div className="signalTag">Ricochet Void Universe</div>
-            <h1>Universe Forming</h1>
+            <h1>Begin the Foundation</h1>
 
             <p className="subtitle">
-              Public launch is shielded. Creator preview is required while the
-              universe is still being built and protected.
+              Signal grows where noise falls. Enter the Ricochet Void Universe
+              through the Foundation Path, follow the archives, complete your
+              reflection, and earn your way toward Entry Access.
             </p>
 
             <section className="card greenPanel">
-              <div className="cardTitle">Creator Preview Gate</div>
-              <p>Enter the preview code to unlock the development universe.</p>
+              <div className="cardTitle">Public Entry</div>
+
+              <h2>THE FOUNDATION IS THE FIRST DOOR</h2>
+
+              <p>
+                The Ricochet Void Universe begins with a progression path built
+                around attention, reflection, truth, discipline, and personal
+                evolution. Visitors do not start by buying their way into the
+                deeper universe. They start by paying attention.
+              </p>
+
+              <p>
+                Entry Access is earned after Foundation completion, signal
+                progression, and reflection. Paid tiers and deeper systems exist
+                later, but the first gate is the Foundation.
+              </p>
+
+              <button
+                className="actionButton"
+                onClick={() => {
+                  setCreatorPreview(true);
+                  localStorage.setItem("rvuCreatorPreview", "unlocked");
+                  setActiveChamber("foundation");
+                }}
+              >
+                Begin Foundation Preview
+              </button>
+            </section>
+
+            <section className="card greenPanel">
+              <div className="cardTitle">How Entry Works</div>
+
+              <div className="placeholderGrid">
+                <div className="placeholderCard">
+                  <strong>1. Begin Foundation</strong>
+                  <span>Start with the opening archive path.</span>
+                </div>
+
+                <div className="placeholderCard">
+                  <strong>2. Follow the Signals</strong>
+                  <span>Progress through clues, meaning, and attention.</span>
+                </div>
+
+                <div className="placeholderCard">
+                  <strong>3. Submit Reflection</strong>
+                  <span>Show what you discovered, not just what you clicked.</span>
+                </div>
+
+                <div className="placeholderCard">
+                  <strong>4. Earn Entry Access</strong>
+                  <span>Entry is unlocked through completion and eligibility.</span>
+                </div>
+
+                <div className="placeholderCard">
+                  <strong>5. Continue the Journey</strong>
+                  <span>Member systems and future tiers expand after entry.</span>
+                </div>
+
+                <div className="placeholderCard">
+                  <strong>6. Coming Soon</strong>
+                  <span>Future Gear, artifacts, family releases, and deeper chambers.</span>
+                </div>
+              </div>
+            </section>
+
+            <section className="card redPanel">
+              <div className="cardTitle restrictedTitle">Protected Creator Preview</div>
+
+              <p>
+                Creator preview remains protected while deeper systems,
+                administrative controls, private vault materials, backend
+                permissions, and unreleased files remain under development.
+              </p>
 
               <input
                 value={creatorPreviewInput}
@@ -1629,10 +1701,21 @@ export default function App() {
               />
 
               <button className="actionButton" onClick={unlockCreatorPreview}>
-                Unlock Preview
+                Unlock Creator Preview
               </button>
 
               <p>{creatorPreviewMessage}</p>
+            </section>
+
+            <section className="card greenPanel">
+              <div className="cardTitle">Launch-Ready Notice</div>
+
+              <p>
+                This public entry system is ready to act as the front door of
+                the Ricochet Void Universe while backend accounts, protected PDF
+                delivery, payment verification, and creator-only admin systems
+                continue moving toward full infrastructure.
+              </p>
             </section>
           </>
         ) : (
