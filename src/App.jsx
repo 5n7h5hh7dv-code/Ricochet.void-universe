@@ -1493,7 +1493,7 @@ export default function App() {
           max-width: 1100px;
           margin: 28px auto;
           display: grid;
-          grid-template-columns: repeat(5, 1fr);
+          grid-template-columns: repeat(6, 1fr);
           gap: 10px;
           position: relative;
           z-index: 12;
@@ -1666,6 +1666,15 @@ export default function App() {
           }
         }
 
+
+        .footer strong {
+          color: rgba(255,255,255,.82);
+        }
+
+        #trust-protection .placeholderCard {
+          border-color: rgba(0,255,190,.22);
+        }
+
         .footer {
           max-width: 1000px;
           margin: 30px auto 0;
@@ -1802,6 +1811,7 @@ export default function App() {
               <a href="#how-entry-works">How Entry Works</a>
               <a href="#access-path">Access Path</a>
               <a href="#future-systems">Future Systems</a>
+              <a href="#trust-protection">Trust</a>
               <a href="#creator-preview">Creator Preview</a>
             </div>
 
@@ -1967,6 +1977,53 @@ export default function App() {
 
             <div className="launchDivider"></div>
 
+                        <section className="card greenPanel" id="trust-protection">
+              <div className="cardTitle">Trust & Protection</div>
+
+              <h2>PROTECTED CREATOR UNIVERSE</h2>
+
+              <p>
+                Ricochet Void Universe is a creator-owned progression universe.
+                Its archive names, chamber systems, progression path, visual
+                identity, future artifact concepts, family collection concepts,
+                and creator vault systems are protected creator materials.
+              </p>
+
+              <div className="placeholderGrid">
+                <div className="placeholderCard">
+                  <strong>Creator-Owned</strong>
+                  <span>Built and directed by Oakley Cheuvront.</span>
+                </div>
+
+                <div className="placeholderCard">
+                  <strong>Protected Path</strong>
+                  <span>Hidden archive order, final answers, and creator blueprints are not public.</span>
+                </div>
+
+                <div className="placeholderCard">
+                  <strong>No Backend Yet</strong>
+                  <span>Current launch systems are frontend-ready; accounts and payments require future backend.</span>
+                </div>
+
+                <div className="placeholderCard">
+                  <strong>No Medical/Financial Claims</strong>
+                  <span>Content supports reflection and personal growth, not professional advice.</span>
+                </div>
+
+                <div className="placeholderCard">
+                  <strong>Future Purchases</strong>
+                  <span>Payments, subscriptions, and orders activate only after terms and verification systems exist.</span>
+                </div>
+
+                <div className="placeholderCard">
+                  <strong>Private Materials</strong>
+                  <span>Creator vault, unreleased files, and private PDFs remain protected.</span>
+                </div>
+              </div>
+            </section>
+
+            <div className="launchDivider"></div>
+
             <section className="card redPanel" id="creator-preview">
               <div className="cardTitle restrictedTitle">Protected Creator Preview</div>
 
@@ -2053,9 +2110,15 @@ export default function App() {
             </section>
 
             <div className="footer">
-              Unauthorized reproduction, redistribution, public disclosure,
-              commercial use, imitation, reverse engineering, or derivative use is
-              prohibited.
+              Ricochet Void Universe™ and related archive names, chamber systems,
+              access structures, progression concepts, artifact concepts, family
+              collection concepts, visual identity, and creator-controlled
+              architecture are protected creator materials. Unauthorized
+              reproduction, redistribution, public disclosure, commercial use,
+              imitation, reverse engineering, or derivative use is prohibited.
+              Current frontend systems are launch architecture only; real
+              accounts, payments, protected file delivery, and private records
+              require future backend verification.
             </div>
           </>
         )}
