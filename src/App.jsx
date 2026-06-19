@@ -13,6 +13,7 @@ import ReflectionChamber from "./components/reflectionchamber";
 import SupabaseConnectionStatus from "./components/supabaseconnectionstatus";
 import MemberAuthPanel from "./components/memberauthpanel";
 import MemberProgressPanel from "./components/memberprogresspanel";
+import MemberProfilePanel from "./components/memberprofilepanel";
 
 const CREATOR_PREVIEW_CODE = "CREATOR-PREVIEW";
 
@@ -3466,6 +3467,8 @@ export default function App() {
             <MemberAuthPanel />
 
             <MemberProgressPanel />
+
+            <MemberProfilePanel />
 
             <ArchiveUnlockSystem />
 
