@@ -12,6 +12,7 @@ import CreatorVault from "./components/creatorvault";
 import ReflectionChamber from "./components/reflectionchamber";
 import SupabaseConnectionStatus from "./components/supabaseconnectionstatus";
 import MemberAuthPanel from "./components/memberauthpanel";
+import MemberProgressPanel from "./components/memberprogresspanel";
 
 const CREATOR_PREVIEW_CODE = "CREATOR-PREVIEW";
 
@@ -3463,6 +3464,8 @@ export default function App() {
             <MemberDashboardNetwork />
 
             <MemberAuthPanel />
+
+            <MemberProgressPanel />
 
             <ArchiveUnlockSystem />
 
