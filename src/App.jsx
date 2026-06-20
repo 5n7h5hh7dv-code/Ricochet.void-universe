@@ -12,6 +12,7 @@ import CreatorVault from "./components/creatorvault";
 import ReflectionChamber from "./components/reflectionchamber";
 import SupabaseConnectionStatus from "./components/supabaseconnectionstatus";
 import PublicMemberGateway from "./components/publicmembergateway";
+import MemberDashboardHub from "./components/memberdashboardhub";
 import MemberAuthPanel from "./components/memberauthpanel";
 import MemberProgressPanel from "./components/memberprogresspanel";
 import MemberProfilePanel from "./components/memberprofilepanel";
@@ -3480,6 +3481,8 @@ export default function App() {
             <MemberProfilePanel />
 
             <FoundationSaveSystem />
+
+            <MemberDashboardHub />
 
             <ArchiveUnlockSystem />
 
