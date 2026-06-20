@@ -11,6 +11,7 @@ import FamilyCollection from "./components/familycollection";
 import CreatorVault from "./components/creatorvault";
 import ReflectionChamber from "./components/reflectionchamber";
 import SupabaseConnectionStatus from "./components/supabaseconnectionstatus";
+import PublicMemberGateway from "./components/publicmembergateway";
 import MemberAuthPanel from "./components/memberauthpanel";
 import MemberProgressPanel from "./components/memberprogresspanel";
 import MemberProfilePanel from "./components/memberprofilepanel";
@@ -3178,6 +3179,14 @@ export default function App() {
               reflection, and earn your way toward Entry Access.
             </p>
 
+            <PublicMemberGateway
+              onBeginFoundation={() => {
+                setCreatorPreview(true);
+                localStorage.setItem("rvuCreatorPreview", "unlocked");
+                setActiveChamber("foundation");
+              }}
+            />
+
             <div className="publicNav">
               <a href="#foundation-entry">Begin Foundation</a>
               <a href="#how-entry-works">How Entry Works</a>
@@ -3212,12 +3221,11 @@ export default function App() {
               <button
                 className="actionButton"
                 onClick={() => {
-                  setCreatorPreview(true);
-                  localStorage.setItem("rvuCreatorPreview", "unlocked");
-                  setActiveChamber("foundation");
+                  const gateway = document.getElementById("public-member-gateway");
+                  if (gateway) gateway.scrollIntoView({ behavior: "smooth", block: "start" });
                 }}
               >
-                Begin Foundation
+                Create Account / Begin Foundation
               </button>
             </section>
 
